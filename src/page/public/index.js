@@ -1,0 +1,6 @@
+export { default as Home} from './Home'
+export { default as Login} from './Signin/FormSignin'
+export { default as Register} from './Signup/FormSignup'
+export { default as Public} from './Public'
+export { default as ProductType} from './ProductType'
+export { default as ProductDetail} from './ProductDetail'

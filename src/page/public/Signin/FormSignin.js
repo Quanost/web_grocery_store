@@ -6,7 +6,8 @@ import Swal from 'sweetalert2'
 import { apiLogin } from '../../../apis/user';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../../store/user/userSlice'
-import { UseDispatch, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { persistor } from '../../../store/redux';
 
 const FormSignin = () => {
     const navigate = useNavigate();
@@ -57,8 +58,14 @@ const FormSignin = () => {
         }
         const rs = await apiLogin(values);
         if (rs.data) {
-            dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user }))
-            navigate(`/${path.HOME}`)
+            const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user }));
+            console.log('t', actionResult)
+            if (actionResult.type === login.type) {
+                await persistor.flush();
+                navigate(`/${path.HOME}`);
+            } else {
+                Swal.fire('Đăng nhập thất bại', 'Có lỗi xảy ra khi xử lý đăng nhập', 'error');
+            }
         }
         else {
             Swal.fire('Đăng nhập thất bại', rs.error, 'error')
@@ -114,11 +121,22 @@ const FormSignin = () => {
                     <button className='form-input-btn' type='submit'>
                         Đăng nhập
                     </button>
-                    <span className='form-input-login'>Bạn chưa có tài khoản?
-                        <Link to={`/${path.REGISTER}`}>
-                            Đăng ký ngay
-                        </Link>
-                    </span>
+                    <div className='flex w-[80%] justify-between'>
+                        <div className='flex w-full gap-2'>
+                            <span className='form-input-login'>Bạn chưa có tài khoản ?<br/>
+                                <Link to={`/${path.REGISTER}`}>
+                                    Đăng ký ngay
+                                </Link>
+                            </span>
+                            <span className='form-input-login'>Bạn muốn về trang chủ ?<br></br>
+                                <Link to={`/${path.HOME}`}>
+                                    Về trang chủ
+                                </Link>
+                            </span>
+                        </div>
+
+                
+                    </div>
                 </form>
             </div>
         </div>

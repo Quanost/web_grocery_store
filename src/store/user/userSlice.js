@@ -6,18 +6,23 @@ export const userSlice = createSlice({
     initialState: {
         isLoggedIn: false,
         current: null,
-        token: null
+        token: ''
     },
     reducers: {
         login: (state, action) => {
             state.isLoggedIn =  action.payload.isLoggedIn
-            state.current = action.payload.userData
+            state.current = action.payload.current
             state.token = action.payload.token
+        },
+        logout: (state, action) => {
+            state.isLoggedIn =  false
+            state.current = null
+            state.token = ''
         }
     },
 
 
 })
 
-export const {login} = userSlice.actions
+export const {login, logout} = userSlice.actions
 export default userSlice.reducer

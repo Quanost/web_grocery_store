@@ -16,6 +16,31 @@ const FormSignin = () => {
         password: ''
     })
     const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        let errors = {};
+        let isValid = true;
+
+        if (!values.email.trim()) {
+            errors.email = 'Email không được để trống';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+            errors.email = 'Email không hợp lệ';
+            isValid = false;
+        }
+
+        if (!values.password.trim()) {
+            errors.password = 'Mật khẩu không được để trống';
+            isValid = false;
+        } else if (values.password.length < 6) {
+            errors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+            isValid = false;
+        }
+
+        setErrors(errors);
+        return isValid;
+    };
+
     const handleChange = e => {
         const { name, value } = e.target;
         setValues({
@@ -26,16 +51,19 @@ const FormSignin = () => {
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
         const rs = await apiLogin(values);
         if (rs.data) {
-            dispatch(login({isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user}))
+            dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user }))
             navigate(`/${path.HOME}`)
         }
         else {
-            console.log('Thất bại', rs.error)
-            Swal.fire('Thất bại', rs.error, 'error')
+            Swal.fire('Đăng nhập thất bại', rs.error, 'error')
         }
-            
+
         // Swal.fire(rs.data? 'Đăng nhập thành công': rs.error,rs.data,rs.data? 'success':'error')
 
     })
@@ -63,7 +91,7 @@ const FormSignin = () => {
                             className='form-input'
                             value={values.email}
                             onChange={handleChange} />
-                        <p>aa</p>
+                        {errors.email && <p className="error">{errors.email}</p>}
                     </div>
                     <div className='form-inputs'>
                         <label
@@ -79,6 +107,8 @@ const FormSignin = () => {
                             className='form-input'
                             value={values.password}
                             onChange={handleChange} />
+
+                        {errors.password && <p className="error">{errors.password}</p>}
                     </div>
 
                     <button className='form-input-btn' type='submit'>

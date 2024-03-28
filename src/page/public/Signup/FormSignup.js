@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import './FormSignup.css'
+import './FormSignup.css';
+import { Link } from 'react-router-dom';
+import path from '../../../ultils/path';
 
 const FormSignup = () => {
     const [values, setValues] = useState({
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
-        repeatPassword: ''
+        repeatPassword: '',
+        phone: ''
     })
     const [errors, setErrors] = useState({});
 
@@ -19,7 +24,7 @@ const FormSignup = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-
+        console.log(values)
     }
     return (
         <div className='form-container'>
@@ -34,6 +39,40 @@ const FormSignup = () => {
                 <form className='form' onSubmit={handleSubmit}>
                     <h1>Đăng ký</h1>
                     <div className='form-inputs'>
+                        <div className='flex justify-between'>
+                            <div className='form-input-wrapper'>
+                                <label htmlFor='firstName' className='form-label'>
+                                    Họ
+                                </label>
+                                <input
+                                    id='firstName'
+                                    type='text'
+                                    placeholder='Họ'
+                                    name='firstName'
+                                    className='form-input'
+                                    value={values.firstName}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className='form-input-wrapper'>
+                                <label htmlFor='lastName' className='form-label'>
+                                    Tên
+                                </label>
+                                <input
+                                    id='lastName'
+                                    type='text'
+                                    placeholder='Tên'
+                                    name='lastName'
+                                    className='form-input'
+                                    value={values.lastName}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+
+                        {/* <p>aa</p> */}
+                    </div>
+                    <div className='form-inputs'>
                         <label
                             htmlFor='email'
                             className='form-label'>
@@ -47,7 +86,7 @@ const FormSignup = () => {
                             className='form-input'
                             value={values.email}
                             onChange={handleChange} />
-                        <p>aa</p>
+
                     </div>
                     <div className='form-inputs'>
                         <label
@@ -79,10 +118,30 @@ const FormSignup = () => {
                             value={values.repeatPassword}
                             onChange={handleChange} />
                     </div>
+                    <div className='form-inputs'>
+                        <label
+                            htmlFor='phone'
+                            className='form-label'>
+                            Số điện thoại
+                        </label>
+                        <input
+                            id='phone'
+                            type='text'
+                            placeholder='Số điện thoại'
+                            name='phone'
+                            className='form-input'
+                            value={values.phone}
+                            onChange={handleChange} />
+
+                    </div>
                     <button className='form-input-btn' type='submit'>
                         Đăng ký
                     </button>
-                    <span className='form-input-login'>Bạn đã có tài khoản? <a href='#'>Đăng nhập ngay</a></span>
+                    <span className='form-input-login'>Bạn đã có tài khoản?
+                        <Link to={`/${path.LOGIN}`}>
+                            Đăng nhập ngay
+                        </Link>
+                    </span>
                 </form>
             </div>
         </div>

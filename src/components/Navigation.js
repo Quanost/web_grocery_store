@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
-import { navigation } from '../ultils/contants';
-import { NavLink } from 'react-router-dom';
-import { FaBars } from "react-icons/fa6";
+import React, { useState,memo } from 'react';
 import { MdOutlineEmail } from "react-icons/md";
 import { CiHeadphones } from "react-icons/ci";
 import { MdOutlineShoppingBag } from "react-icons/md";
-
-// import Dropdownmenu from './Dropdownmenu';
 import DropdownMenu from './Menu/DropdownMenu';
 
 const Navigation = () => {
@@ -14,15 +9,6 @@ const Navigation = () => {
     return (
         <nav className='border px-4 py-3 flex justify-between w-main bg-white'>
             <div className='flex items-center text-xl'>
-                {/* <FaBars className=' me-4 ' onClick={() => setShowMenu((prev) => !prev)} />
-                <span className=' font-semibold font-main'>Danh mục sản phẩm</span>
-                {!showMenu ? (
-                    <span>aa</span>) :
-                    (
-                          <CiHeadphones className=' h-8 ' />
-                       
-                    )} */}
-                   {/* <Dropdownmenu/> */}
                    <DropdownMenu/>
             </div>
            
@@ -44,4 +30,4 @@ const Navigation = () => {
     )
 }
 
-export default Navigation
+export default memo(Navigation)

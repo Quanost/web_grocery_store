@@ -4,13 +4,16 @@ import { Link } from "react-router-dom";
 import { SlArrowDown } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
 import { apiGetCategories } from "../../apis/app";
+import {useSelector} from 'react-redux';
 
 const DropdownMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [subMenuOpen, setSubMenuOpen] = useState({});
     const [categories, setCategories] = useState([]);
     const dropdownRef = useRef(null);
+    const categoriesStore = useSelector(state =>state.appReducer)
 
+  
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
@@ -46,11 +49,10 @@ const DropdownMenu = () => {
         }, []);
     };
 
-    const fetchCategories = async () => {
+    const TransFormCategories = async () => {
         try {
-            const response = await apiGetCategories();
-            if (response.status === 200) {
-                const data = transformCategories(response.data);
+            if (categoriesStore.categories !== null) {
+                const data = transformCategories(categoriesStore.categories);
                 setCategories(data);
             } else {
                 console.error('Error sever in fetching categories');
@@ -60,7 +62,7 @@ const DropdownMenu = () => {
         }
     };
     useEffect(() => {
-        fetchCategories();
+        TransFormCategories();
     }, []);
 
     //onClose menu khi onclick khỏi menu
@@ -114,58 +116,6 @@ const DropdownMenu = () => {
                     </div>
                 )}
             </div>
-
-
-
-            {/* <div>
-                <div className="px-3 text-left md:cursor-pointer group">
-                    <div
-                        className="py-7 flex justify-between items-center md:pr-0 pr-5 group"
-                        onClick={() => {
-                            heading !== "Danh mục sản phẩm" ? setHeading("Danh mục sản phẩm") : setHeading("");
-                           
-                        }}>
-                        <FaBars className=' me-4 ' />
-                        <span className='font-main'>Danh mục sản phẩm</span>
-                    </div>
-                    <div>
-                        <div className="absolute top-40 hidden group-hover:md:block hover:md:block z-10">
-                            <div className="py-3">
-                                <div
-                                    className="w-4 h-4 left-3 absolute mt-1 bg-gray-100 rotate-45"
-                                ></div>
-                            </div>
-                            <div className="bg-gray-100 p-5 grid grid-cols-5 ">
-                               
-                                    <div className="mx-2 my-2">
-                                        <h1 className="text-sm font-main text-black hover:text-red-400">
-                                            Head
-                                        </h1>
-                                       
-                                            <ul>
-                                                
-                                                    <li className="text-[13px] text-gray-600 my-2 ml-3.5 list-none">
-                                                    <Link
-
-                                                        className="hover:text-red-400"
-                                                    >
-                                                        Name
-                                                    </Link>
-                                                </li>
-                                              
-                                                
-                                            </ul>
-                                        
-
-                                    </div>
-                               
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div> */}
         </>
     )
 }

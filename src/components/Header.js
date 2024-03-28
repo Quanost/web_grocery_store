@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import Logo from '../assets/image/Logo.png';
 import SeachForm from './SeachForm';
 import icons from '../ultils/icons';
@@ -24,9 +24,10 @@ const Header = () => {
                         <span className='font-main'>Giỏ hàng (0)</span>
                     </div>
                     <div className='flex items-center  px-4 justify-center relative'>
+                        <Link to={`/${path.LOGIN}`}>
                         <button className='text-white group'>
                             <FaRegUserCircle size={35} color='white' />
-                            <div className='z-10 hidden absolute rounded-lg  bg-white shadow w-32 group-focus:block top-full right-0'>
+                            {/* <div className='z-10 hidden absolute rounded-lg  bg-white shadow w-32 group-focus:block top-full right-0'>
                                 <ul className='py-2 text-sm text-gray-800'>
                                     <li className='mb-2 rounded hover:shadow hover:bg-blue-100 py-2'>
                                         <a href='' className='px-3'>
@@ -42,8 +43,9 @@ const Header = () => {
                                     </li>
 
                                 </ul>
-                            </div>
+                            </div> */}
                         </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -51,4 +53,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default memo(Header)

@@ -1,3 +1,4 @@
+import React, {memo} from "react";
 import { FaGithub, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import Logo from '../assets/image/Logo.png'
 
@@ -46,4 +47,4 @@ const Footer = () => {
     );
 };
 
-export default Footer;
+export default memo(Footer);

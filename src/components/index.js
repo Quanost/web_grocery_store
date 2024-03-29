@@ -3,3 +3,7 @@ export {default as Navigation} from './Navigation';
 export {default as Banner} from './Banner';
 export {default as Sidebar} from './Sidebar';
 export {default as Footer} from './Footer';
+export {default as BannerProductDetail} from './BannerProductDetail';
+export {default as BannerSameProduct} from './BannerSameProduct';
+export {default as BannerProductType} from './BannerProductType';
+export {default as EvaluateProduct} from './EvaluateProduct';

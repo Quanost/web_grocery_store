@@ -1,56 +1,42 @@
-import React, { useState } from 'react';
-import BannerProductDetail from '../../components/BannerProductDetail';
-import { SlArrowDown } from "react-icons/sl";
-import BannerSameProduct from '../../components/BannerSameProduct';
-import { SlArrowLeft } from "react-icons/sl";
-import EvaluateProduct from '../../components/EvaluateProduct';
-import { FaStar } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import icons from '../../ultils/icons';
 import Star from '../../components/Star';
-import BannerProductType from '../../components/BannerProductType';
+import { apiGetProductById } from '../../apis';
+import { BannerProductDetail, BannerSameProduct, EvaluateProduct, BannerProductType } from '../../components';
+import { useParams } from 'react-router-dom';
+import BreadCrumbs from '../../components/BreadCrumbs';
 
 
 const ProductDetail = () => {
   const [readMore, setReadMore] = useState(false)
+  const { SlArrowDown, SlArrowLeft, FaStar } = icons
+  const { pid, title } = useParams()
+  const [product, setProduct] = useState({});
 
   const paragraphStyles = {
-
     WebkitLineClamp: 3,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
     display: '-webkit-box'
   }
+  const fetchProduct = async () => {
+    const response = await apiGetProductById(pid)
+    if (response.status === 200)
+      setProduct(response.data)
+
+  }
+  useEffect(() => {
+    if (pid)
+      fetchProduct()
+  }, [pid])
+ 
   return (
     <div className='w-main inline-block bg-slate-100'>
-      <div className='flex items-center bg-white  mt-2  '>
-        <div className='flex items-center border-r px-5'>
-          <SlArrowLeft size={15} />
-        </div>
-        <nav className=" font-main rounded-md relative flex w-full flex-wrap items-center justify-between  py-3 mt-2  text-neutral-500 hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:flex-wrap lg:justify-start">
-          <div className="flex w-full flex-wrap items-center justify-between px-3">
-            <nav
-              className="bg-grey-light w-full rounded-md"
-              aria-label="breadcrumb"
-            >
-              <ol className="list-reset flex">
-                <li>
-                  <a
-                    href="/"
-                    className="text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
-                  >Trang chủ</a>
-                </li>
-                <li>
-                  <span className="mx-2 text-neutral-500 dark:text-neutral-400">/</span>
-                </li>
-                <li className="text-neutral-500 dark:text-neutral-400">Rau củ quả</li>
-              </ol>
-            </nav>
-          </div>
-        </nav>
-      </div>
+      <BreadCrumbs type='Bia tươi' name='Tên' />
       <div className='flex'>
         <div className='flex flex-col gap-5 w-[60%] flex-auto bg-white mt-3'>
           <div className='m-3'>
-            <BannerProductDetail />
+            <BannerProductDetail images={product.productGalleries} />
           </div>
           <div className='m-3 inline-block'>
             <h1 className='font-main font-medium text-xl'>Thông tin sản phẩm</h1>
@@ -86,18 +72,7 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              {/* Bài viết sản phẩm */}
-              <div className='mt-5'>
-                <h1 className='font-main font-medium text-base'>Bài viết sản phẩm</h1>
-                <p>
-                  Đôi nét về thương hiệu Tiger<br></br>
-                  Tiger là thương hiệu bia không những nổi tiếng tại Việt Nam mà còn được mệnh danh là nhãn hiệu bia số 1 châu Á. Được giới thiệu lần đầu từ năm 1932 tại Singapore, hiện nay Tiger thuộc tập đoàn Heineken - ông lớn lừng danh trên thị trường bia thế giới.
 
-                  <br></br> Với hình ảnh quen thuộc là chú cọp dũng mãnh, bia Tiger mang tinh thần mạnh mẽ, khí chất, cho bạn cảm giá hào hứng và sảng khoái khi nhắc về sản phẩm và sử dụng bia của Tiger
-
-                  <br></br>Dòng sản phẩm bia Tiger Crystal hay còn gọi là Tiger bạc, được nhà Tiger giới thiệu năm 2009, với công thức truyền thống đặc trưng, thiết kế sang trọng, hiện đại hơn, thêm phần đẳng cấp và hương vị cũng dịu nhẹ, dễ uống và không gây cảm giác nhức đầu, phù hợp cho nhiều đối tượng sử dụng
-                </p>
-              </div>
             </div>
             <div class="font-main font-medium mx-auto max-w-sm text-center rounded-md h-10 my-3" onClick={() => setReadMore(!readMore)}>
               <span class=" text-sm font-main sm:text-base text-red-500 py-2 font-b flex justify-center">{readMore ? 'Thu gọn' : 'Xem thêm'}<SlArrowDown className='flex justify-center mx-2 mt-1' /></span>
@@ -120,7 +95,7 @@ const ProductDetail = () => {
         {/* Lề phải -- phân loại sản phẩm */}
         <div className='flex flex-col gap-5 w-[40%] flex-auto m-3 bg-white'>
           <div className='mx-3 my-3'>
-            <h1 className='font-main text-xl font-medium'>Tên sản phẩm</h1>
+            <h1 className='font-main text-xl font-medium'>{product.name}</h1>
             <div className='flex items-center justify-start'>
               <p className='text-xl font-main text-orange-400 mx-2'>4.8</p>
               <FaStar color='orange' size={15} />

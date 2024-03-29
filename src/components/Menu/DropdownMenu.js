@@ -1,19 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaBars } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { SlArrowDown } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
 import { apiGetCategories } from "../../apis/app";
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { transformCategories } from '../../ultils/helper';
+import path from "../../ultils/path";
 
 const DropdownMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [subMenuOpen, setSubMenuOpen] = useState({});
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState();
     const dropdownRef = useRef(null);
-    const categoriesStore = useSelector(state =>state.appReducer)
 
-  
+    const categoriesStore = useSelector(state => state.appReducer)
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
@@ -24,36 +25,12 @@ const DropdownMenu = () => {
             [categoryId]: !subMenuOpen[categoryId]
         });
     };
-
-    const transformCategories = (data) => {
-        return data.reduce((acc, item) => {
-            if (!item.parentId) {
-                // Nếu không có parentId, đây là một mục gốc
-                acc.push({
-                    id: item.id,
-                    parentId: item.parentId,
-                    name: item.name,
-                    sub: []
-                });
-            } else {
-                // Nếu có parentId, thêm vào mục con của mục có parentId tương ứng
-                const parent = acc.find(parentItem => parentItem.id === item.parentId);
-                if (parent) {
-                    parent.sub.push({
-                        id: item.id,
-                        name: item.name
-                    });
-                }
-            }
-            return acc;
-        }, []);
-    };
-
     const TransFormCategories = async () => {
         try {
             if (categoriesStore.categories !== null) {
                 const data = transformCategories(categoriesStore.categories);
                 setCategories(data);
+
             } else {
                 console.error('Error sever in fetching categories');
             }
@@ -63,7 +40,8 @@ const DropdownMenu = () => {
     };
     useEffect(() => {
         TransFormCategories();
-    }, []);
+    }, [categoriesStore]);
+
 
     //onClose menu khi onclick khỏi menu
     useEffect(() => {
@@ -79,10 +57,9 @@ const DropdownMenu = () => {
             document.removeEventListener("mousedown", closeMenu);
         };
     }, []);
-
     return (
         <>
-            <div className="relative " ref={dropdownRef}>
+            <div className="relative cursor-pointer" ref={dropdownRef}>
                 <div className="flex justify-between items-center md:pr-0 pr-5 group" onClick={toggleMenu}>
                     <FaBars className='me-4' />
                     <span className='font-main'>Danh mục sản phẩm</span>
@@ -96,17 +73,19 @@ const DropdownMenu = () => {
                         </div>
                         {categories.map((categoriesParent) => (
                             <div key={categoriesParent.id} className="bg-gray-50 p-3">
-                                <div className='flex justify-between items-center ' onClick={() => toggleSubMenu(categoriesParent.id)}>
-                                    <h1 className='text-base font-medium hover:text-red-400'>{categoriesParent.name}</h1>
-                                    {!subMenuOpen[categoriesParent.id] ? <SlArrowDown /> : <SlArrowRight />}
+                                <div className='flex justify-between items-center font-main text-base '  onClick={() => toggleSubMenu(categoriesParent.id)}>
+                                        {categoriesParent.name}
+                                    <div>
+                                        {!subMenuOpen[categoriesParent.id] ? <SlArrowDown /> : <SlArrowRight />}
+                                    </div>
                                 </div>
                                 {subMenuOpen[categoriesParent.id] && categoriesParent.sub.length > 0 && (
                                     <ul className='px-4 rounded-md mt-1'>
                                         {categoriesParent.sub.map((subMenu) => (
                                             <li key={subMenu.id} className="text-[15px] text-gray-600 mt-2 ml-3.5 list-none">
-                                                <Link to="#" className="hover:text-red-400">
+                                                <NavLink to={`/${subMenu.slug}`} className="hover:text-red-400" onClick={() => { setMenuOpen(false); setSubMenuOpen({}); }}>
                                                     {subMenu.name}
-                                                </Link>
+                                                </NavLink>
                                             </li>
                                         ))}
                                     </ul>

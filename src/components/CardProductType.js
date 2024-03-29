@@ -50,7 +50,7 @@ const CardProductType = ({ title }) => {
                 </div>
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-2 ">
                     {dataTypeProduct.map((product) => (
-                        <Link to={`/${path.PRODUCT_DETAIL}/productId/title`}>
+                        <Link to={`/${path.PRODUCT_DETAIL}/b96277b7-71b4-4618-9ec6-b662eaed9a75/title`}>
                             <article class="relative flex flex-col overflow-hidden rounded-lg border">
                                 <div class="aspect-square overflow-hidden">
                                     <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" src="https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png" alt="" />

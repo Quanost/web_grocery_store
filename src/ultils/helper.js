@@ -24,3 +24,8 @@ export const transformCategories = (data) => {
     }, []);
 };
 
+export const formatterMonney = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    minimumFractionDigits: 0
+  })

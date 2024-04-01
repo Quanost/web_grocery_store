@@ -13,6 +13,7 @@ const FormSignup = () => {
         phone: ''
     })
     const [errors, setErrors] = useState({});
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -24,6 +25,7 @@ const FormSignup = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        setShowSuccess(true);
         console.log(values)
     }
     return (
@@ -34,9 +36,19 @@ const FormSignup = () => {
             </div>
 
             <div className='form-content-right'>
-                {/* <h1 className='form-success'>Đăng ký thành công, vui lòng vào email để xác nhận</h1>
-                <img className='form-img-2' src='./success.svg' alt='success-image' /> */}
-                <form className='form' onSubmit={handleSubmit}>
+                {/* Thông báo đăng ký thành công */}
+                <div className={`form-success ${showSuccess ? 'grid' : 'hidden'}`}>
+                    <h1>Đăng ký thành công, vui lòng vào email để xác nhận</h1>
+                    <div className="grid grid-cols-4 gap-4 text-black">
+                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
+                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
+                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
+                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
+                    </div>
+                    <img className='form-img-2' src='./success.svg' alt='success-image' />
+                </div>
+
+                <form className={`form ${showSuccess ? 'hidden' : 'show'}`} onSubmit={handleSubmit}>
                     <h1>Đăng ký</h1>
                     <div className='form-inputs'>
                         <div className='flex justify-between'>

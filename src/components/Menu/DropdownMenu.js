@@ -11,7 +11,7 @@ import path from "../../ultils/path";
 const DropdownMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [subMenuOpen, setSubMenuOpen] = useState({});
-    const [categories, setCategories] = useState();
+    const [categories, setCategories] = useState([]);
     const dropdownRef = useRef(null);
 
     const categoriesStore = useSelector(state => state.appReducer)
@@ -25,21 +25,8 @@ const DropdownMenu = () => {
             [categoryId]: !subMenuOpen[categoryId]
         });
     };
-    const TransFormCategories = async () => {
-        try {
-            if (categoriesStore.categories !== null) {
-                const data = transformCategories(categoriesStore.categories);
-                setCategories(data);
-
-            } else {
-                console.error('Error sever in fetching categories');
-            }
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-        }
-    };
     useEffect(() => {
-        TransFormCategories();
+        setCategories(categoriesStore.categories);
     }, [categoriesStore]);
 
 
@@ -66,9 +53,9 @@ const DropdownMenu = () => {
                 </div>
                 {menuOpen && (
                     <div className="z-30 absolute top-7 left-0 shadow-md rounded-md  w-[350px] group">
-                        <div className="py-3">
+                        <div className="py-3 ">
                             <div
-                                className="w-6 h-6 left-2 absolute mt-1 bg-gray-50 rotate-45"
+                                className="w-5 h-5 left-2 absolute my-1 bg-gray-50 rotate-45"
                             ></div>
                         </div>
                         {categories.map((categoriesParent) => (

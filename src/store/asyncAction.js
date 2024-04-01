@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { transformCategories } from '../ultils/helper';
 import * as apis from '../apis'
 
 export const getCategories = createAsyncThunk(
@@ -6,7 +7,8 @@ export const getCategories = createAsyncThunk(
     async(data, {rejectWithValue}) =>{
         try {
             const response = await apis.apiGetCategories()
-            return response.data
+            const categoriesTransForm = transformCategories(response.data);
+            return categoriesTransForm
         } catch (error) {
             return rejectWithValue(error.response.data);
         }

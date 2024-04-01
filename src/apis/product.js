@@ -15,3 +15,8 @@ export const apiGetProductById = (productId) => axios({
     url:'/product/'+ productId,
     method:'get',
 })
+
+export const apiGetProductSame = (categoryId) => axios({
+    url:'/product?page=1&limit=6&category_id='+ categoryId,
+    method:'get',
+})

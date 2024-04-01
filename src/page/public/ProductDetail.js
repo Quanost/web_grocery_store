@@ -5,7 +5,7 @@ import { apiGetProductById } from '../../apis';
 import { BannerProductDetail, BannerSameProduct, EvaluateProduct, BannerProductType, SelectGroup } from '../../components';
 import { useParams } from 'react-router-dom';
 import BreadCrumbs from '../../components/BreadCrumbs';
-
+import {formatterMonney} from '../../ultils/helper'
 
 const ProductDetail = () => {
   const [readMore, setReadMore] = useState(false)
@@ -13,7 +13,7 @@ const ProductDetail = () => {
   const { SlArrowDown, SlArrowLeft, FaStar } = icons
   const { pid, title } = useParams()
   const [product, setProduct] = useState({});
-  const [productVariantDefault, setproductVariantDefault] = useState({});
+  const [loadingProductSame, setloadingProductSame] = useState(true);
 
   const ref = useRef(null);
   const paragraphStyles = {
@@ -25,7 +25,8 @@ const ProductDetail = () => {
   const fetchProduct = async () => {
     const response = await apiGetProductById(pid)
     if (response.status === 200)
-      setProduct(response.data)
+      setProduct(response.data);
+    setloadingProductSame(false);
   }
   const toggleReadMore = () => {
     setReadMore(!readMore);
@@ -35,14 +36,6 @@ const ProductDetail = () => {
     if (pid)
       fetchProduct()
   }, [pid])
-
-  useEffect(() => {
-    if (ref.current) {
-      console.log('abc', ref.current.scrollHeight, ref.current.scrollHeight)
-
-    }
-  }, [])
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,7 +50,7 @@ const ProductDetail = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [ref.current]);
-  console.log('Product', product)
+
   return (
     <div className='w-main inline-block bg-slate-100'>
       <BreadCrumbs type='Bia tươi' name='Tên' />
@@ -94,33 +87,43 @@ const ProductDetail = () => {
               </div>
             )}
           </div>
-          <div className='m-3'>
-            <h1 className='font-main font-medium text-xl my-5'>Sản phẩm liên quan</h1>
-            <BannerSameProduct />
-          </div>
 
-          Đánh giá sản phẩm
+          {!loadingProductSame && (
+            <div className='m-3'>
+              <h1 className='font-main font-medium text-xl my-5'>Sản phẩm liên quan</h1>
+              <BannerSameProduct categoryId={product.categories[0].id} />
+            </div>
+          )}
+
+          {/* Đánh giá sản phẩm
           <div className='m-3 border rounded-xl'>
             <div className='pl-5'>
               <h1 className='font-main font-medium text-2xl my-5'>Đánh giá</h1>
               <EvaluateProduct />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Lề phải -- phân loại sản phẩm */}
         <div className='flex flex-col gap-5 w-[40%] flex-auto mt-3 ml-3 bg-white'>
           <div className='ml-3 my-3'>
             <h1 className='font-main text-xl font-medium'>{product.name}</h1>
-            <div className='flex items-center justify-start'>
+            {/* <div className='flex items-center justify-start'>
               <p className='text-xl font-main text-orange-400 mx-2'>4.8</p>
               <FaStar color='orange' size={15} />
               <p className='font-main text-base mx-5 text-blue-600'>Xem 15 đánh giá</p>
-            </div>
-            <div className='my-3'>
-              <h1 className='font-main font-medium text-base my-5'>Chọn sản phẩm mua</h1>
-              <SelectGroup variantdefault ='' variant={product.variants}/>
-            </div>
+            </div> */}
+            {product.variants ? (
+              <div className='my-3'>
+                <h1 className='font-main font-medium text-base my-5'>Chọn sản phẩm mua</h1>
+                <SelectGroup variantdefault='' variant={product.variants} />
+              </div>
+            ) : (
+              <div className='text-2xl my-3 font-main text-red-800'>
+                {formatterMonney.format(product.discountPrice)}
+              </div>
+            )}
+
             <button className='font-main text-xl font-medium bg-red-500 text-white h-10 w-full mt-5'>Mua</button>
           </div>
         </div>

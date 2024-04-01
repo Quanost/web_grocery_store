@@ -1,96 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
+import { apiGetProductSame } from '../apis';
+import {formatterMonney} from '../ultils/helper'
 
-
-const dataSameProduct = [
-    {
-        id: 1,
-        name: " 1 Nước xả đậm đặc làm mềm vải một lần xả Comfort hương ban mai túi 3.2L",
-        image: "https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png",
-        giaCu: 70,
-        giaMoi: 2000000
-    },
-    {
-        id: 2,
-        name: "2 Nước xả đậm đặc làm mềm vải một lần xả Comfort hương ban mai túi 3.2L",
-        image: "https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png",
-        giaCu: 70.00,
-        giaMoi: 99.00
-    },
-    {
-        id: 3,
-        name: "3 Nước xả đậm đặc làm mềm vải một lần xả Comfort hương ban mai túi 3.2L",
-        image: "https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png",
-        giaCu: 70.00,
-        giaMoi: 99.00
-    },
-    {
-        id: 4,
-        name: "4 Nước xả đậm đặc làm mềm vải một lần xả Comfort hương ban mai túi 3.2L",
-        image: "https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png",
-        giaCu: 70.00,
-        giaMoi: 99.00
-    },
-    {
-        id: 5,
-        name: "5 Nước xả đậm đặc làm mềm vải một lần xả Comfort hương ban mai túi 3.2L",
-        image: "https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png",
-        giaCu: 70.00,
-        giaMoi: 99.00
-    },
-    {
-        id: 6,
-        name: "6 Nước xả đậm đặc làm mềm vải một lần xả Comfort hương ban mai túi 3.2L",
-        image: "https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png",
-        giaCu: 70.00,
-        giaMoi: 99.00
-    },
-
-]
-
-const BannerSameProduct = () => {
+const BannerSameProduct = ({ categoryId }) => {
+    const [productSame, setProductSame] = useState();
     const [startIndex, setStartIndex] = useState(0);
     const numVisibleProducts = 4;
-    const maxIndex = dataSameProduct.length - numVisibleProducts;
+    const maxIndex = productSame?.length - numVisibleProducts;
     const isAtStart = startIndex === 0;
     const isAtEnd = startIndex === maxIndex;
-
-    const formatMoney = (amount) => {
-        if (amount > 100)
-            return (amount / 100).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
-        else
-            return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
-    }
 
     const showPrev = () => {
         if (startIndex > 0) {
             setStartIndex(startIndex - 1);
         }
     };
-
     const showNext = () => {
-        if (startIndex < maxIndex) {
+        if (startIndex < maxIndex) {    
             setStartIndex(startIndex + 1);
         }
     };
+    const fetchProductSame = async () => {
+        const response = await apiGetProductSame(categoryId)
+        if (response.status === 200)
+            setProductSame(response.data.products)
+    }
 
+    const nameProductStyles = {
+        WebkitLineClamp: 3,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden',
+        display: '-webkit-box'
+      }
+    useEffect(() => {
+        if (categoryId)
+            fetchProductSame()
+    }, [categoryId])
     return (
         <div className=' w-full overflow-hidden flex flex-col justify-between lg:flex-row gap-16 lg:items-center group'>
             <div className='flex flex-col gap-6 lg:w-full'>
                 <div className='flex transition-transform duration-300 ease-in-out gap-2' style={{ transform: `translateX(-${startIndex * 25}%)` }}>
-                    {dataSameProduct.map((product) => (
-                        <article class="relative flex flex-col overflow-hidden rounded-lg border flex-shrink-0 w-1/4 p-4">
+                    {productSame?.map((product) => (
+                        <article class="relative flex flex-col overflow-hidden rounded-lg border flex-shrink-0 w-1/4 p-4 h-50">
                             <div class="aspect-square overflow-hidden">
-                                <img class="h-full w-full object-cover transition-all duration-300" src="https://componentland.com/images/neZnfwBHi0f-4TivjA6BS.png" alt="" />
+                                <img class="h-full w-full object-cover transition-all duration-300" src={product.productGalleries[0].imageUrl} alt="" />
                             </div>
                             <div class="absolute top-0 m-2 rounded-full bg-white">
                                 <p class="rounded-full bg-red-400 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
                             </div>
                             <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between font-main">
-                                <h3 class="mb-2 text-base text-gray-400">{product.name}</h3>
+                                <div style={nameProductStyles}> 
+                                    <h3 class="mb-2 text-base text-gray-400">{product.name}</h3>
+                                </div>
                                 <div class="mb-2 flex">
-                                    <p class="mr-3 text-lg font-semibold">{formatMoney(product.giaMoi)}</p>
-                                    <del class="text-lg text-gray-400"> {formatMoney(product.giaCu)} </del>
+                                    <p class="mr-3 text-lg font-semibold">{formatterMonney.format(product.discountPrice)}</p>
+                                    <del class="text-lg text-gray-400"> {formatterMonney.format(product.regularPrice)} </del>
                                 </div>
                             </div>
                             <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600 border border-red-300 hover:bg-red-300 hover:text-white">

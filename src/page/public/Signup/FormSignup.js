@@ -2,18 +2,26 @@ import React, { useState } from 'react';
 import './FormSignup.css';
 import { Link } from 'react-router-dom';
 import path from '../../../ultils/path';
+import { VerifyRegister } from '../../../components'
+import {validateRegister} from '../../../ultils/validateData'
+import { apiRegister,apiVerifyCode } from '../../../apis';
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 const FormSignup = () => {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         firstName: '',
         lastName: '',
         email: '',
         password: '',
         repeatPassword: '',
-        phone: ''
+        phone: '',
+        avatar: "https://cdn.dribbble.com/users/574618/screenshots/1952857/media/7af7a78fc601705e36a9294cd448ea2f.jpg"
     })
     const [errors, setErrors] = useState({});
     const [showSuccess, setShowSuccess] = useState(false);
+    const [codeVerify, setCodeVerify] = useState();
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -23,11 +31,46 @@ const FormSignup = () => {
         })
     };
 
-    const handleSubmit = e => {
+   
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setShowSuccess(true);
-        console.log(values)
+
+        if (!validateRegister(values,setErrors)) {
+            return;
+        }
+        console.log('t', values)
+        const rs = await apiRegister(values);
+        if (rs.data) {
+            setShowSuccess(true);
+            console.log('t', rs)
+        }
+        else {
+            Swal.fire('Đăng ký thất bại', rs.error, 'error')
+        }
     }
+    const handleVerify = async (e) => {
+        e.preventDefault();
+        if(codeVerify.length !== 6){
+            Swal.fire('Xác thực thất bại ', 'OTP phải có 6 số', 'error')
+            return
+        }
+        const response = await apiVerifyCode({
+            code: codeVerify,
+            email: values.email
+        });
+        if (response.status === 200) {
+            Swal.fire('Xác thực thành công ', 'Hãy đăng nhập vào tài khoản của bạn', 'success')
+            navigate(`/${path.LOGIN}`);
+        }
+        else {
+            console.log('xác thực,', response)
+            Swal.fire('Xác thực thất bại ', response.error, 'error')
+        }
+    }
+    const handleOtp = (otp) => {
+        setCodeVerify(otp)
+    }
+
     return (
         <div className='form-container'>
             <span className='close-btn'>×</span>
@@ -37,15 +80,15 @@ const FormSignup = () => {
 
             <div className='form-content-right'>
                 {/* Thông báo đăng ký thành công */}
-                <div className={`form-success ${showSuccess ? 'grid' : 'hidden'}`}>
-                    <h1>Đăng ký thành công, vui lòng vào email để xác nhận</h1>
-                    <div className="grid grid-cols-4 gap-4 text-black">
-                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
-                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
-                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
-                        <input type="text" className="form-input" placeholder="Mã xác nhận" />
+                <div className={`form-success ${showSuccess ? 'show' : 'hidden'}`}>
+                    <div className='gap-3 w-auto'>
+                        <h3 className='text-base px-5'>Đăng ký thành công, vui lòng nhập mã xác thực được gửi đến email: {values.email}</h3>
+                        {/* <img className='form-img-2' src='./success.svg' alt='success-image' /> */}
+                        <VerifyRegister onVerifyOTP={handleOtp}/>
+                        <button className='form-input-btn' type='submit' onClick={handleVerify}>
+                            Xác thực
+                        </button>
                     </div>
-                    <img className='form-img-2' src='./success.svg' alt='success-image' />
                 </div>
 
                 <form className={`form ${showSuccess ? 'hidden' : 'show'}`} onSubmit={handleSubmit}>
@@ -65,6 +108,7 @@ const FormSignup = () => {
                                     value={values.firstName}
                                     onChange={handleChange}
                                 />
+                                {errors.firstName && <p className="error-message">{errors.firstName}</p>}
                             </div>
                             <div className='form-input-wrapper'>
                                 <label htmlFor='lastName' className='form-label'>
@@ -79,6 +123,7 @@ const FormSignup = () => {
                                     value={values.lastName}
                                     onChange={handleChange}
                                 />
+                                {errors.lastName && <p className="error-message">{errors.lastName}</p>}
                             </div>
                         </div>
 
@@ -98,7 +143,7 @@ const FormSignup = () => {
                             className='form-input'
                             value={values.email}
                             onChange={handleChange} />
-
+                        {errors.email && <p className="error-message">{errors.email}</p>}
                     </div>
                     <div className='form-inputs'>
                         <label
@@ -114,6 +159,7 @@ const FormSignup = () => {
                             className='form-input'
                             value={values.password}
                             onChange={handleChange} />
+                        {errors.password && <p className="error-message">{errors.password}</p>}
                     </div>
                     <div className='form-inputs'>
                         <label
@@ -129,6 +175,7 @@ const FormSignup = () => {
                             className='form-input'
                             value={values.repeatPassword}
                             onChange={handleChange} />
+                        {errors.repeatPassword && <p className="error-message">{errors.repeatPassword}</p>}
                     </div>
                     <div className='form-inputs'>
                         <label
@@ -144,7 +191,7 @@ const FormSignup = () => {
                             className='form-input'
                             value={values.phone}
                             onChange={handleChange} />
-
+                        {errors.phone && <p className="error-message">{errors.phone}</p>}
                     </div>
                     <button className='form-input-btn' type='submit'>
                         Đăng ký

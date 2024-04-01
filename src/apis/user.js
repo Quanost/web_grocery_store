@@ -11,3 +11,9 @@ export const apiRegister = (data) => axios({
     method:'post',
     data
 })
+
+export const apiVerifyCode = (data) => axios({
+    url:'/user/verify-code',
+    method:'post',
+    data
+})

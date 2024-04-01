@@ -8,3 +8,4 @@ export {default as BannerProductDetail} from './BannerProductDetail';
 export {default as BannerSameProduct} from './BannerSameProduct';
 export {default as BannerProductType} from './BannerProductType';
 export {default as EvaluateProduct} from './EvaluateProduct';
+export {default as VerifyRegister} from './VerifyRegister';

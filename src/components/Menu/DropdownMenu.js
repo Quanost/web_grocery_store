@@ -41,7 +41,7 @@ const DropdownMenu = () => {
         document.addEventListener("mousedown", closeMenu);
 
         return () => {
-            document.removeEventListener("mousedown", closeMenu);
+         document.removeEventListener("mousedown", closeMenu);
         };
     }, []);
     return (
@@ -70,7 +70,7 @@ const DropdownMenu = () => {
                                     <ul className='px-4 rounded-md mt-1'>
                                         {categoriesParent.sub.map((subMenu) => (
                                             <li key={subMenu.id} className="text-[15px] text-gray-600 mt-2 ml-3.5 list-none">
-                                                <NavLink to={`/${subMenu.slug}`} className="hover:text-red-400" onClick={() => { setMenuOpen(false); setSubMenuOpen({}); }}>
+                                                <NavLink to={`/${subMenu.name}/${subMenu.id}`} className="hover:text-red-400" onClick={() => { setMenuOpen(false); setSubMenuOpen({}); }}>
                                                     {subMenu.name}
                                                 </NavLink>
                                             </li>

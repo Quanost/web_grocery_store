@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import appSlice from './appSlice';
+import appSlice from './app/appSlice';
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist';
 import userSlice from './user/userSlice';
-
+import productSlice from './product/productSlice';
 
 
 const commonConfig = {
@@ -18,6 +18,7 @@ const userConfig = {
 export const store = configureStore({
   reducer: {
     appReducer: appSlice,
+    products: productSlice,
     user: persistReducer(userConfig, userSlice)
   },
 })

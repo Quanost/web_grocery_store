@@ -27,3 +27,26 @@ export const navigation = [
         path: `/${path.SUA_CAC_LOAI}`
     }
 ]
+
+export const sorts = [
+    {
+        id: 1,
+        value: 'onsale',
+        text: 'Sản phẩm giảm giá'
+    },
+    {
+        id: 2,
+        value: '-price',
+        text: 'Giá tăng dần'
+    },
+    {
+        id: 3,
+        value: 'price',
+        text: 'Giá giảm dần'
+    },
+    {
+        id: 4,
+        value: 'lastproduct',
+        text: 'Sản phẩm mới nhất'
+    },
+]

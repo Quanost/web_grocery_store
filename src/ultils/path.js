@@ -4,9 +4,8 @@ const path = {
     ALL: '*',
     LOGIN: 'dang-nhap',
     REGISTER: 'dang-ky',
-    PRODUCT_TYPE: ':loaisanpham',
-    PRODUCT_DETAIL__PID__TITLE: 'sanpham/:pid/:title',
-    PRODUCT_DETAIL: 'sanpham',
+    PRODUCT_TYPE: ':namecategory/:categoryId',
+    PRODUCT_DETAIL__CNAME__PID__TITLE: ':category/:categoryId/:title/:pid',
     CART: 'gio-hang',
 }
 export default path

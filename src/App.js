@@ -14,7 +14,7 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.PRODUCT_TYPE} element={<ProductType />} />
-          <Route path={path.PRODUCT_DETAIL__PID__TITLE} element={<ProductDetail />} />
+          <Route path={path.PRODUCT_DETAIL__CNAME__PID__TITLE} element={<ProductDetail />} />
         </Route>
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.REGISTER} element={<Register />} />

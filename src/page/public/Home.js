@@ -1,26 +1,34 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Header, Navigation, Sidebar, Banner } from '../../components';
-import CardProduct from '../../components/CardProductType';
+import { apiGet4ProductAllParentCategories } from '../../apis/product';
 import CardProductType from '../../components/CardProductType';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
-  const [categories, setCategories] = useState([]); 
-  const categoriesStore = useSelector(state => state.appReducer)
+  const [products, setProducts] = useState([]);
+  const productStore = useSelector(state => state.products);
 
   useEffect(() => {
-    setCategories(categoriesStore.categories);
-}, [categoriesStore]);
+    setProducts(productStore.products);
+  }, [productStore]);
 
-console.log("categories",categories)
+
   return (
     <div className='w-main flex'>
       <div className='flex flex-col px-1 gap-5 w-[100%] flex-auto '>
         <Banner />
-        {categories?.map((categories) =>(
-          <CardProductType categoriesId={categories.id} title={categories.name}/>
-        ))}
-        
+      
+        {products.length > 0 && (
+          <div>
+            {products.map((products) => (
+              <div>
+                {products.value.length > 0 && (
+                  <CardProductType title = {products.key} product={products.value} />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

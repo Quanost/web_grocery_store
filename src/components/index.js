@@ -9,3 +9,6 @@ export {default as BannerSameProduct} from './BannerSameProduct';
 export {default as BannerProductType} from './BannerProductType';
 export {default as EvaluateProduct} from './EvaluateProduct';
 export {default as VerifyRegister} from './VerifyRegister';
+export {default as BreadCrumbs} from './BreadCrumbs';
+export {default as Filter} from './Filter';
+export {default as Pagination} from './Pagination/Pagination';

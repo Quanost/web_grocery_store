@@ -13,7 +13,6 @@ const SelectGroup = ({ variant }) => {
     const handleVariantChange = (event) => {
         setSelectedVariant(event.target.value);
     };
-console.log('variant', selectedVariant)
     return (
         <div>
             <div class="flex items-center justify-center bg-slate-200 border border-solid rounded-sm">

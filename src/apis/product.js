@@ -1,9 +1,9 @@
 import axios from "../axios";
 
-export const apiGetAllProductByTypeId = (data) => axios({
-    url:'/categories',
+export const apiGetAllProduct = (params) => axios({
+    url:'/product?limit=15',
     method:'get',
-    data
+    params:params
 })
 
 export const apiGet5ProductByTypeId = (productId) => axios({
@@ -18,5 +18,10 @@ export const apiGetProductById = (productId) => axios({
 
 export const apiGetProductSame = (categoryId) => axios({
     url:'/product?page=1&limit=6&category_id='+ categoryId,
+    method:'get',
+})
+
+export const apiGet4ProductAllParentCategories = () => axios({
+    url:'/product/get4ProductParentCategories',
     method:'get',
 })

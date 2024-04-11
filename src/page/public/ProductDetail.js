@@ -2,16 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import icons from '../../ultils/icons';
 import Star from '../../components/Star';
 import { apiGetProductById } from '../../apis';
-import { BannerProductDetail, BannerSameProduct, EvaluateProduct, BannerProductType, SelectGroup } from '../../components';
+import { BannerProductDetail, BannerSameProduct, EvaluateProduct, SelectGroup,BreadCrumbs } from '../../components';
 import { useParams } from 'react-router-dom';
-import BreadCrumbs from '../../components/BreadCrumbs';
-import {formatterMonney} from '../../ultils/helper'
+import { formatterMonney } from '../../ultils/helper'
 
 const ProductDetail = () => {
   const [readMore, setReadMore] = useState(false)
   const [showReadMore, setShowReadMore] = useState(false)
   const { SlArrowDown, SlArrowLeft, FaStar } = icons
-  const { pid, title } = useParams()
+  const { category, title,pid } = useParams()
   const [product, setProduct] = useState({});
   const [loadingProductSame, setloadingProductSame] = useState(true);
 
@@ -26,7 +25,7 @@ const ProductDetail = () => {
     const response = await apiGetProductById(pid)
     if (response.status === 200)
       setProduct(response.data);
-    setloadingProductSame(false);
+      setloadingProductSame(false);
   }
   const toggleReadMore = () => {
     setReadMore(!readMore);
@@ -50,10 +49,12 @@ const ProductDetail = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [ref.current]);
-
+  if(!loadingProductSame){
+    console.log('product variant', product.variants.length);
+  }
   return (
     <div className='w-main inline-block bg-slate-100'>
-      <BreadCrumbs type='Bia tươi' name='Tên' />
+      <BreadCrumbs type={category} name={title} />
       <div className='flex'>
         <div className='flex flex-col gap-5 w-[60%] flex-auto bg-white mt-3'>
           <div className='m-3'>
@@ -113,16 +114,17 @@ const ProductDetail = () => {
               <FaStar color='orange' size={15} />
               <p className='font-main text-base mx-5 text-blue-600'>Xem 15 đánh giá</p>
             </div> */}
-            {product.variants ? (
-              <div className='my-3'>
-                <h1 className='font-main font-medium text-base my-5'>Chọn sản phẩm mua</h1>
-                <SelectGroup variantdefault='' variant={product.variants} />
-              </div>
-            ) : (
-              <div className='text-2xl my-3 font-main text-red-800'>
-                {formatterMonney.format(product.discountPrice)}
-              </div>
-            )}
+            {product && product.variants && product.variants.length > 0 ? (
+                <div className='my-3'>
+                  <h1 className='font-main font-medium text-base my-5'>Chọn sản phẩm mua</h1>
+                  <SelectGroup variantdefault='' variant={product.variants} />
+                </div>
+              ) : (
+                  <div className='text-2xl my-3 font-main text-red-800'>
+                    {formatterMonney.format(product.discountPrice)}
+                  </div>
+                )
+            }
 
             <button className='font-main text-xl font-medium bg-red-500 text-white h-10 w-full mt-5'>Mua</button>
           </div>

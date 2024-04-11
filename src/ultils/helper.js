@@ -5,7 +5,7 @@ export const transformCategories = (data) => {
             acc.push({
                 id: item.id,
                 parentId: item.parentId,
-                slugParent:item.slug,
+                slugParent: item.slug,
                 name: item.name,
                 sub: []
             });
@@ -28,5 +28,9 @@ export const formatterMonney = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
     minimumFractionDigits: 0
-  })
+})
 
+export const generateRange = (start, end) => {
+    const length = end - start + 1;
+    return Array.from({ length }, (_, i) => start + i);
+}

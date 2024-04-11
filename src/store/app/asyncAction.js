@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { transformCategories } from '../ultils/helper';
-import * as apis from '../apis'
+import { transformCategories } from '../../ultils/helper';
+import * as apis from '../../apis'
 
 export const getCategories = createAsyncThunk(
     'app/categories',

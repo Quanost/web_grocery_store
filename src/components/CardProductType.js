@@ -6,7 +6,6 @@ import CardProduct from './CardProduct';
 
 
 const CardProductType = ({ title, product, seeMore }) => {
-    console.log('productChi tiết', product)
     return (
         <section class="bg-white py-1 text-gray-700 sm:py-16 lg:py-2 mt-5 border-b">
             <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">

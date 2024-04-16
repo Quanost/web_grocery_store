@@ -1,7 +1,7 @@
 import axios from "../axios";
 
 export const apiGetAllProduct = (params) => axios({
-    url:'/product?limit=15',
+    url:'/product',
     method:'get',
     params:params
 })

@@ -1,11 +1,10 @@
-import React, { useState,memo } from 'react';
+import React, {memo } from 'react';
 import { MdOutlineEmail } from "react-icons/md";
 import { CiHeadphones } from "react-icons/ci";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import DropdownMenu from './Menu/DropdownMenu';
 
 const Navigation = () => {
-    const [showMenu, setShowMenu] = useState(false)
     return (
         <nav className='border px-4 py-3 flex justify-between w-main bg-white'>
             <div className='flex items-center text-xl'>

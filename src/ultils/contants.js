@@ -50,3 +50,7 @@ export const sorts = [
         text: 'Sản phẩm mới nhất'
     },
 ]
+
+export const filter = [
+    {cagory: 'Dầu ăn', value: ['Loại sản phẩm']},
+]

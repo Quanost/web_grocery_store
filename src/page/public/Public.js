@@ -5,6 +5,7 @@ import Footer from '../../components/Footer';
 import { useDispatch } from 'react-redux';
 import { getCategories } from '../../store/app/asyncAction';
 import { get4ProductParentCategories } from '../../store/product/asynActionProduct';
+import { getAttributeProductType } from '../../store/attribute/asynActionAttribute';
 import { useSelector } from 'react-redux';
 
 const Public = () => {
@@ -17,6 +18,7 @@ const Public = () => {
   useEffect(() => {
     dispatch(getCategories());
     dispatch(get4ProductParentCategories());
+    dispatch(getAttributeProductType());
   }, [dispatch]);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const Public = () => {
   }, [categoriesStore]);
 
   return (
-    <div className='w-full flex flex-col items-center bg-slate-50'>
+    <div className='w-full min-h-screen flex flex-col items-center bg-slate-50'>
       <Header />
       {categoriesLoaded && <Navigation />}
       <div className='w-main bg-white'>

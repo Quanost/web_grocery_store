@@ -5,7 +5,7 @@ import Logo from '../assets/image/Logo.png'
 const Footer = () => {
     const Year = new Date().getFullYear();
     return (
-      <footer class="bg-black w-full">
+      <footer class="bg-black w-full mt-auto ">
       <div class="mx-auto grid max-w-screen-xl gap-y-8 gap-x-12 px-4 py-10 md:grid-cols-2 xl:grid-cols-4 xl:px-10 w-main font-main">
         <div class="max-w-sm ">
           <div class="mb-6 flex h-12 items-center space-x-2 bg-white">

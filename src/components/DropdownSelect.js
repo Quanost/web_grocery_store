@@ -6,13 +6,13 @@ import { createSearchParams, useNavigate, useParams, useSearchParams } from 'rea
 
 // const items = ['Cam', 'Bưởi', 'Xoài'];
 const items = ['Rượu soju', 'Rượu vodka'];
-const DropdownSelect = ({ name }) => {
+const DropdownSelect = ({n, name, value }) => {
     const navigate = useNavigate();
     const [params] = useSearchParams();
     const { namecategory, categoryId } = useParams();
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]); // biến tạm thời của selectedItems
-    const [tempSelectedItem, setTempSelectedItem] = useState([]); 
+    const [tempSelectedItem, setTempSelectedItem] = useState([]);
     const dropdownRef = useRef(null);
 
     const handleItemClick = (item) => {
@@ -24,16 +24,11 @@ const DropdownSelect = ({ name }) => {
         setTempSelectedItem(selectedItems);
         setIsOpen(false);
     };
-
-
-
-
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setIsOpen(false);
         }
     };
-
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
@@ -47,8 +42,8 @@ const DropdownSelect = ({ name }) => {
         const queries = {}
         for (let i of params) queries[i[0]] = i[1]
         if (selectedItems.length > 0) {
-            queries.attr_name_1 = 'Loại sản phẩm';
-            queries.attr_value_1 = tempSelectedItem.join(',');
+            queries[`attr_name_${n}`] = name;
+            queries[`attr_value_${n}`] = tempSelectedItem.join(',');
             queries.page = 1;
         } else {
             delete queries.attr_name_1;
@@ -62,7 +57,6 @@ const DropdownSelect = ({ name }) => {
         })
 
     }, [tempSelectedItem, categoryId, namecategory, navigate, params, selectedItems.length])
-
 
     return (
         <div className="relative inline-block text-left" ref={dropdownRef}>
@@ -83,7 +77,7 @@ const DropdownSelect = ({ name }) => {
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
                     >
-                        {items.map((item) => (
+                        {/* {items.map((item) => (
                             <button
                                 key={item}
                                 className={`border font-main h-full w-full rounded-md relative flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-red-100 hover:text-red-900 ${selectedItems.includes(item) ? 'bg-red-100' : ''}`}
@@ -94,7 +88,20 @@ const DropdownSelect = ({ name }) => {
                                 </div>
                                 {selectedItems.includes(item) && <FaCheckSquare color='red' className="absolute top-0 right-0" />}
                             </button>
+                        ))} */}
+                        {Object.entries(value).map((item ,index) => (
+                            <button 
+                                key={index}
+                                className={`border font-main h-full w-full rounded-md relative flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-red-100 hover:text-red-900 ${selectedItems.includes(item[1]) ? 'bg-red-100' : ''}`}
+                                onClick={() => handleItemClick(item[1])}
+                            >
+                                <div className="flex items-center justify-center w-full">
+                                    <span>{item[1]}</span>
+                                </div>
+                                {selectedItems.includes(item[1]) && <FaCheckSquare color='red' className="absolute top-0 right-0" />}
+                            </button>
                         ))}
+                        
                     </div>
                     <div className='flex gap-3 border-t '>
                         <button

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SlArrowDown } from "react-icons/sl";
-import { Link } from 'react-router-dom';
-import path from '../ultils/path'
 import CardProduct from './CardProduct';
 
 

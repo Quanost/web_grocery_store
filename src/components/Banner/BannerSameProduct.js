@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
-import { apiGetProductSame } from '../apis';
-import { formatterMonney } from '../ultils/helper';
+import { apiGetProductSame } from '../../apis';
+import { formatterMonney } from '../../ultils/helper';
 import { Link } from 'react-router-dom';
 
 const BannerSameProduct = ({ categoryId }) => {

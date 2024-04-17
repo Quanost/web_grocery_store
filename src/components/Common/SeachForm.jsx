@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react';
-import icons from '../ultils/icons';
+import icons from '../../ultils/icons';
 import { FaSearch } from "react-icons/fa";
-import { words } from '../ultils/dataSeach';
+import { words } from '../../ultils/dataSeach';
 
 const SeachForm = () => {
   const [activeSearch, setActiveSearch] = useState([])

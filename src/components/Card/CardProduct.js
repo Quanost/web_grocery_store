@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatterMonney } from '../ultils/helper'
+import { formatterMonney } from '../../ultils/helper'
 import { Link } from 'react-router-dom';
 
 const CardProduct = ({ imgURL, regularPrice, discountPrice, name, link }) => {

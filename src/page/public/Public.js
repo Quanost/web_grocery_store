@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom';
-import { Header, Navigation } from '../../components';
-import Footer from '../../components/Footer';
+import { Header, Navigation, Footer } from '../../components';
 import { useDispatch } from 'react-redux';
 import { getCategories } from '../../store/app/asyncAction';
 import { get4ProductParentCategories } from '../../store/product/asynActionProduct';

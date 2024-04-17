@@ -1,5 +1,5 @@
 import React from 'react';
-import icons from '../ultils/icons';
+import icons from '../../ultils/icons';
 import useBreadcrumbs from 'use-react-router-breadcrumbs'
 import { Link } from 'react-router-dom';
 

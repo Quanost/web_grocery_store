@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Star from './Star';
+import Star from '../Common/Star';
 import { FaStar } from "react-icons/fa";
 
 const EvaluateProduct = () => {

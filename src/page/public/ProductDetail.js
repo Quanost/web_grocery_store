@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import icons from '../../ultils/icons';
-import Star from '../../components/Star';
 import { apiGetProductById } from '../../apis';
-import { BannerProductDetail, BannerSameProduct, EvaluateProduct, SelectGroup,BreadCrumbs } from '../../components';
+import { BannerProductDetail, BannerSameProduct, EvaluateProduct, SelectGroup,BreadCrumbs, Star } from '../../components';
 import { useParams } from 'react-router-dom';
 import { formatterMonney } from '../../ultils/helper'
 

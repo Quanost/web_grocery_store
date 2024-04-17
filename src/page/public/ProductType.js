@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SlArrowDown } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
-import { Filter, BreadCrumbs, Pagination } from '../../components';
-import CardProductType from '../../components/CardProductType';
+import { Filter, BreadCrumbs, Pagination, CardProductType } from '../../components';
 import { apiGetAllProduct, apiGetSubCategory } from '../../apis';
 import { useParams, useSearchParams, useNavigate, createSearchParams, Link } from 'react-router-dom';
 import { sorts } from '../../ultils/contants';
-import { NavLink } from "react-router-dom";
+
 
 const dataProductType = {
   id: 1,

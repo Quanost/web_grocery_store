@@ -7,6 +7,7 @@ import { FaRegUser } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { SlArrowLeft } from "react-icons/sl";
 import { SlArrowDown } from "react-icons/sl";
+import { MdOutlineCardTravel } from "react-icons/md";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -16,7 +17,8 @@ const icons = {
     FaRegUser,
     FaStar,
     SlArrowLeft,
-    SlArrowDown
+    SlArrowDown,
+    MdOutlineCardTravel
 }
 
 export default icons;

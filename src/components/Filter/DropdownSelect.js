@@ -77,18 +77,6 @@ const DropdownSelect = ({n, name, value }) => {
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
                     >
-                        {/* {items.map((item) => (
-                            <button
-                                key={item}
-                                className={`border font-main h-full w-full rounded-md relative flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-red-100 hover:text-red-900 ${selectedItems.includes(item) ? 'bg-red-100' : ''}`}
-                                onClick={() => handleItemClick(item)}
-                            >
-                                <div className="flex items-center justify-center w-full">
-                                    <span>{item}</span>
-                                </div>
-                                {selectedItems.includes(item) && <FaCheckSquare color='red' className="absolute top-0 right-0" />}
-                            </button>
-                        ))} */}
                         {Object.entries(value).map((item ,index) => (
                             <button 
                                 key={index}

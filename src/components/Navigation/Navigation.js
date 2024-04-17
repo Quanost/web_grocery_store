@@ -2,7 +2,7 @@ import React, {memo } from 'react';
 import { MdOutlineEmail } from "react-icons/md";
 import { CiHeadphones } from "react-icons/ci";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import DropdownMenu from './Menu/DropdownMenu';
+import DropdownMenu from '../Menu/DropdownMenu';
 
 const Navigation = () => {
     return (

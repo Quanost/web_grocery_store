@@ -1,6 +1,6 @@
 import React, {memo} from "react";
 import { FaGithub, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
-import Logo from '../assets/image/Logo.png'
+import Logo from '../../assets/image/Logo.png'
 
 const Footer = () => {
     const Year = new Date().getFullYear();

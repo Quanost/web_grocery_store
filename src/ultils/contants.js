@@ -1,29 +1,30 @@
+import icons from "./icons"
 import path from "./path"
 
 export const navigation = [
     {
         id: 1,
-        value:'Sản phầm khuyến mãi',
+        value: 'Sản phầm khuyến mãi',
         path: `/${path.KHUYEN_MAI}`
     },
     {
         id: 2,
-        value:'Thit - Hải sản tươi',
+        value: 'Thit - Hải sản tươi',
         path: `/${path.THIT_HAISAN}`
     },
     {
         id: 3,
-        value:'Rau - Củ - Trái cây',
+        value: 'Rau - Củ - Trái cây',
         path: `/${path.RAU_CU_TRAICAY}`
     },
     {
         id: 4,
-        value:'Chăm sóc cá nhân',
+        value: 'Chăm sóc cá nhân',
         path: `/${path.CHAM_SOC_CA_NHAN}`
     },
     {
         id: 5,
-        value:'Sửa các loại',
+        value: 'Sửa các loại',
         path: `/${path.SUA_CAC_LOAI}`
     }
 ]
@@ -51,6 +52,32 @@ export const sorts = [
     },
 ]
 
-export const filter = [
-    {cagory: 'Dầu ăn', value: ['Loại sản phẩm']},
+const { FaRegUser, IoSettingsOutline, CiLogout, LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog } = icons
+export const AdminSidebarMenus = [
+    { title: 'Thống kê', icon: <LuLayoutDashboard />, path: `/${path.ADMIN}/${path.DASHBOARD}` },
+
+    {
+        title: 'Quản lý sản phẩm',
+        submenu: true,
+        submenuItems: [
+            { title: 'Cập nhật sản phẩm', path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}` },
+            { title: 'Thêm sản phẩm', path: `/${path.ADMIN}/${path.CREATE_PRODUCT}` },
+        ],
+        icon: <TbBrandProducthunt />
+    },
+    {
+        title: 'Quản lý hoá đơn',
+        path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
+        icon: <FaBorderNone />
+    },
+    {
+        title: 'Quản lý người dùng',
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+        icon: <FaUsersCog />
+    },
+]
+export const AdminSidebarMenusDefault = [
+    { title: 'Tài khoản', spacing: true, icon: <FaRegUser /> },
+    { title: 'Cài đặt', icon: <IoSettingsOutline /> },
+    { title: 'Đăng xuất', icon: <CiLogout /> },
 ]

@@ -4,6 +4,8 @@ import path from '../../ultils/path';
 import { useSelector } from 'react-redux';
 import { AdminSidebar } from '../../components'
 
+
+
 const AdminLayout = () => {
   const { isLoggedIn, current } = useSelector(state => state.user);
   console.log('role', current?.role)
@@ -11,7 +13,7 @@ const AdminLayout = () => {
 
   return (
     <div className='flex w-full min-h-screen'>
-      <div className='w-[327px] flex-none'>
+      <div className='flex-none'>
         <AdminSidebar />
       </div>
       <div className='flex-auto'>

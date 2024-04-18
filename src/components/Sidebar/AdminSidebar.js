@@ -19,7 +19,7 @@ const AdminSidebar = () => {
                 cursor-pointer block float-left mr-2 duration-500 ${isOpen && 'rotate-[360deg]'}`} />
                 <h1 className={`text-white origin-left font-medium text-2xl ${!isOpen && 'scale-0'}`}>Admin</h1>
             </div>
-            <ul className='pt- flex flex-col justify-between h-[95%]'>
+            <ul className='pt- flex flex-col justify-between h-[95%] text-gray'>
                 <div>
                     {AdminSidebarMenus.map((menu, index) => (
                         <>

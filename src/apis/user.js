@@ -17,3 +17,9 @@ export const apiVerifyCode = (data) => axios({
     method:'post',
     data
 })
+
+export const apiGetUsers = (params) => axios({
+    url:'/user/users?limit=6',
+    method:'get',
+    params
+})

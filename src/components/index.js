@@ -17,3 +17,4 @@ export {default as Loading} from './Common/Loading';
 export {default as CardProduct} from './Card/CardProduct';
 export {default as CardProductType} from './Card/CardProductType';
 export {default as Star} from './Common/Star';
+export {default as InputField} from './Inputs/InputField';

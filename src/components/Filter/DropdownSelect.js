@@ -46,8 +46,8 @@ const DropdownSelect = ({n, name, value }) => {
             queries[`attr_value_${n}`] = tempSelectedItem.join(',');
             queries.page = 1;
         } else {
-            delete queries.attr_name_1;
-            delete queries.attr_value_1;
+            delete queries[`attr_name_${n}`];
+            delete queries[`attr_name_${n}`];
         }
         navigate({
             pathname: `/${namecategory}/${categoryId}`,

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { Public, Login, Register, Home, ProductType, ProductDetail } from './page/public';
 import { AdminLayout, ManageOrders, CreateProduct, Dashboard, ManageProducts, ManageUser, ManageCategories } from './page/admin';

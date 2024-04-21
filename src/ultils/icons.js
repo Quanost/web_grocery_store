@@ -23,6 +23,8 @@ import { MdCancelPresentation } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
 import { IoCartOutline } from "react-icons/io5";
 import { TbCategory2 } from "react-icons/tb";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import { RiParentLine } from "react-icons/ri";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -47,7 +49,9 @@ const icons = {
     MdCancelPresentation,
     MdOutlineDelete,
     IoCartOutline,
-    TbCategory2
+    TbCategory2,
+    IoMdAddCircleOutline,
+    RiParentLine
 }
 
 export default icons;

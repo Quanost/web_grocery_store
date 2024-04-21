@@ -19,7 +19,11 @@ export {default as CardProductType} from './Card/CardProductType';
 export {default as Star} from './Common/Star';
 export {default as InputField} from './Inputs/InputField';
 export {default as InputForm} from './Inputs/InputForm';
+export {default as InputTextAreaForm} from './Inputs/InputTextAreaForm';
 export {default as Select} from './Inputs/Select';
 export {default as Button} from './Buttons/Button';
 export {default as EditAvatar} from './Common/EditAvatar';
 export {default as HeaderManager} from './Header/HeaderManager';
+export {default as DialogForm} from './Dialog/DialogForm';
+export {default as DialogTableCategory} from './Dialog/DialogTableCategory';
+

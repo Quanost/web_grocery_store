@@ -34,3 +34,9 @@ export const generateRange = (start, end) => {
     const length = end - start + 1;
     return Array.from({ length }, (_, i) => start + i);
 }
+
+export const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+    return formattedDate;
+}

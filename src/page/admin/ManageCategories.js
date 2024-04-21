@@ -9,17 +9,14 @@ import Swal from 'sweetalert2';
 import { userRoles, userStatus } from '../../ultils/contants';
 
 
-const ManageUser = () => {
+const ManageCategories = () => {
   const { handleSubmit, register, setValue, formState: { errors }, reset } = useForm({
-    email: '',
-    firstName: '',
-    lastName: '',
-    role: '',
-    phone: '',
-    isBlocked: '',
-    avatar: ''
+    name: '',
+    description: '',
+    slug: '',
+    parentId: '',
   });
-  const { LiaUserEditSolid, MdCancelPresentation, MdOutlineDelete, IoCartOutline } = icons
+  const { LiaUserEditSolid, MdCancelPresentation, MdOutlineDelete } = icons
   const [users, setUsers] = useState([]);
   const [queries, setQueries] = useState('');
   const [errorGetAPI, setErrorGetAPI] = useState(null);
@@ -27,7 +24,7 @@ const ManageUser = () => {
   const [params] = useSearchParams();
   const [editUser, setEditUser] = useState(null);
   const [image, setImage] = useState(null);
- 
+
 
 
   const getUsers = async (queries) => {
@@ -145,7 +142,7 @@ const ManageUser = () => {
   return (
     <div>
       <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
-        Quản lý người dùng
+        Quản lý loại sản phẩm
       </h1>
       <div className='w-full p-4'>
         <div className='flex justify-end py-4'>
@@ -180,19 +177,19 @@ const ManageUser = () => {
                     #
                   </th>
                   <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white ">
-                    Họ tên
+                    Tên loại sản phẩm
                   </th>
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white ">
-                    Email
+                    Mô tả
                   </th>
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                    Số điện thoại
+                    Slug
                   </th>
                   <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                    Vai trò
+                    Loại
                   </th>
                   <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                    Trạng thái
+                    Ngày tạo
                   </th>
                   <th className="py-4 px-4 font-medium text-black dark:text-white">
                     Hành động
@@ -328,12 +325,6 @@ const ManageUser = () => {
                             <button className="hover:text-primary" onClick={(e) => handleDeleteUser(e, user?.id)}>
                               <MdOutlineDelete size={22} />
                             </button>
-                            <button className="hover:text-primary">
-                              <div className="relative inline-block mt-1">
-                                <IoCartOutline size={22} className="mr-4" />
-                                <span className="absolute -top-4 right-0 bg-red-500 text-white rounded-full  px-2 py-1 text-xs">1</span>
-                              </div>
-                            </button>
                           </div>
                         </td>
                       </tr>
@@ -353,4 +344,4 @@ const ManageUser = () => {
   )
 }
 
-export default ManageUser
+export default ManageCategories

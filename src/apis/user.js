@@ -23,3 +23,23 @@ export const apiGetUsers = (params) => axios({
     method:'get',
     params
 })
+
+export const apiUpdateUser = (data) => axios({
+    url:'/user',
+    method:'put',
+    data
+})
+
+export const apiDeleteUser = (id) => axios({
+    url:'/user/'+ id,
+    method:'delete',
+})
+
+export const apiUploadSingleImage = (image) => axios({
+    url:'/upload/single/',
+    method:'post',
+    data:image,
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    }
+})

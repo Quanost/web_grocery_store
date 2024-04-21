@@ -8,9 +8,9 @@ const AdminSidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [submenuOpen, setSubmenuOpen] = useState(true)
     return (
-        <div className={`bg-dark-purple h-screen p-5 pt-8 
+        <div className={`bg-dark-purple h-screen p-5 pt-8 relative
         ${isOpen ? 'w-72' : 'w-20'} duration-300 relative`}>
-            <SlArrowRight className={`bg-white text-dark-purple text-3xl
+            <SlArrowRight className={`bg-white text-dark-purple text-3xl asbolute z-10
            rounded-full absolute -right-3 top-9 border
            border-dark-purple cursor-pointer ${!isOpen && 'rotate-180'}`}
                 onClick={() => setIsOpen(!isOpen)} />

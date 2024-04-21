@@ -18,6 +18,11 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { TbBrandProducthunt } from "react-icons/tb";
 import { FaBorderNone } from "react-icons/fa";
 import { FaUsersCog } from "react-icons/fa";
+import { LiaUserEditSolid } from "react-icons/lia";
+import { MdCancelPresentation } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
+import { IoCartOutline } from "react-icons/io5";
+import { TbCategory2 } from "react-icons/tb";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -37,7 +42,12 @@ const icons = {
     LuLayoutDashboard,
     TbBrandProducthunt,
     FaBorderNone,
-    FaUsersCog
+    FaUsersCog,
+    LiaUserEditSolid,
+    MdCancelPresentation,
+    MdOutlineDelete,
+    IoCartOutline,
+    TbCategory2
 }
 
 export default icons;

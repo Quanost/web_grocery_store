@@ -52,7 +52,7 @@ export const sorts = [
     },
 ]
 
-const { FaRegUser, IoSettingsOutline, CiLogout, LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog } = icons
+const { FaRegUser, IoSettingsOutline, CiLogout, LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog, TbCategory2 } = icons
 export const AdminSidebarMenus = [
     { title: 'Thống kê', icon: <LuLayoutDashboard />, path: `/${path.ADMIN}/${path.DASHBOARD}` },
 
@@ -75,9 +75,25 @@ export const AdminSidebarMenus = [
         path: `/${path.ADMIN}/${path.MANAGE_USER}`,
         icon: <FaUsersCog />
     },
+    {
+        title: 'Quản lý loại sản phẩm',
+        path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
+        icon: <TbCategory2 />
+    },
 ]
 export const AdminSidebarMenusDefault = [
     { title: 'Tài khoản', spacing: true, icon: <FaRegUser /> },
     { title: 'Cài đặt', icon: <IoSettingsOutline /> },
     { title: 'Đăng xuất', icon: <CiLogout /> },
+]
+
+
+export const userRoles = [
+    {value: 'CUSTOMER', label: 'Khách hàng'},
+    {value: 'STAFF', label: 'Nhân viên'},
+    {value: 'MANAGER', label: 'Quản lý'},
+]
+export const userStatus = [
+    {value: true , label: 'Đã khoá'},
+    {value: false , label: 'Hoạt động'},
 ]

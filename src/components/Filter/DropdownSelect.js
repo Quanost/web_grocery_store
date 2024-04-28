@@ -4,8 +4,7 @@ import { FaCheckSquare } from "react-icons/fa";
 import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 
-// const items = ['Cam', 'Bưởi', 'Xoài'];
-const items = ['Rượu soju', 'Rượu vodka'];
+
 const DropdownSelect = ({n, name, value }) => {
     const navigate = useNavigate();
     const [params] = useSearchParams();

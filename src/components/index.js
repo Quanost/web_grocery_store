@@ -34,4 +34,5 @@ export {default as ChooseMutilImage} from './Inputs/ChooseMutilImage';
 export {default as ChooseOneImage} from './Inputs/ChooseOneImage';
 export {default as InputNumber} from './Inputs/InputNumber';
 export {default as LabelInput} from './Label/LabelInput';
+export {default as DropdownCategories} from './Dropdown/DropdownCategories';
 

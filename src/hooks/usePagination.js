@@ -19,24 +19,24 @@ export const usePagination = (totalPagination, currentPage, siblingCount = 1) =>
             switch (true) {
                 case (hasLeftSpill && !hasRightSpill): {
                     const extraPages = generateRange(startPage - spillOffset, startPage - 1);
-                    pages = [1, ...extraPages, ...pages];
+                    pages = ['...', ...extraPages, ...pages];
                     break;
                 }
 
                 case (!hasLeftSpill && hasRightSpill): {
                     const extraPages = generateRange(endPage + 1, endPage + spillOffset);
-                    pages = [...pages, ...extraPages, totalPagination];
+                    pages = [...pages, ...extraPages, '...'];
                     break;
                 }
 
                 case (hasLeftSpill && hasRightSpill):
                 default: {
-                    pages = [1, ...pages, totalPagination];
+                    pages = ['...', ...pages, '...'];
                     break;
                 }
             }
 
-            return pages;
+            return [1, ...pages, totalPagination];
         }
 
         return generateRange(1, totalPagination);

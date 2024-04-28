@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Chip } from 'primereact/chip';
-import { InputForm, InputTextAreaForm, Select } from '../index';
+import { InputTable, InputTextAreaForm, Select } from '../index';
 import { useForm } from 'react-hook-form';
 import icon from '../../ultils/icons';
 import { apiAddCategory } from '../../apis';
@@ -43,7 +43,6 @@ export default function DialogForm({ optionsCategories, getAllCategories }) {
     const handleRemoveAttribute = (attributeToRemove) => {
         setAttributes(prevAttributes => prevAttributes.filter(attribute => attribute !== attributeToRemove));
     }
-    console.log('mảng thuojc tính', attributes)
     return (
         <div className="card flex justify-center">
             <Button label="Thêm loại sản phẩm" className="text-white bg-red-500 font-main flex items-center px-3" onClick={() => setVisible(true)} />
@@ -66,7 +65,7 @@ export default function DialogForm({ optionsCategories, getAllCategories }) {
                                 </div>
                                 <div className="my-auto gap-1">
                                     <label htmlFor="name">Tên loại sản phẩm</label>
-                                    <InputForm
+                                    <InputTable
                                         id="name"
                                         register={register}
                                         errors={errors}
@@ -95,7 +94,7 @@ export default function DialogForm({ optionsCategories, getAllCategories }) {
                                       
                                     </div>
                                     <div className="flex text-base border-2 border-indigo-500/100 rounded-sm  h-[50px]">
-                                        <input id='attribute' value={attribute} type="text" onChange={(e) => setAttribute(e.target.value)} placeholder="Thêm thuộc tính" className="w-full h-full pl-2 font-main" />
+                                        <input id='attribute' value={attribute} type="text" onChange={(e) => setAttribute(e.target.value)} placeholder="Thêm thuộc tính" className="w-full h-full pl-2 font-main dark:bg-strokedark dark:text-white" />
                                         <IoMdAddCircleOutline size={50} color="blue" className="bg-white h-full" onClick={(e) => handleAddattributes(e)} />
                                     </div>
 

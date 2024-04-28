@@ -16,6 +16,7 @@ export const transformCategories = (data) => {
                 parent.sub.push({
                     id: item.id,
                     name: item.name,
+                    attributes: item.attributes,
                     slug: item.slug
                 });
             }

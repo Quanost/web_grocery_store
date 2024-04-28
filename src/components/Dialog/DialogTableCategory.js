@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Dialog } from 'primereact/dialog';
-import { InputForm, Button, Select } from '../index';
+import { InputTable, Button, Select } from '../index';
 import { useForm } from 'react-hook-form';
 import icon from '../../ultils/icons';
 import { apiDeleteCategory, apiUpdateCategory } from '../../apis';
@@ -128,7 +128,7 @@ export default function DialogTableCategory({ nameParent, optionsCategories, sub
                                                     <h5 className="font-medium text-black dark:text-white">
                                                         {editSubCategory?.id === category.id ?
                                                             <div className=' mt-2 flex gap-2 w-60'>
-                                                                <InputForm id={'name'} register={register} errors={errors} defaultValue={editSubCategory?.name}
+                                                                <InputTable id={'name'} register={register} errors={errors} defaultValue={editSubCategory?.name}
                                                                     validate={{
                                                                         required: 'Tên loại không được để trống',
                                                                     }}
@@ -142,7 +142,7 @@ export default function DialogTableCategory({ nameParent, optionsCategories, sub
                                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                                     {editSubCategory?.id === category.id ?
                                                         <div className=' mt-2 flex gap-2 w-60'>
-                                                            <InputForm id={'description'} register={register} errors={errors} defaultValue={editSubCategory?.description}
+                                                            <InputTable id={'description'} register={register} errors={errors} defaultValue={editSubCategory?.description}
                                                                 validate={{
                                                                     required: 'Mô tả không được để trống',
                                                                 }} />

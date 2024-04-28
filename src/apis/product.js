@@ -25,3 +25,9 @@ export const apiGet4ProductAllParentCategories = () => axios({
     url:'/product/get4ProductParentCategories',
     method:'get',
 })
+
+export const apiCreateProduct = (data) => axios({
+    url:'/product',
+    method:'post',
+    data
+})

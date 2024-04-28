@@ -25,6 +25,8 @@ import { IoCartOutline } from "react-icons/io5";
 import { TbCategory2 } from "react-icons/tb";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { RiParentLine } from "react-icons/ri";
+import { FiDelete } from "react-icons/fi";
+import { IoAddCircleOutline } from "react-icons/io5";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -51,7 +53,9 @@ const icons = {
     IoCartOutline,
     TbCategory2,
     IoMdAddCircleOutline,
-    RiParentLine
+    RiParentLine,
+    FiDelete,
+    IoAddCircleOutline
 }
 
 export default icons;

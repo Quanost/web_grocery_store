@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { apiGetAllCategory, apiUpdateCategory, apiDeleteCategory } from '../../apis'
-import { InputForm, Button, DialogForm, DialogTableCategory } from '../../components';
+import { InputTable, Button, DialogForm, DialogTableCategory } from '../../components';
 import { useSearchParams } from 'react-router-dom';
 import { set, useForm } from 'react-hook-form';
 import icons from '../../ultils/icons';
@@ -115,15 +115,13 @@ const ManageCategories = () => {
   }
 
   return (
-    <div>
-      <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
-        Quản lý loại sản phẩm
-      </h1>
+    <div className='dark:bg-strokedark dark:text-white'>
       <div className='w-full p-4'>
+        <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main  border-b'>
+          Quản lý loại sản phẩm
+        </h1>
         <div className='flex justify-between py-4'>
-
           {categoriesOptions && <DialogForm optionsCategories={categoriesOptions} getAllCategories={getAllCategories} />}
-
           <form class="flex justify-end items-center w-96 ">
             <label htmlFor="simple-search" class="sr-only">Tìm kiếm</label>
             <div class="relative w-full">
@@ -144,10 +142,12 @@ const ManageCategories = () => {
             </button>
           </form>
         </div>
+      </div>
+      <div className='w-full p-4'>
         <form onSubmit={handleSubmit(handleUpdateCategory)} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           {editCategory && <Button childen='Cập nhật' type='submit'>Cập nhật</Button>}
-          <div className="max-w-full overflow-x-auto">
-            <table className="w-full table-auto">
+          <div className=" overflow-x">
+            <table className="table-auto overflow-scroll w-full">
               <thead>
                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
                   <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
@@ -191,7 +191,7 @@ const ManageCategories = () => {
                           <h5 className="font-medium text-black dark:text-white">
                             {editCategory?.id === category.id ?
                               <div className=' mt-2 flex gap-2 w-60'>
-                                <InputForm id={'name'} register={register} errors={errors} defaultValue={editCategory?.name}
+                                <InputTable id={'name'} register={register} errors={errors} defaultValue={editCategory?.name}
                                   validate={{
                                     required: 'Tên loại không được để trống',
                                   }}
@@ -205,7 +205,7 @@ const ManageCategories = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           {editCategory?.id === category.id ?
                             <div className=''>
-                              <InputForm id={'description'} register={register} errors={errors} defaultValue={editCategory?.description}
+                              <InputTable id={'description'} register={register} errors={errors} defaultValue={editCategory?.description}
                                 validate={{
                                   required: 'Mô tả không được để trống',
                                 }} />
@@ -249,7 +249,7 @@ const ManageCategories = () => {
 
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                          <div className="flex items-center space-x-3.5">
+                          <div className="flex items-center space-x-3.5 dark:text-red-200">
                             {editCategory?.id === category.id ?
                               <span className="hover:text-primary" onClick={(e) => handleCategoryEdit(e, null)}>
                                 <MdCancelPresentation size={22} />

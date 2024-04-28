@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { apiGetUsers, apiUpdateUser, apiDeleteUser, apiUploadSingleImage } from '../../apis'
-import { Pagination, InputForm, Button, Select, EditAvatar } from '../../components';
+import { Pagination, InputTable, Button, Select, EditAvatar } from '../../components';
 import { useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import icons from '../../ultils/icons';
@@ -143,16 +143,16 @@ const ManageUser = () => {
     setImage(image)
   }
   return (
-    <div>
+    <div className='dark:bg-strokedark dark:text-white min-h-screen'>
       <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
         Quản lý người dùng
       </h1>
       <div className='w-full p-4'>
         <div className='flex justify-end py-4'>
-          <form class="flex justify-end items-center w-96 ">
+          <form class="flex justify-end items-center w-96  ">
             <label htmlFor="simple-search" class="sr-only">Tìm kiếm</label>
             <div class="relative w-full">
-              <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <div class="absolute z-0 inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                 </svg>
@@ -225,12 +225,12 @@ const ManageUser = () => {
                           <h5 className="font-medium text-black dark:text-white">
                             {editUser?.id === user.id ?
                               <div className=' mt-2 flex gap-2 w-60'>
-                                <InputForm id={'firstName'} register={register} errors={errors} defaultValue={editUser?.firstName}
+                                <InputTable id={'firstName'} register={register} errors={errors} defaultValue={editUser?.firstName}
                                   validate={{
                                     required: 'Họ không được để trống',
                                   }}
                                 />
-                                <InputForm id={'lastName'} register={register} errors={errors} defaultValue={editUser?.lastName}
+                                <InputTable id={'lastName'} register={register} errors={errors} defaultValue={editUser?.lastName}
                                   validate={{
                                     required: 'Tên không được để trống',
                                   }}
@@ -244,7 +244,7 @@ const ManageUser = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           {editUser?.id === user.id ?
                             <div className='mt-16'>
-                              <InputForm id={'email'} register={register} errors={errors} defaultValue={editUser?.email}
+                              <InputTable id={'email'} register={register} errors={errors} defaultValue={editUser?.email}
                                 validate={{
                                   required: 'Email không được để trống',
                                   pattern: {
@@ -263,7 +263,7 @@ const ManageUser = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           {editUser?.id === user.id ?
                             <div className='mt-16'>
-                              <InputForm id={'phone'} register={register} errors={errors} defaultValue={editUser?.phone}
+                              <InputTable id={'phone'} register={register} errors={errors} defaultValue={editUser?.phone}
                                 validate={{
                                   required: 'Số điện thoại không được để trống',
                                   pattern: {
@@ -342,10 +342,11 @@ const ManageUser = () => {
                 }
               </tbody>
             </table>
-            <div className='flex justify-end mt-5 bg-red-300 gap-5'>
+            
+          </div>
+          <div className='flex w-full justify-end mt-5 bg-red-300 gap-5 dark:bg-strokedark dark:text-white'>
               <Pagination page={pageInfo?.page} currentPage={pageInfo?.currentPage} />
             </div>
-          </div>
         </form>
       </div>
     </div>

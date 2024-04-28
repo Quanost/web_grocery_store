@@ -6,7 +6,7 @@ const Select = ({ label, options = [], register, errors, id, validate, style, fu
     <div className='flex flex-col gap-2 h-[45px]'>
       <div className='border-2 border-indigo-500/100 rounded-sm flex flex-col'>
         {label && <label htmlFor={id}>{label}</label>}
-        <select defaultValue={defaultValue} className={clsx('form-select border h-[43px]', fullWidth && 'w-full', style)} id={id} {...register(id, validate)}>
+        <select defaultValue={defaultValue} className={clsx('form-select border h-[43px] dark:bg-strokedark dark:text-white', fullWidth && 'w-full', style)} id={id} {...register(id, validate)}>
           <option value=""> --- Chọn ----</option>
           {options?.map((el, index) => (
 

@@ -216,7 +216,7 @@ const ManageUser = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
                           {editUser?.id === user.id ? (
                             <div className='flex gap-2'>
-                              <EditAvatar avartardefault={editUser?.avatar} handleUpLoadImage={handleUpLoadImage} />
+                              <EditAvatar avartardefault={editUser?.avatar} handleUpLoadImage={handleUpLoadImage}/>
                             </div>
                           ) : (
                             <img src={user.avatar} alt='Avatar' className='flex w-14 h-14 object-cover' />

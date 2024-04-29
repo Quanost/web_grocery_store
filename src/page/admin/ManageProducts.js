@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { apiGetAllProduct, apiDeleteProduct } from '../../apis'
-import { Pagination, InputTable, Button, Select, EditAvatar, DropdownCategories } from '../../components';
+import { Pagination, DropdownCategories } from '../../components';
 import { useSearchParams, useNavigate, useParams, createSearchParams, useLocation } from 'react-router-dom';
-import { set, useForm } from 'react-hook-form';
 import icons from '../../ultils/icons';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { userRoles, userStatus } from '../../ultils/contants';
 import { formatDate, formatterMonney } from '../../ultils/helper';
-import { Dropdown } from 'primereact/dropdown';
 import UpdateProduct from './UpdateProduct';
 
 
 const ManageProducts = () => {
-  const { LiaUserEditSolid, MdCancelPresentation, MdOutlineDelete } = icons
+  const { LiaUserEditSolid, MdOutlineDelete } = icons
   const [errorGetAPI, setErrorGetAPI] = useState(null);
   const [products, setProducts] = useState([]);
   const [pageInfo, setPageInfo] = useState({});

@@ -27,6 +27,11 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { RiParentLine } from "react-icons/ri";
 import { FiDelete } from "react-icons/fi";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { IoLocationOutline } from "react-icons/io5";
+import { CiPhone } from "react-icons/ci";
+import { CiUser } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa6";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -55,7 +60,12 @@ const icons = {
     IoMdAddCircleOutline,
     RiParentLine,
     FiDelete,
-    IoAddCircleOutline
+    IoAddCircleOutline,
+    MdOutlineAdminPanelSettings,
+    IoLocationOutline,
+    CiPhone,
+    CiUser,
+    FaPlus
 }
 
 export default icons;

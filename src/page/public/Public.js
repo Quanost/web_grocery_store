@@ -30,7 +30,7 @@ const Public = () => {
     if (productStore.products !== null) {
       setProductLoaded(true);
     }
-  }, [categoriesStore]);
+  }, [productStore]);
 
   return (
     <div className='w-full min-h-screen flex flex-col items-center bg-slate-50'>

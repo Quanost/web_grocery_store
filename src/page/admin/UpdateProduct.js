@@ -74,37 +74,6 @@ const UpdateProduct = ({ editProduct, setEditProduct,renderGetProducts }) => {
             dispatch(getAttributeProductType());
     }, [dispatch]);
 
-
-    //set default value for attributes when select category product
-    // useEffect(() => {
-    //     if (categoryValue) {
-    //         let selectedCategory;
-    //         categories?.forEach(category => {
-    //             category.sub.forEach(sub => {
-    //                 if (sub.id === categoryValue.code) {
-    //                     selectedCategory = sub;
-    //                 }
-    //             });
-    //         });
-    //         if (selectedCategory && selectedCategory.attributes) {
-    //             if (selectedCategory.attributes.length === 0) {
-    //                 setValue("attributes", [
-    //                     { name: 'Loại sản phẩm', value: '', disabled: true },
-    //                     { name: 'Thương hiệu', value: '', disabled: true },
-    //                     { name: 'Dung tích', value: '', disabled: true }]
-    //                 );
-    //             } else {
-    //                 const defaultAttributes = selectedCategory?.attributes.map(sub => ({
-    //                     name: sub,
-    //                     value: '',
-    //                     disabled: true
-    //                 }));
-    //                 setValue("attributes", defaultAttributes);
-    //             }
-    //         }
-    //     }
-    // }, [categories, setValue, categoryValue]);
-
     const handleUploadImages = async (images) => {
         try {
             const formData = new FormData();
@@ -176,7 +145,7 @@ const UpdateProduct = ({ editProduct, setEditProduct,renderGetProducts }) => {
             if (modifiedData.attributes?.length > 0) {
                 modifiedData.attributes = modifiedData.attributes.map(attribute => ({
                     name: attribute.name,
-                    value: attribute.value
+                    value: attribute.value.name || attribute.value
                 }));
             }
             if (modifiedData.variants?.length > 0) {

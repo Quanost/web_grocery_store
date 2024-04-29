@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const navigate = useNavigate()
-    const { FaCartPlus, FaRegUserCircle, FiLogOut, FaRegUser, MdOutlineCardTravel } = icons
+    const { FaCartPlus, FaRegUserCircle, FiLogOut, FaRegUser, MdOutlineCardTravel, MdOutlineAdminPanelSettings } = icons
     // const [user, setUser] = useState(null);
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
     // const localStorageData = window.localStorage.getItem('persist:/shop/user');
@@ -34,10 +34,13 @@ const Header = () => {
         if (role === 'MANAGER')
             navigate(`/${path.ADMIN}/${path.DASHBOARD}`);
         else if (role === 'STAFF')
-            navigate(`/${path.MEMBER}/${path.PERSONAL}`);
+            navigate(`/${path.ADMIN}/${path.DASHBOARD}`);
     }
     const handlePageHistoryOrder = () => {
         navigate(`/${path.MEMBER}/${path.PURCHASE_HISTORY}`);
+    }
+    const handlePagePersonal = () => {
+        navigate(`/${path.MEMBER}/${path.PERSONAL}`)
     }
     return (
         <header className='bg-red-500 w-full'>
@@ -66,11 +69,19 @@ const Header = () => {
                                 <div className='z-10 hidden absolute rounded-lg  bg-white shadow w-44 group-focus:block top-full right-0'>
                                     <ul className='py-2 text-sm font-main text-gray-800 flex flex-col items-start'>
                                         <li className='mb-2 flex items-start w-full rounded hover:shadow hover:bg-blue-100 py-2'>
-                                            <span href='' className='px-3' onClick={() => handlePage(current?.role)}>
+                                            <span href='' className='px-3' onClick={() => handlePagePersonal()}>
                                                 <FaRegUser className='inline-block w-4 h-4 mr-3 -mt-2' />
-                                                Tài khoản
+                                                Thông tin cá nhân
                                             </span>
                                         </li>
+                                        {(current?.role === 'MANAGER' || current?.role === 'STAFF') && (
+                                            <li className='mb-2 flex items-start w-full rounded hover:shadow hover:bg-blue-100 py-2'>
+                                                <span href='' className='px-3' onClick={() => handlePage(current?.role)}>
+                                                    <MdOutlineAdminPanelSettings className='inline-block w-4 h-4 mr-3 -mt-2' />
+                                                    Trang quản lý
+                                                </span>
+                                            </li>
+                                        )}
                                         <li className='mb-2 flex items-start rounded hover:shadow hover:bg-blue-100 py-2'>
                                             <span href='' className='px-3' onClick={() => handlePageHistoryOrder()}>
                                                 <MdOutlineCardTravel className='inline-block w-4 h-4 mr-3 -mt-2' />

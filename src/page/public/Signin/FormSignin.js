@@ -57,7 +57,7 @@ const FormSignin = () => {
             return;
         }
         const rs = await apiLogin(values);
-        if (rs.data) {
+        if (rs?.data) {
             const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user }));
             console.log('t', actionResult)
             if (actionResult.type === login.type) {
@@ -68,7 +68,7 @@ const FormSignin = () => {
             }
         }
         else {
-            Swal.fire('Đăng nhập thất bại', rs.error, 'error')
+            Swal.fire('Đăng nhập thất bại', rs?.error, 'error')
         }
 
         // Swal.fire(rs.data? 'Đăng nhập thành công': rs.error,rs.data,rs.data? 'success':'error')

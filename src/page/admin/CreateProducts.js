@@ -165,7 +165,7 @@ const CreateProducts = () => {
       if (modifiedData.attributes?.length > 0) {
         modifiedData.attributes = modifiedData.attributes.map(attribute => ({
           name: attribute.name,
-          value: attribute.value.name
+          value: attribute.value.name || attribute.value
         }));
       }
       if (modifiedData.variants?.length > 0) {

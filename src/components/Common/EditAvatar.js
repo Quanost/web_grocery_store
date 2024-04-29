@@ -3,7 +3,7 @@ import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import Avatar from 'react-avatar-edit'
 
-const EditAvatar = ({avartardefault, handleUpLoadImage}) => {
+const EditAvatar = ({avartardefault, handleUpLoadImage, size ='65px'}) => {
     const [imageCrop, setImageCrop] = useState(false);
     const [src, setSrc] = useState(null); 
     const [profile, setProfile] = useState([]);
@@ -24,8 +24,8 @@ const EditAvatar = ({avartardefault, handleUpLoadImage}) => {
         <div className='flex flex-col justify-center items-center cursor-pointer'>
             <img
                 style={{
-                    width: '65px',
-                    height: '65px',
+                    width: size,
+                    height: size,
                     borderRadius: '50%',
                     objectFit: 'cover',
                     border: '1px solid green'

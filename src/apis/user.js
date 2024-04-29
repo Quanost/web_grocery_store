@@ -43,3 +43,4 @@ export const apiUploadSingleImage = (image) => axios({
         'Content-Type': 'multipart/form-data'
     }
 })
+

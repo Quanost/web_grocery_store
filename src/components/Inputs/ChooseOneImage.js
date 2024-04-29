@@ -3,7 +3,7 @@ import { Image } from 'primereact/image';
 import icon from '../../ultils/icons'
 import { set } from 'react-hook-form';
 
-const ChooseOneImage = ({id, register, setValue, resetImages}) => {
+const ChooseOneImage = ({id, register, setValue, resetImages, initialImage}) => {
     const { FiDelete } = icon
     const [images, setImages] = useState([])
     const [isDragging, setIsDragging] = useState(false);
@@ -51,6 +51,16 @@ const ChooseOneImage = ({id, register, setValue, resetImages}) => {
     useEffect(() => {
         setImages([]);
     }, [resetImages]);
+
+    useEffect(() => {
+        if (initialImage) {
+            setImages([{
+                name: '', 
+                url: initialImage
+            }]);
+        }
+    }, [initialImage]);
+
     return (
         <div className='p-[10px] shadow-sm rounded-md '>
             <div className='drag-area' onDragOver={onDragOver} onDragLeave={onDragLeave} onDrop={onDrop}>

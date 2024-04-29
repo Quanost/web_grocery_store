@@ -37,7 +37,11 @@ const ManageProducts = () => {
       setErrorGetAPI('Không tìm thấy sản phẩm');
     }
   }
-
+  const renderGetProducts = () => {
+    const queries = Object.fromEntries([...params]);
+      setErrorGetAPI(null);
+      getProducts(queries);
+  }
   const handleGoToPage = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -118,7 +122,7 @@ const ManageProducts = () => {
     <div className='dark:bg-strokedark dark:text-white min-h-screen'>
       {editProduct &&
         <div className='absolute z-20  bg-white  h-screen w-full overflow-auto'>
-          <UpdateProduct editProduct= {editProduct}/>
+          <UpdateProduct editProduct={editProduct} setEditProduct={setEditProduct} renderGetProducts= {renderGetProducts}/>
         </div>
       }
       <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
@@ -259,7 +263,7 @@ const ManageProducts = () => {
 
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           <div className="flex items-center space-x-3.5 dark:text-red-200">
-                            <span onClick = {() => setEditProduct(product)} className="hover:text-primary">
+                            <span onClick={() => setEditProduct(product)} className="hover:text-primary">
                               <LiaUserEditSolid size={22} />
                             </span>
 

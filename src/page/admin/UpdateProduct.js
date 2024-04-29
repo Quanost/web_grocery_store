@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { SelectSeachOptions, ChooseMutilImage, ChooseOneImage, LabelInput, Button, InputForm, InputTextAreaForm, SelectEditOptions, InputNumber } from '../../components'
 import icon from '../../ultils/icons';
-import { apiUploadMutilImage, apiUploadSingleImage, apiCreateProduct } from '../../apis'
+import { apiUploadMutilImage, apiUploadSingleImage, apiUpdateProduct } from '../../apis'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm, useFieldArray, set } from 'react-hook-form';
 import { getCategories } from '../../store/app/asyncAction';
@@ -10,13 +10,14 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
 
-const UpdateProduct = ({ editProduct }) => {
+const UpdateProduct = ({ editProduct, setEditProduct,renderGetProducts }) => {
     const { IoAddCircleOutline, FiDelete, MdOutlineDelete } = icon
     const { control, register, unregister, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm({
         defaultValues: {
             attributes: [
                 { name: 'Loại sản phẩm', value: '', disabled: true },
-                { name: 'Thương hiệu', value: '', disabled: true }]
+                { name: 'Thương hiệu', value: '', disabled: true },
+            ]
         }
     });
     const dispatch = useDispatch();
@@ -75,33 +76,34 @@ const UpdateProduct = ({ editProduct }) => {
 
 
     //set default value for attributes when select category product
-    useEffect(() => {
-        if (categoryValue) {
-            let selectedCategory;
-            categories?.forEach(category => {
-                category.sub.forEach(sub => {
-                    if (sub.id === categoryValue.code) {
-                        selectedCategory = sub;
-                    }
-                });
-            });
-            if (selectedCategory && selectedCategory.attributes) {
-                if (selectedCategory.attributes.length === 0) {
-                    setValue("attributes", [
-                        { name: 'Loại sản phẩm', value: '', disabled: true },
-                        { name: 'Thương hiệu', value: '', disabled: true }]
-                    );
-                } else {
-                    const defaultAttributes = selectedCategory?.attributes.map(sub => ({
-                        name: sub,
-                        value: '',
-                        disabled: true
-                    }));
-                    setValue("attributes", defaultAttributes);
-                }
-            }
-        }
-    }, [categories, setValue, categoryValue]);
+    // useEffect(() => {
+    //     if (categoryValue) {
+    //         let selectedCategory;
+    //         categories?.forEach(category => {
+    //             category.sub.forEach(sub => {
+    //                 if (sub.id === categoryValue.code) {
+    //                     selectedCategory = sub;
+    //                 }
+    //             });
+    //         });
+    //         if (selectedCategory && selectedCategory.attributes) {
+    //             if (selectedCategory.attributes.length === 0) {
+    //                 setValue("attributes", [
+    //                     { name: 'Loại sản phẩm', value: '', disabled: true },
+    //                     { name: 'Thương hiệu', value: '', disabled: true },
+    //                     { name: 'Dung tích', value: '', disabled: true }]
+    //                 );
+    //             } else {
+    //                 const defaultAttributes = selectedCategory?.attributes.map(sub => ({
+    //                     name: sub,
+    //                     value: '',
+    //                     disabled: true
+    //                 }));
+    //                 setValue("attributes", defaultAttributes);
+    //             }
+    //         }
+    //     }
+    // }, [categories, setValue, categoryValue]);
 
     const handleUploadImages = async (images) => {
         try {
@@ -146,11 +148,18 @@ const UpdateProduct = ({ editProduct }) => {
     }
     const handleFormSubmit = async (data) => {
         try {
-            console.log('data', data);
+
             if (images.length > 0) {
-                const imageurls = await handleUploadImages(images);
-                if (imageurls)
-                    data.productGalleries = imageurls;
+                const imagesToUpload = images.filter(image => image.url.startsWith('blob:'));
+                const imagesToKeep = images.filter(image => !image.url.startsWith('blob:'));
+
+                if (imagesToUpload.length > 0) {
+                    const imageurls = await handleUploadImages(imagesToUpload);
+                    if (imageurls)
+                        data.productGalleries = [...imagesToKeep?.map(image => image.url), ...imageurls];
+                } else {
+                    data.productGalleries = [...imagesToKeep?.map(image => image.url)];
+                }
             } else {
                 Swal.fire({
                     title: 'Lỗi',
@@ -161,25 +170,31 @@ const UpdateProduct = ({ editProduct }) => {
             }
 
             let modifiedData = { ...data };
+            modifiedData.id = editProduct?.id;
             modifiedData.categories = [data?.categories?.code];
             modifiedData.hidden = false;
             if (modifiedData.attributes?.length > 0) {
                 modifiedData.attributes = modifiedData.attributes.map(attribute => ({
                     name: attribute.name,
-                    value: attribute.value.name
+                    value: attribute.value
                 }));
             }
             if (modifiedData.variants?.length > 0) {
                 for (let i = 0; i < modifiedData.variants.length; i++) {
                     modifiedData.variants[i].discountPrice = modifiedData.variants[i].regularPrice;
                     const image = modifiedData.variants[i].thumbnail;
+                    console.log('image dại diện', image)
                     if (!image) {
                         toast.error('Chưa có hình ảnh cho biến thể sản phẩm');
                         return;
                     }
-                    const imageurl = await handleUploadOneImage(image);
-                    if (imageurl)
-                        modifiedData.variants[i].thumbnail = imageurl;
+                    if (image instanceof File) {
+                        const imageurl = await handleUploadOneImage(image);
+                        if (imageurl)
+                            modifiedData.variants[i].thumbnail = imageurl;
+                    } else {
+                        modifiedData.variants[i].thumbnail = image;
+                    }
                 }
                 modifiedData.unitPack = modifiedData?.variants[0].unitPack;
                 modifiedData.regularPrice = modifiedData?.variants.reduce((total, variant) => total + variant.regularPrice, 0);
@@ -189,45 +204,53 @@ const UpdateProduct = ({ editProduct }) => {
                 modifiedData.discountPrice = data?.regularPrice;
             }
 
-            const response = await apiCreateProduct(modifiedData);
+            const response = await apiUpdateProduct(modifiedData);
             if (response?.data) {
                 Swal.fire({
                     title: 'Thành công',
-                    text: 'Tạo sản phẩm thành công',
+                    text: 'Cập nhật sản phẩm thành công',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
                 setResetImages(prevReset => !prevReset);
                 setVariants([{ id: 1 }]);
+                setEditProduct(null);
+                renderGetProducts()
                 reset()
             } else if (response?.status === 409) {
                 Swal.fire({
                     title: 'Thất bại',
-                    text: 'Tên sản phẩm đã tồn tại',
+                    text: response?.message,
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             } else {
                 Swal.fire({
                     title: 'Thất bại',
-                    text: 'Thêm sản phẩm thất bại',
+                    text: 'Cập nhật sản phẩm thất bại',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
         } catch (error) {
-            toast.error('Thêm sản phẩm thất bại', error);
+            toast.error('Cập nhật sản phẩm thất bại', error);
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
+        const parentcategoryOption = categories?.find(el => el.id === editProduct?.categories[0]?.parentId);
+        if (editProduct?.variants?.length > 0) {
+            setShowVariants(!showVariants)
+            setVariants(editProduct?.variants?.map((variant, index) => ({ id: index + 1 })));
+        }
         reset({
             name: editProduct?.name,
             description: editProduct?.description,
-            parentcategory: { name: editProduct?.categories[0]?.parent?.name, code: editProduct?.categories[0]?.parent?.id },
+            parentcategory: { name: parentcategoryOption?.name, code: parentcategoryOption?.id },
             categories: { name: editProduct?.categories[0]?.name, code: editProduct?.categories[0]?.id },
             attributes: editProduct?.attributes?.map(attribute => ({
                 name: attribute.name,
-                value: attribute.value 
+                value: attribute.value,
+                disabled: attribute.name === 'Loại sản phẩm' || attribute.name === 'Thương hiệu' ? true : false
             })),
             variants: editProduct?.variants?.map(variant => ({
                 thumbnail: variant.thumbnail,
@@ -239,13 +262,20 @@ const UpdateProduct = ({ editProduct }) => {
             regularPrice: editProduct?.regularPrice,
             quantity: editProduct?.quantity,
         })
-    },[editProduct])
-    console.log('edit products', editProduct)
+
+    }, [editProduct])
+
     return (
         <div className='dark:bg-strokedark dark:text-white min-h-screen w-[85%] my-10'>
-            <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
-                Cập nhật sản phẩm
-            </h1>
+            <div className='flex justify-between'>
+                <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
+                    Cập nhật sản phẩm
+                </h1>
+                <div  onClick={() => setEditProduct(null)}>
+                    <Button childen='Huỷ cập nhật'></Button>
+                </div>
+            </div>
+
             <div className="">
                 <form onSubmit={handleSubmit(handleFormSubmit)} className='grid grid-cols-1 gap-9 sm:grid-cols-2 dark:bg-boxdark'>
                     <div className="flex flex-col gap-9">
@@ -258,7 +288,7 @@ const UpdateProduct = ({ editProduct }) => {
                             </div>
                             <div className="flex flex-col gap-5.5 p-6.5">
                                 <LabelInput label="Hình ảnh sản phẩm" required />
-                                <ChooseMutilImage handleImages={handleImages} resetImages={resetImages} />
+                                <ChooseMutilImage handleImages={handleImages} resetImages={resetImages} initialImages={editProduct?.productGalleries} />
                                 <div>
                                     <LabelInput label="Tên sản phẩm" required />
                                     <InputForm
@@ -434,7 +464,7 @@ const UpdateProduct = ({ editProduct }) => {
                                             <LabelInput label={`Phân loại hàng hoá ${index + 1}`} />
                                             <div className="bg-gray-200 px-5 rounded-md relative">
                                                 <div>
-                                                    <ChooseOneImage id={`variants[${index}].thumbnail`} register={register} watch={watch} setValue={setValue} resetImages={resetImages} />
+                                                    <ChooseOneImage id={`variants[${index}].thumbnail`} register={register} watch={watch} setValue={setValue} resetImages={resetImages} initialImage={editProduct?.variants[index]?.thumbnail} />
                                                     {errors.variants?.[index]?.thumbnail && <span className='text-red-500'>{errors.variants?.[index]?.thumbnail?.message}</span>}
                                                     <div className="relative z-0 w-full mb-5 group">
                                                         <LabelInput label="Đóng gói" required />
@@ -519,7 +549,7 @@ const UpdateProduct = ({ editProduct }) => {
 
                         </div>
                         <div className='w-full'>
-                            <Button childen='Thêm sản phẩm' fw type='submit' />
+                            <Button childen='Cập nhật sản phẩm' fw type='submit' />
                         </div>
                     </div>
                 </form>

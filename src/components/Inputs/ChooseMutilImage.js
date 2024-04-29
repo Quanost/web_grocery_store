@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Image } from 'primereact/image';
-import icon from '../../ultils/icons'
+import icon from '../../ultils/icons';
+import Swal from 'sweetalert2';
 
-const ChooseMutilImage = ({ handleImages, resetImages}) => {
+const ChooseMutilImage = ({ handleImages, resetImages, initialImages}) => {
     const { FiDelete } = icon
-    const [images, setImages] = useState([])
+    const [images, setImages] = useState(initialImages || [])
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef();
 
@@ -14,7 +15,12 @@ const ChooseMutilImage = ({ handleImages, resetImages}) => {
        
         for (let i = 0; i < files.length; i++) {
             if (images.length + files.length > 6) {
-                alert("You can only select up to 6 images.");
+                Swal.fire({
+                    title: 'Lỗi',
+                    text: 'Bạn chỉ có thể chọn tối đa 6 hình ảnh.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
             if (files[i].type.split('/')[0] !== 'image') continue;
@@ -71,6 +77,14 @@ const ChooseMutilImage = ({ handleImages, resetImages}) => {
         setImages([]);
     }, [resetImages]);
 
+    useEffect(() => {
+        if (initialImages) {
+            setImages(initialImages?.map(image => ({
+                name: image.id,
+                url: image.imageUrl
+            })));
+        }
+    }, [initialImages]);
     return (
         <div className='p-[10px] shadow-sm rounded-md '>
             <div className='drag-area' onDragOver={onDragOver} onDragLeave={onDragLeave} onDrop={onDrop}>

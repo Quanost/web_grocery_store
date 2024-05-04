@@ -34,7 +34,7 @@ const MemberLayout = () => {
       setProductLoaded(true);
     }
   }, [productStore]);
-  
+
   if (!isLoggedIn || !current) return <Navigate to={`/${path.LOGIN}`} replace={true} />
   return (
     <div className='w-full min-h-screen flex flex-col items-center bg-slate-50'>
@@ -43,7 +43,7 @@ const MemberLayout = () => {
       <div className='w-main bg-white'>
         {productLoaded && <Outlet />}
       </div>
-      <Footer />
+      
     </div>
   )
 }

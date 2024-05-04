@@ -15,8 +15,8 @@ const CardProductType = ({ title, product, seeMore }) => {
                     <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-2 ">
                         {product?.map((value) => (
 
-                            <CardProduct key={value.id} imgURL={value.productGalleries[0].imageUrl} regularPrice={value.regularPrice} discountPrice={value.discountPrice} name={value.name}
-                                link={`/${value.categories[0].name}/${value.categories[0].id}/${value.slug}/${value.id}`} />
+                            <CardProduct key={value.id} productId = {value.id} imgURL={value.productGalleries[0].imageUrl} regularPrice={value.regularPrice} discountPrice={value.discountPrice} name={value.name}
+                            variants= {value.variants} link={`/${value.categories[0].name}/${value.categories[0].id}/${value.slug}/${value.id}`} />
 
                         ))}
                     </div>

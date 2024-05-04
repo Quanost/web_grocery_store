@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const [showReadMore, setShowReadMore] = useState(false)
   const { SlArrowDown, SlArrowLeft, FaStar } = icons
   const { category, title,pid } = useParams()
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [loadingProductSame, setloadingProductSame] = useState(true);
 
   const ref = useRef(null);
@@ -22,8 +22,8 @@ const ProductDetail = () => {
   }
   const fetchProduct = async () => {
     const response = await apiGetProductById(pid)
-    if (response.status === 200)
-      setProduct(response.data);
+    if (response?.status === 200)
+      setProduct(response?.data);
       setloadingProductSame(false);
   }
   const toggleReadMore = () => {
@@ -33,6 +33,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (pid)
       fetchProduct()
+    window.scrollTo(0, 0)
   }, [pid])
 
   useEffect(() => {
@@ -48,27 +49,25 @@ const ProductDetail = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [ref.current]);
-  if(!loadingProductSame){
-    console.log('product variant', product.variants.length);
-  }
+  
   return (
     <div className='w-main inline-block bg-slate-100'>
       <BreadCrumbs type={category} name={title} />
       <div className='flex'>
         <div className='flex flex-col gap-5 w-[60%] flex-auto bg-white mt-3'>
           <div className='m-3'>
-            <BannerProductDetail images={product.productGalleries} />
+            <BannerProductDetail images={product?.productGalleries} />
           </div>
           <div className='m-3 inline-block'>
             <h1 className='font-main font-medium text-xl'>Thông tin sản phẩm</h1>
             <div >
 
               <div style={readMore ? null : paragraphStyles} ref={ref}>
-                <p>{product.description}</p>
+                <p>{product?.description}</p>
                 {/* Table */}
                 <div className="flex flex-col mt-5">
                   <div className="overflow-hidden border border-gray-300 rounded-lg">
-                    {product.attributes?.map((attributes) => (
+                    {product?.attributes?.map((attributes) => (
                       <div className="grid grid-cols-4 border-b font-main text-base">
                         <div className="pl-4 py-2 bg-gray-100 border-r border-gray-300 col-span-1">{attributes.name}:</div>
                         <div className="py-2 border-gray-300 pl-4 text-left col-span-3">{attributes.value}</div>
@@ -91,7 +90,7 @@ const ProductDetail = () => {
           {!loadingProductSame && (
             <div className='m-3'>
               <h1 className='font-main font-medium text-xl my-5'>Sản phẩm liên quan</h1>
-              <BannerSameProduct categoryId={product.categories[0].id} />
+              <BannerSameProduct categoryId={product?.categories[0].id} />
             </div>
           )}
 
@@ -107,20 +106,20 @@ const ProductDetail = () => {
         {/* Lề phải -- phân loại sản phẩm */}
         <div className='flex flex-col gap-5 w-[40%] flex-auto mt-3 ml-3 bg-white'>
           <div className='ml-3 my-3'>
-            <h1 className='font-main text-xl font-medium'>{product.name}</h1>
+            <h1 className='font-main text-xl font-medium'>{product?.name}</h1>
             {/* <div className='flex items-center justify-start'>
               <p className='text-xl font-main text-orange-400 mx-2'>4.8</p>
               <FaStar color='orange' size={15} />
               <p className='font-main text-base mx-5 text-blue-600'>Xem 15 đánh giá</p>
             </div> */}
-            {product && product.variants && product.variants.length > 0 ? (
+            {product && product?.variants && product?.variants?.length > 0 ? (
                 <div className='my-3'>
                   <h1 className='font-main font-medium text-base my-5'>Chọn sản phẩm mua</h1>
-                  <SelectGroup variantdefault='' variant={product.variants} />
+                  <SelectGroup variantdefault='' variant={product?.variants} />
                 </div>
               ) : (
                   <div className='text-2xl my-3 font-main text-red-800'>
-                    {formatterMonney.format(product.discountPrice)}
+                    {formatterMonney.format(product?.discountPrice)}
                   </div>
                 )
             }

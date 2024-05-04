@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import Logo from '../../assets/image/Logo.png';
 import SeachForm from '../Common/SeachForm';
 import icons from '../../ultils/icons';
@@ -11,19 +11,10 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
     const navigate = useNavigate()
     const { FaCartPlus, FaRegUserCircle, FiLogOut, FaRegUser, MdOutlineCardTravel, MdOutlineAdminPanelSettings } = icons
-    // const [user, setUser] = useState(null);
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const localStorageData = window.localStorage.getItem('persist:/shop/user');
+    const [visibleRight, setVisibleRight] = useState(false);
     const dispatch = useDispatch()
     const { isLoggedIn, current } = useSelector(state => state.user);
-    // useEffect(() => {
-    //     if (localStorageData) {
-    //         const userData = JSON.parse(JSON.parse(localStorageData).current);
-    //         const isLogin = JSON.parse(JSON.parse(localStorageData).isLoggedIn);
-    //         setUser(userData);
-    //         // setIsLoggedIn(isLogin);
-    //     }
-    // }, [localStorageData]); // Sử dụng localStorageData trong mảng dependency của useEffect để trigger reload khi có thay đổi
+
 
     const handleLogout = async () => {
         dispatch(logout());
@@ -42,6 +33,9 @@ const Header = () => {
     const handlePagePersonal = () => {
         navigate(`/${path.MEMBER}/${path.PERSONAL}`)
     }
+    const handlePageCart = () => {
+        navigate(`/${path.MEMBER}/${path.CART}`)
+    }
     return (
         <header className='bg-red-500 w-full'>
             <div className='mx-auto  w-main flex justify-between h-[110px] py-[35px]'>
@@ -54,9 +48,9 @@ const Header = () => {
                     <SeachForm />
                 </div>
                 <div className='flex text-[13px]'>
-                    <div className='flex items-center border-r px-6 justify-center gap-2'>
+                    <div className='flex items-center border-r px-6 justify-center gap-2 cursor-pointer' onClick={handlePageCart} >
                         <FaCartPlus size={35} color='white' opacity={10} />
-                        <span className='font-main text-base text-white'>Giỏ hàng (0)</span>
+                        <span className='font-main text-base text-white'>{`Giỏ hàng (${current?.cart?.cartItem?.length || 0})`}</span>
                     </div>
                     <div className='flex items-center  px-4 justify-center relative'>
 

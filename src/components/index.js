@@ -35,4 +35,6 @@ export {default as ChooseOneImage} from './Inputs/ChooseOneImage';
 export {default as InputNumber} from './Inputs/InputNumber';
 export {default as LabelInput} from './Label/LabelInput';
 export {default as DropdownCategories} from './Dropdown/DropdownCategories';
+export {default as DialogVariantsProduct} from './Dialog/DialogVariantsProduct';
+export {default as CartItems} from './Card/CartItems';
 

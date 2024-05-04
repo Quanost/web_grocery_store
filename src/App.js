@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { Public, Login, Register, Home, ProductType, ProductDetail } from './page/public';
 import { AdminLayout, ManageOrders, CreateProduct, Dashboard, ManageProducts, ManageUser, ManageCategories } from './page/admin';
-import { MemberLayout, Personal, PurchaseHistory } from './page/member';
+import { MemberLayout, Personal, PurchaseHistory, Checkout, CartUser } from './page/member';
 import path from './ultils/path';
 
 
@@ -28,6 +28,8 @@ function App() {
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />
           <Route path={path.PURCHASE_HISTORY} element={<PurchaseHistory />} />
+          <Route path={path.CART} element={<CartUser />} />
+          <Route path={path.CHECKOUT} element={<Checkout />} />
         </Route>
 
         <Route path={path.LOGIN} element={<Login />} />

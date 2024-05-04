@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import './FormSignin.css';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import path from '../../../ultils/path';
 import Swal from 'sweetalert2'
 import { apiLogin } from '../../../apis/user';
@@ -8,10 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../../store/user/userSlice'
 import { useDispatch } from 'react-redux';
 import { persistor } from '../../../store/redux';
+import { current } from '@reduxjs/toolkit';
 
 const FormSignin = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [seachParams] = useSearchParams();
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -58,11 +60,11 @@ const FormSignin = () => {
         }
         const rs = await apiLogin(values);
         if (rs?.data) {
-            const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user }));
+            const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user, currentCart: rs.data.user.cart}));
             console.log('t', actionResult)
             if (actionResult.type === login.type) {
                 await persistor.flush();
-                navigate(`/${path.HOME}`);
+                seachParams.get('redirect') ? navigate(seachParams.get('redirect')): navigate(`/${path.HOME}`);
             } else {
                 Swal.fire('Đăng nhập thất bại', 'Có lỗi xảy ra khi xử lý đăng nhập', 'error');
             }
@@ -70,9 +72,6 @@ const FormSignin = () => {
         else {
             Swal.fire('Đăng nhập thất bại', rs?.error, 'error')
         }
-
-        // Swal.fire(rs.data? 'Đăng nhập thành công': rs.error,rs.data,rs.data? 'success':'error')
-
     })
     return (
         <div className='form-container'>

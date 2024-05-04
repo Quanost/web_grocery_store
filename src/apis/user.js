@@ -44,3 +44,8 @@ export const apiUploadSingleImage = (image) => axios({
     }
 })
 
+export const apiGetUserById = (userId) => axios({
+    url:'/user?id=' + userId,
+    method:'get',
+})
+

@@ -26,7 +26,7 @@ const ProductType = () => {
   const [params] = useSearchParams();
 
   const getProducts = async (queries) => {
-    const product = await apiGetAllProduct(queries = { ...queries, limit: 12, category_id: categoryId, page: queries.page? queries.page : 1});
+    const product = await apiGetAllProduct(queries = { ...queries, limit: 12, hidden: false, category_id: categoryId, page: queries.page? queries.page : 1});
     if (product?.status === 200) {
       setProducts(product?.data.products);
       setPageInfo(product?.data.pageInfo);

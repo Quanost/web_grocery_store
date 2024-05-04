@@ -22,5 +22,7 @@ const path = {
     MEMBER: 'member',
     PERSONAL: 'personal',
     PURCHASE_HISTORY: 'purchase-history',
+    CART: 'cart',
+    CHECKOUT: 'checkout',
 }
 export default path

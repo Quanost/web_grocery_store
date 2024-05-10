@@ -8,7 +8,8 @@ export const userSlice = createSlice({
         current: null,
         token: null,
         isLoading: false,
-        currentCart: null
+        currentCart: null,
+        userAddress: null
     },
     reducers: {
         login: (state, action) => {
@@ -16,6 +17,7 @@ export const userSlice = createSlice({
             state.current = action.payload.current
             state.token = action.payload.token
             state.currentCart = action.payload.currentCart
+            state.userAddress = action.payload.userAddress
         },
         logout: (state, action) => {
             state.isLoggedIn = false
@@ -31,7 +33,7 @@ export const userSlice = createSlice({
                 } else return item
             })
             state.currentCart = {...updateCart, cartItem: updateCartItem}
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(action.getUserCurrent.pending, (state) => {
@@ -42,12 +44,14 @@ export const userSlice = createSlice({
             state.current = action.payload;
             state.isLoggedIn = true;
             state.currentCart = action.payload?.cart;
+            state.userAddress = action.payload?.address;
         });
         builder.addCase(action.getUserCurrent.rejected, (state, action) => {
             state.isLoading = false;
             state.current = null;
             state.isLoggedIn = false;
             state.currentCart = null;
+            state.userAddress = null;
         });
     },
 

@@ -32,6 +32,14 @@ import { IoLocationOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa6";
+import { IoLocationSharp } from "react-icons/io5";
+import { CiCreditCard1 } from "react-icons/ci";
+import { CiDeliveryTruck } from "react-icons/ci";
+import { MdEventNote } from "react-icons/md";
+import { MdEventAvailable } from "react-icons/md";
+import { TbTruckOff } from "react-icons/tb";
+import { LuBookDown } from "react-icons/lu";
+import { FaRegStar } from "react-icons/fa";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -65,7 +73,15 @@ const icons = {
     IoLocationOutline,
     CiPhone,
     CiUser,
-    FaPlus
+    FaPlus,
+    IoLocationSharp,
+    CiCreditCard1,
+    CiDeliveryTruck,
+    MdEventNote,
+    MdEventAvailable,
+    TbTruckOff,
+    LuBookDown,
+    FaRegStar
 }
 
 export default icons;

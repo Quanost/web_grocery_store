@@ -97,3 +97,17 @@ export const userStatus = [
     {value: true , label: 'Đã khoá'},
     {value: false , label: 'Hoạt động'},
 ]
+
+export const orderStatus = [
+    {value: 'PENDING', label: 'Chờ xác nhận'},
+    {value: 'PROCESSING', label: 'Đã xác nhận'},
+    {value: 'SHIPPED', label: 'Đang giao hàng'},
+    {value: 'DELIVERED', label: 'Đã nhận hàng'},
+    {value: 'CANCELLED', label: 'Huỷ giao hàng'},
+    {value: 'SUCCESS', label: 'Đơn hàng đã hoàn thành'},
+]
+
+export const paymentType = [
+    {value: 'CASH', label: 'Tiền mặt khi nhận hàng'},
+    {value: 'VNPAY', label: 'VNPAY'},
+]

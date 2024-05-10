@@ -24,5 +24,7 @@ const path = {
     PURCHASE_HISTORY: 'purchase-history',
     CART: 'cart',
     CHECKOUT: 'checkout',
+    ORDER_DETAIL: 'order-detail',
+    ORDER_DETAIL__ID: 'order-detail/:orderId',
 }
 export default path

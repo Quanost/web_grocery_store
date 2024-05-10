@@ -60,7 +60,7 @@ const FormSignin = () => {
         }
         const rs = await apiLogin(values);
         if (rs?.data) {
-            const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user, currentCart: rs.data.user.cart}));
+            const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, current: rs.data.user, currentCart: rs.data.user.cart, userAddress: rs.data.user.address}));
             console.log('t', actionResult)
             if (actionResult.type === login.type) {
                 await persistor.flush();

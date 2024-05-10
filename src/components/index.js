@@ -37,4 +37,8 @@ export {default as LabelInput} from './Label/LabelInput';
 export {default as DropdownCategories} from './Dropdown/DropdownCategories';
 export {default as DialogVariantsProduct} from './Dialog/DialogVariantsProduct';
 export {default as CartItems} from './Card/CartItems';
+export {default as DialogAddress} from './Dialog/DialogAddress';
+export {default as InputFloatLabel} from './Inputs/InputFloatLabel';
+export {default as DialogPaymentMethod} from './Dialog/DialogPaymentMethod';
+export {default as StatusSteps} from './Steps/StatusSteps';
 

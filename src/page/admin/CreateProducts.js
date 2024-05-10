@@ -3,7 +3,7 @@ import { SelectSeachOptions, ChooseMutilImage, ChooseOneImage, LabelInput, Butto
 import icon from '../../ultils/icons';
 import { apiUploadMutilImage, apiUploadSingleImage, apiCreateProduct } from '../../apis'
 import { useSelector, useDispatch } from 'react-redux'
-import { useForm, useFieldArray, set } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { getCategories } from '../../store/app/asyncAction';
 import { getAttributeProductType } from '../../store/attribute/asynActionAttribute';
 import { toast } from 'react-toastify';

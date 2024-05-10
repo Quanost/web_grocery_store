@@ -253,7 +253,9 @@ module.exports = {
     
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')
+  ],
   variants: {
     extend: {
       display: ["focus-group"]

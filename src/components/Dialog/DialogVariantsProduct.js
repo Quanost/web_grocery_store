@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog } from 'primereact/dialog';
 import { SelectGroup } from '../../components';
 import { createSearchParams, useNavigate } from "react-router-dom";
@@ -9,7 +9,8 @@ import { apiUpdateCart } from '../../apis';
 import { toast } from "react-toastify";
 import { getUserCurrent } from "../../store/user/asynActionUser";
 
-export default function DialogVariantsProduct({ productId, name, dispatch, current, variants, visible, setVisible }) {
+
+export default function DialogVariantsProduct({ productId, name, dispatch, current, currentCart, variants, visible, setVisible }) {
 
     const [quantity, setQuantity] = useState(1);
     const [selectedVariant, setSelectedVariant] = useState(null);
@@ -31,6 +32,15 @@ export default function DialogVariantsProduct({ productId, name, dispatch, curre
     const handleVariantChange = (variantSelected) => {
         setSelectedVariant(variantSelected);
     }
+    useEffect(() => {
+        // set quantity khi sản phẩm đã có trong giỏ hàng
+        const itemInCart = currentCart?.cartItem?.find((item) => item.variantId === selectedVariant);
+        if (itemInCart) {
+            setQuantity(itemInCart.quantity);
+        }else {
+            setQuantity(1);
+        }
+    }, [selectedVariant])
 
     const handleAddToCart = async () => {
         if (!current) {
@@ -52,6 +62,7 @@ export default function DialogVariantsProduct({ productId, name, dispatch, curre
         } else {
             const response = await apiUpdateCart({ id: current?.cartId, cartItem: [{ productId: productId, variantId: selectedVariant, quantity: quantity }] })
             if (response?.status === 200) {
+                setVisible(false);
                 toast.success('Thêm sản phẩm vào giỏ hàng thành công')
                 dispatch(getUserCurrent(current?.id))
             } else {

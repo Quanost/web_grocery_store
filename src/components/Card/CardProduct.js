@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatterMonney } from '../../ultils/helper'
 import { Link, createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
@@ -8,8 +8,9 @@ import Swal from "sweetalert2";
 import path from '../../ultils/path';
 import { toast } from "react-toastify";
 import { getUserCurrent } from "../../store/user/asynActionUser";
+import { updateCart } from '../../store/user/userSlice';
 
-const CardProduct = ({ productId, imgURL, regularPrice, discountPrice, name, variants, link }) => {
+const CardProduct = ({ productId, quantityLimit, imgURL, regularPrice, discountPrice, name, variants, link }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
@@ -22,12 +23,33 @@ const CardProduct = ({ productId, imgURL, regularPrice, discountPrice, name, var
             setQuantity(quantity - 1);
         }
     };
-
+    
     const incrementQuantity = () => {
         if (quantity < 50) {
             setQuantity(quantity + 1);
         }
+        if (quantityLimit && quantity >= quantityLimit) {
+            setQuantity(quantityLimit);
+            Swal.fire({
+                icon: 'info',
+                title: 'Số lượng sản phẩm đã đạt giới hạn',
+                text: `Số lượng sản phẩm tối đa bạn có thể mua là ${quantityLimit}`,
+            })
+        }
     };
+    useEffect(() => {
+        const cartItemToUpdate = currentCart?.cartItem?.find(item => item.productId === productId && item.variantId === null);
+        if (cartItemToUpdate) {
+            dispatch(updateCart({ cartItemsId: cartItemToUpdate.id, variantId: cartItemToUpdate.variantId, quantity: quantity }));
+        }
+    }, [quantity]);
+    useEffect(() => {
+        const cartItem = currentCart?.cartItem?.find(item => item.productId === productId && item.variantId === null);
+        if (cartItem) {
+            setQuantity(cartItem.quantity);
+        }
+    }, []);
+
     const nameProductStyles = {
         WebkitLineClamp: 3,
         WebkitBoxOrient: 'vertical',
@@ -67,7 +89,7 @@ const CardProduct = ({ productId, imgURL, regularPrice, discountPrice, name, var
             setVisible(true)
         }
     }
-  
+
     return (
         <article class="relative flex flex-col overflow-hidden rounded-lg border">
             <Link to={link}>
@@ -91,7 +113,7 @@ const CardProduct = ({ productId, imgURL, regularPrice, discountPrice, name, var
                     </div>
                 </div>
             </Link>
-            {currentCart?.cartItem?.some((item) => item.productId === productId && item.variant === null)  ?
+            {currentCart?.cartItem?.some((item) => item.productId === productId && item.variant === null) ?
                 (
                     <div className="relative mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600 border border-red-300">
                         <button
@@ -143,7 +165,7 @@ const CardProduct = ({ productId, imgURL, regularPrice, discountPrice, name, var
                 )
             }
 
-            <DialogVariantsProduct productId={productId} dispatch={dispatch} visible={visible} current={current} currentCart ={currentCart} setVisible={setVisible} name={name} variants={variants ? variants : []} />
+            <DialogVariantsProduct productId={productId} dispatch={dispatch} visible={visible} current={current} currentCart={currentCart} setVisible={setVisible} name={name} variants={variants ? variants : []} />
         </article >
     )
 }

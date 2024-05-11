@@ -10,3 +10,9 @@ export const apiGetOrderById = (orderId) => axios({
     url:'/order?id=' + orderId,
     method:'get',
 })
+
+export const apiUpdateOrderStatus = (data) => axios({
+    url:'/order/status',
+    method:'put',
+    data
+})

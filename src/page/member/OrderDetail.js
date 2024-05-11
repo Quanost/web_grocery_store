@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { StatusSteps } from '../../components';
 import { useParams } from 'react-router-dom';
-import { apiGetOrderById } from '../../apis'
+import { apiGetOrderById, apiUpdateOrderStatus } from '../../apis'
 import { toast } from 'react-toastify';
 import { formatDateAndTime, formatterMonney } from '../../ultils/helper';
 import { orderStatus, paymentType } from '../../ultils/contants';
+import Swal from 'sweetalert2';
 const OrderDetail = () => {
     const { orderId } = useParams();
     const [order, setOrder] = useState(null);
@@ -22,7 +23,19 @@ const OrderDetail = () => {
             fetchOrder()
     }, [orderId])
 
-
+    const handleCancelledOrderSatus = async (e) => {
+        
+        e.preventDefault();
+        const response = await apiUpdateOrderStatus({ orderId, status: 'CANCELLED' })
+        if(response?.status === 200)
+            toast.success('Huỷ đơn hàng thành công')
+        else
+           Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Huỷ đơn hàng thất bại',
+            })
+    }
 
     console.log(order)
     return (
@@ -52,7 +65,7 @@ const OrderDetail = () => {
                 </div>
                 <p className='font-main text-md  py-5'>Lịch sử giao hàng</p>
                 <div className='px-2'>
-                    <StatusSteps status={order?.status}/>
+                    <StatusSteps status={order?.status} />
                 </div>
                 {order?.orderItem?.map((item, index) => (
                     <div key={index} className='flex justify-between px-5 my-5 py-3 border-t'>
@@ -88,11 +101,20 @@ const OrderDetail = () => {
                         <p className='font-main text-md'>{formatterMonney.format(Number(order?.total) + 20000)}</p>
                     </div>
                 </div>
-                <div className='flex justify-center'>
-                    <button type="button" className="w-96 h-12 font-main text-md text-red-600 bg-white border border-red-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                        Huỷ đơn hàng
-                    </button>
-                </div>
+                {order?.status === 'PENDING' || order?.status === 'PROCESSING' ? (
+                    <div className='flex justify-center'>
+                        <button type="button" onClick={handleCancelledOrderSatus} className="w-96 h-12 font-main text-md text-red-600 bg-white border border-red-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            Huỷ đơn hàng
+                        </button>
+                    </div>
+                ) : (
+                    <div className='flex justify-center'>
+                        <button type="button" className="w-96 h-12 font-main text-md text-red-600 bg-white border border-red-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            Mua lại đơn hàng
+                        </button>
+                    </div>
+                )}
+
             </div>
 
         </div>

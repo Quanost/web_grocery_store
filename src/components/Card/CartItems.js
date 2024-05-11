@@ -13,7 +13,7 @@ const CartItems = ({ item, defaultQuantity = 1, checkout }) => {
     const [quantity, setQuantity] = useState(defaultQuantity);
     const dispatch = useDispatch();
     const current = useSelector(state => state.user.current);
-    const [checkbox, setCheckbox] = useState(false);
+    
 
     const removeCartItem = async (cartItemid) => {
         const response = await apiRemoveCartItems(cartItemid);

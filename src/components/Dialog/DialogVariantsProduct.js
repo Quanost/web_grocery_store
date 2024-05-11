@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { apiUpdateCart } from '../../apis';
 import { toast } from "react-toastify";
 import { getUserCurrent } from "../../store/user/asynActionUser";
+import { formatterMonney } from "../../ultils/helper";
 
 
 export default function DialogVariantsProduct({ productId, name, dispatch, current, currentCart, variants, visible, setVisible }) {
@@ -24,6 +25,7 @@ export default function DialogVariantsProduct({ productId, name, dispatch, curre
         }
     };
 
+
     const incrementQuantity = () => {
         if (quantity < 50) {
             setQuantity(quantity + 1);
@@ -37,7 +39,7 @@ export default function DialogVariantsProduct({ productId, name, dispatch, curre
         const itemInCart = currentCart?.cartItem?.find((item) => item.variantId === selectedVariant);
         if (itemInCart) {
             setQuantity(itemInCart.quantity);
-        }else {
+        } else {
             setQuantity(1);
         }
     }, [selectedVariant])
@@ -60,13 +62,26 @@ export default function DialogVariantsProduct({ productId, name, dispatch, curre
                 }
             })
         } else {
-            const response = await apiUpdateCart({ id: current?.cartId, cartItem: [{ productId: productId, variantId: selectedVariant, quantity: quantity }] })
-            if (response?.status === 200) {
-                setVisible(false);
-                toast.success('Thêm sản phẩm vào giỏ hàng thành công')
-                dispatch(getUserCurrent(current?.id))
-            } else {
-                toast.error(response?.error)
+            if (selectedVariant && variants) {
+                const quantityLimit = variants?.find(variant => variant.id === selectedVariant)?.quantity;
+                let response
+                if (quantityLimit && quantity >= quantityLimit) {
+                    response = await apiUpdateCart({ id: current?.cartId, cartItem: [{ productId: productId, variantId: selectedVariant, quantity: quantityLimit }] })
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Số lượng sản phẩm đã đạt giới hạn',
+                        text: `Số lượng sản phẩm tối đa bạn có thể mua là ${quantityLimit}`,
+                    });
+                } else {
+                    response = await apiUpdateCart({ id: current?.cartId, cartItem: [{ productId: productId, variantId: selectedVariant, quantity: quantity }] })
+                }
+                if (response?.status === 200) {
+                    setVisible(false);
+                    toast.success('Thêm sản phẩm vào giỏ hàng thành công')
+                    dispatch(getUserCurrent(current?.id))
+                } else {
+                    toast.error(response?.error)
+                }
             }
         }
     }
@@ -128,7 +143,9 @@ export default function DialogVariantsProduct({ productId, name, dispatch, curre
                         </div>
                         <div className="flex gap-4">
                             <label>Thành tiền:</label>
-                            <span className="text-red-500 text-xl">120.000</span>
+                            <span className="text-red-500 text-xl">
+                                {formatterMonney.format(variants?.find(variant => variant.id === selectedVariant)?.discountPrice * quantity)}
+                            </span>
                         </div>
                     </div>
                     <div className="flex justify-end mr-10 py-2">

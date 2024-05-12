@@ -3,9 +3,9 @@ import { orderStatus } from '../../ultils/contants';
 import { Steps } from 'primereact/steps';
 import icon from '../../ultils/icons';
 
-const StatusSteps = ({status}) => {
+const StatusSteps = ({ status }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { CiDeliveryTruck,MdEventNote, MdEventAvailable, TbTruckOff, LuBookDown, FaRegStar } = icon;
+  const { CiDeliveryTruck, MdEventNote, MdEventAvailable, TbTruckOff, LuBookDown, FaRegStar } = icon;
 
   useEffect(() => {
     setActiveIndex(orderStatus.findIndex(el => el.value === status))
@@ -20,8 +20,8 @@ const StatusSteps = ({status}) => {
         <span
           className={` ${backgroundColor} inline-flex justify-center items-center   h-[4rem] w-[4rem] rounded-full  z-1 cursor-pointer`}
         >
-          <div className={`${!isActiveItem ? 'text-green-300':' text-green-700'}`}>
-            { item.icon }
+          <div className={`${!isActiveItem ? 'text-green-300' : ' text-green-700'}`}>
+            {item.icon}
           </div>
 
         </span>
@@ -29,7 +29,7 @@ const StatusSteps = ({status}) => {
       </div>
     );
   };
-  const items = [
+  let items = [
     {
       icon: <MdEventNote size={30} />,
       label: 'Chờ xác nhận',
@@ -50,20 +50,25 @@ const StatusSteps = ({status}) => {
       label: 'Đã nhận hàng',
       template: (item) => itemRenderer(item, 3)
     },
-    {
+
+  ]
+  if (status === 'CANCELLED') {
+    items.push({
+      icon: <TbTruckOff size={30} />,
+      label: 'Huỷ giao hàng',
+      template: (item) => itemRenderer(item, 4)
+    });
+  } else {
+    items.push({
       icon: <FaRegStar size={30} />,
       label: 'Hoàn thành đơn hàng',
-      template: (item) => itemRenderer(item, 3)
-    },
-    // {
-    //   icon: <TbTruckOff size={30} />,
-    //   label: 'Huỷ giao hàng',
-    //   template: (item) => itemRenderer(item, 4)
-    // }
-  ];
+      template: (item) => itemRenderer(item, 4)
+    })
+  }
+
+  
   return (
     <div className="card">
-     
       <Steps
         model={items}
         activeIndex={activeIndex}

@@ -16,3 +16,9 @@ export const apiUpdateOrderStatus = (data) => axios({
     method:'put',
     data
 })
+
+export const apiGetOrders = (params) => axios({
+    url:'/order/getAll',
+    method:'get',
+    params
+})

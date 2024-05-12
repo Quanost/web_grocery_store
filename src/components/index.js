@@ -41,4 +41,8 @@ export {default as DialogAddress} from './Dialog/DialogAddress';
 export {default as InputFloatLabel} from './Inputs/InputFloatLabel';
 export {default as DialogPaymentMethod} from './Dialog/DialogPaymentMethod';
 export {default as StatusSteps} from './Steps/StatusSteps';
+export {default as Tabview} from './Tabview/Tabview';
+export {default as TableDataOrder} from './Table/TableDataOrder';
+
+
 

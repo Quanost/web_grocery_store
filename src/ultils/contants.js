@@ -60,13 +60,13 @@ export const AdminSidebarMenus = [
         title: 'Quản lý sản phẩm',
         submenu: true,
         submenuItems: [
-            { title: 'Cập nhật sản phẩm', path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}` },
+            { title: 'Danh sách sản phẩm', path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}` },
             { title: 'Thêm sản phẩm', path: `/${path.ADMIN}/${path.CREATE_PRODUCT}` },
         ],
         icon: <TbBrandProducthunt />
     },
     {
-        title: 'Quản lý hoá đơn',
+        title: 'Quản lý đơn hàng',
         path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
         icon: <FaBorderNone />
     },
@@ -89,25 +89,30 @@ export const AdminSidebarMenusDefault = [
 
 
 export const userRoles = [
-    {value: 'CUSTOMER', label: 'Khách hàng'},
-    {value: 'STAFF', label: 'Nhân viên'},
-    {value: 'MANAGER', label: 'Quản lý'},
+    { value: 'CUSTOMER', label: 'Khách hàng' },
+    { value: 'STAFF', label: 'Nhân viên' },
+    { value: 'MANAGER', label: 'Quản lý' },
 ]
 export const userStatus = [
-    {value: true , label: 'Đã khoá'},
-    {value: false , label: 'Hoạt động'},
+    { value: true, label: 'Đã khoá' },
+    { value: false, label: 'Hoạt động' },
 ]
 
 export const orderStatus = [
-    {value: 'PENDING', label: 'Chờ xác nhận'},
-    {value: 'PROCESSING', label: 'Đã xác nhận'},
-    {value: 'SHIPPED', label: 'Đang giao hàng'},
-    {value: 'DELIVERED', label: 'Đã nhận hàng'},
-    {value: 'CANCELLED', label: 'Huỷ giao hàng'},
-    {value: 'SUCCESS', label: 'Đơn hàng đã hoàn thành'},
+    { value: 'PENDING', label: 'Chờ xác nhận' },
+    { value: 'PROCESSING', label: 'Chuẩn bị hàng' },
+    { value: 'SHIPPED', label: 'Xác nhận giao hàng' },
+    { value: 'CANCELLED', label: 'Huỷ giao hàng' },
+    { value: 'SUCCESS', label: 'Hoàn thành đơn hàng' },
 ]
 
 export const paymentType = [
-    {value: 'CASH', label: 'Tiền mặt khi nhận hàng'},
-    {value: 'VNPAY', label: 'VNPAY'},
+    { value: 'CASH', label: 'Tiền mặt khi nhận hàng' },
+    { value: 'VNPAY', label: 'VNPAY' },
+]
+
+export const paymentStatus = [
+    { value: 'INIT', label: 'Chưa thanh toán' },
+    { value: 'SUCCESS', label: 'Đã thanh toán' },
+    { value: 'FAIL', label: 'Thanh toán thất bại' },
 ]

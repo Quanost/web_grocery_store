@@ -2,11 +2,11 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { formatterMonney } from '../../ultils/helper';
 import { CartItems } from '../../components';
-import { useNavigate } from 'react-router-dom';
 import path from '../../ultils/path';
 import { apiUpdateCart } from '../../apis';
 import { getUserCurrent } from '../../store/user/asynActionUser';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const CartUser = () => {
     const dispatch = useDispatch();
@@ -28,10 +28,11 @@ const CartUser = () => {
         if (response?.status === 200) {
             dispatch(getUserCurrent(current?.id))
             navigate(`/${path.MEMBER}/${path.CHECKOUT}`)
-        }else {
+        } else {
             toast.error('Cập nhật giỏ hàng thất bại')
         }
     }
+
     return (
         <div className='bg-slate-50'>
             <h2 className="title font-main font-medium text-2xl leading-3 mb-8 text-center border bg-white h-14 pt-5">
@@ -74,9 +75,13 @@ const CartUser = () => {
                                                 </th>
                                             </tr>
                                         </thead>
+
                                         <tbody >
                                             {currentCart?.cartItem?.map((item) => (
-                                                <CartItems key={item.id} item={item} defaultQuantity={item.quantity} />
+
+                                                <CartItems key={item.id} item={item} defaultQuantity={item.quantity} navigate={navigate}
+                                                    link={`/${item.product?.categories?.[0]?.category?.name}/${item.product?.categories?.[0]?.category?.id}/${item.product?.slug}/${item.product?.id}`} />
+
                                             ))}
 
                                         </tbody>

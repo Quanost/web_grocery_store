@@ -8,6 +8,7 @@ import icon from '../../ultils/icons';
 import { useForm } from 'react-hook-form';
 import { apiPayment } from '../../apis';
 import { toast } from 'react-toastify';
+import { paymentType } from '../../ultils/contants'
 
 const Checkout = () => {
   const { IoLocationSharp } = icon
@@ -41,7 +42,7 @@ const Checkout = () => {
   };
     
     const response = await apiPayment(dataPayment)
-    if(response?.status === 200) {
+    if(response?.status === 200 && response?.data?.id ) {
       toast.success('Đặt hàng thành công')
       navigate(`/${path.MEMBER}/${path.ORDER_DETAIL}/${response?.data?.id}`)
     }else{
@@ -119,7 +120,7 @@ const Checkout = () => {
         <div className='flex justify-between bg-white border-b mt-6 py-3 px-4'>
           <p className='font-main text-black text-lg'>Phương thức thanh toán</p>
           <div className='flex gap-5 font-main text-base text-gray-600 w-65 justify-between'>
-            <p>{watch('paymentType')}</p>
+            <p>{ watch('paymentType') && paymentType.find(el => el.value === watch('paymentType'))?.label}</p>
             <p onClick={() => setShowDialogPaymentMethod(!showDialogPaymentMethod)} className='text-blue-600 font-main text-lg'>Thay đổi</p>
           </div>
         </div>

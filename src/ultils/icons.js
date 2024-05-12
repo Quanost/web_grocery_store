@@ -40,6 +40,8 @@ import { MdEventAvailable } from "react-icons/md";
 import { TbTruckOff } from "react-icons/tb";
 import { LuBookDown } from "react-icons/lu";
 import { FaRegStar } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
+import { MdOutlineVerified } from "react-icons/md";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -81,7 +83,9 @@ const icons = {
     MdEventAvailable,
     TbTruckOff,
     LuBookDown,
-    FaRegStar
+    FaRegStar,
+    FaRegEye,
+    MdOutlineVerified
 }
 
 export default icons;

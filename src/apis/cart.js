@@ -10,3 +10,8 @@ export const apiRemoveCartItems = (id) => axios({
     url: '/cart/' + id,
     method: 'delete',
 })
+
+export const apiClearCart = (userId) => axios({
+    url: '/cart/clear?userId=' + userId,
+    method: 'put',
+})

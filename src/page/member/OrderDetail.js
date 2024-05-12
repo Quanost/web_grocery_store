@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { StatusSteps } from '../../components';
-import { useParams } from 'react-router-dom';
-import { apiGetOrderById, apiUpdateOrderStatus } from '../../apis'
+import { useNavigate, useParams } from 'react-router-dom';
+import { apiGetOrderById, apiUpdateOrderStatus, apiUpdateCart, apiClearCart } from '../../apis'
 import { toast } from 'react-toastify';
 import { formatDateAndTime, formatterMonney } from '../../ultils/helper';
 import { orderStatus, paymentType } from '../../ultils/contants';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import path from '../../ultils/path'
+import { getUserCurrent } from '../../store/user/asynActionUser';
+
 const OrderDetail = () => {
     const { orderId } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [order, setOrder] = useState(null);
+    const { current, currentCart } = useSelector(state => state.user);
 
     const fetchOrder = async () => {
         const response = await apiGetOrderById(orderId)
@@ -24,20 +31,107 @@ const OrderDetail = () => {
     }, [orderId])
 
     const handleCancelledOrderSatus = async (e) => {
-        
+
         e.preventDefault();
-        const response = await apiUpdateOrderStatus({ orderId, status: 'CANCELLED' })
-        if(response?.status === 200)
-            toast.success('Huỷ đơn hàng thành công')
-        else
-           Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
-                text: 'Huỷ đơn hàng thất bại',
+        Swal.fire({
+            title: 'Bạn chắc chắn muốn huỷ đơn hàng?',
+            text: "Bạn không thể hoàn tác hành động này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await apiUpdateOrderStatus({ orderId, status: 'CANCELLED' })
+                    if (response?.status === 200) {
+                        fetchOrder()
+                        toast.success('Huỷ đơn hàng thành công')
+                    } else
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Huỷ đơn hàng thất bại',
+                        })
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Huỷ đơn hàng thất bại',
+                    })
+                }
+            }
+        })
+
+    }
+    
+    const handleReOrder = async (e) => {
+        e.preventDefault();
+        const dataUpdateCart = {
+            id: currentCart.id,
+            cartItem: order.orderItem.map(item => ({
+                productId: item.productId,
+                ...(item.variantId !== null && { variantId: item.variantId }),
+                quantity: item.quantity
+            }))
+        }
+        if (currentCart?.cartItem?.length === 0 && order?.orderItem) {
+            try {
+                const response = await apiUpdateCart(dataUpdateCart)
+                if (response?.status === 200) {
+                    await dispatch(getUserCurrent(current?.id))
+                    navigate(`/${path.MEMBER}/${path.CART}`)
+                } else {
+                    throw new Error('Mua lại đơn hàng thất bại')
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: error.message,
+                })
+            }
+        } else {
+            Swal.fire({
+                title: 'Trong giỏ hàng đang có sản phẩm.',
+                text: "Bạn có muốn mua chung với các sản phẩm của đơn hàng mua lại này không?",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Không'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const response = await apiUpdateCart(dataUpdateCart)
+                        if (response?.status === 200) {
+                            await dispatch(getUserCurrent(current?.id))
+                            navigate(`/${path.MEMBER}/${path.CART}`)
+                        }
+                    } catch (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Mua lại đơn hàng thất bại',
+                        })
+                    }
+                } else {
+                    const clearCart = await apiClearCart(current?.id)
+                    if (clearCart?.status === 200) {
+                        const response = await apiUpdateCart(dataUpdateCart)
+                        if (response?.status === 200) {
+                            await dispatch(getUserCurrent(current?.id))
+                            navigate(`/${path.MEMBER}/${path.CART}`)
+                        }
+                    }
+                }
             })
+        }
+
     }
 
-    console.log(order)
     return (
         <div className='bg-slate-50'>
             <h2 className="title font-main font-medium text-xl leading-3 mb-3 shadow-3 text-center border bg-white h-14 pt-5">
@@ -109,7 +203,7 @@ const OrderDetail = () => {
                     </div>
                 ) : (
                     <div className='flex justify-center'>
-                        <button type="button" className="w-96 h-12 font-main text-md text-red-600 bg-white border border-red-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                        <button type="button" onClick={handleReOrder} className="w-96 h-12 font-main text-md text-red-600 bg-white border border-red-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Mua lại đơn hàng
                         </button>
                     </div>

@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 import { updateCart } from '../../store/user/userSlice';
 
 
-const CartItems = ({ item, defaultQuantity = 1, checkout }) => {
+const CartItems = ({ item, defaultQuantity = 1, checkout, navigate, link }) => {
     const { MdOutlineDelete } = icon;
     const [quantity, setQuantity] = useState(defaultQuantity);
     const dispatch = useDispatch();
     const current = useSelector(state => state.user.current);
-    
+
 
     const removeCartItem = async (cartItemid) => {
         const response = await apiRemoveCartItems(cartItemid);
@@ -43,9 +43,13 @@ const CartItems = ({ item, defaultQuantity = 1, checkout }) => {
         setQuantity(defaultQuantity);
     }, [defaultQuantity]);
 
+    const handlePageProductDetail = () => {
+        if (link)
+            navigate(link)
+    }
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600">
-            <th scope="row" className="flex flex-grow items-center px-6 py-4 text-gray-900  dark:text-white">
+            <th scope="row" className="flex flex-grow items-center px-6 py-4 text-gray-900  dark:text-white" onClick={handlePageProductDetail}>
                 <img className="w-30 h-30 object-cover rounded-lg" src={item.variantId ? item.variant?.thumbnail : item.product?.productGalleries[0]?.imageUrl} alt="Ảnh sản phẩm" />
                 <div className="w-full max-w-sm pl-2">
                     <h5 className="font-main font-normal text-lg leading-5 text-black max-[550px]:text-center">

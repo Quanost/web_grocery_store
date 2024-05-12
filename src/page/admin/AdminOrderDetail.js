@@ -5,7 +5,7 @@ import { apiGetOrderById, apiUpdateOrderStatus } from '../../apis'
 import { toast } from 'react-toastify';
 import path from '../../ultils/path';
 import { formatterMonney, formatDateAndTime } from '../../ultils/helper'
-import { orderStatus, paymentStatus, paymentType } from '../../ultils/contants';
+import { orderStatus, paymentStatus, paymentType, filterOptionsByOrderStatus } from '../../ultils/contants';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2'
 
@@ -139,15 +139,18 @@ const AdminOrderDetail = () => {
                 <span>{formatterMonney.format(Number(order?.total) + 25000)}</span>
               </div>
             </div>
-            <div className="flex gap-5 justify-end my-10 mx-5">
-              <Select id={'status'} register={register} errors={errors} options={orderStatus} defaultValue={order?.status}
-                validate={{
-                  required: 'Tên sản phẩm không được trống',
-                }} />
-              <button type="button" onClick={handleSubmit(handleUpdateOrder)} className=" w-60 font-main text-lg text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg px-5 py-2.5 text-center me-2 mb-2">
-                Cập nhật trạng thái
-              </button>
-            </div>
+            {filterOptionsByOrderStatus(order?.status).length !== 0 &&
+              <div className="flex gap-5 justify-end my-10 mx-5">
+                <Select id={'status'} register={register} errors={errors} options={filterOptionsByOrderStatus(order?.status)} defaultValue={order?.status} 
+                  validate={{
+                    required: 'Vui lòng chọn trạng thái đơn hàng',
+                  }} />
+                <button type="button" onClick={handleSubmit(handleUpdateOrder)} className=" w-60 font-main text-lg text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg px-5 py-2.5 text-center me-2 mb-2">
+                  Cập nhật trạng thái
+                </button>
+              </div>
+            }
+
           </div>
         </div>
       </div>

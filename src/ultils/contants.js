@@ -101,10 +101,39 @@ export const userStatus = [
 export const orderStatus = [
     { value: 'PENDING', label: 'Chờ xác nhận' },
     { value: 'PROCESSING', label: 'Chuẩn bị hàng' },
-    { value: 'SHIPPED', label: 'Xác nhận giao hàng' },
+    { value: 'WAITING_PICKUP', label: 'Chờ lấy hàng' },
+    { value: 'SHIPPING', label: 'Đang giao hàng' },
     { value: 'CANCELLED', label: 'Huỷ giao hàng' },
     { value: 'SUCCESS', label: 'Hoàn thành đơn hàng' },
+    { value: 'RETURN_RECEIVED', label: 'Đã trả hàng' },
 ]
+
+export const filterOptionsByOrderStatus = (currentStatus) => {
+    switch (currentStatus) {
+        case 'PENDING':
+            return [
+                { value: 'CANCELLED', label: 'Huỷ đơn hàng' },
+                { value: 'PROCESSING', label: 'Chuẩn bị hàng' }
+            ];
+        case 'PROCESSING':
+            return [
+                { value: 'CANCELLED', label: 'Huỷ đơn hàng' },
+                { value: 'WAITING_PICKUP', label: 'Chờ lấy hàng' }
+            ];
+        case 'WAITING_PICKUP':
+            return [
+                { value: 'CANCELLED', label: 'Huỷ đơn hàng' },
+                { value: 'SHIPPING', label: 'Đang giao hàng' }
+            ];
+        case 'SHIPPING':
+            return [
+                { value: 'SUCCESS', label: 'Hoàn thành đơn hàng' },
+                { value: 'RETURN_RECEIVED', label: 'Đã trả hàng' }
+            ];
+        default:
+            return [];
+    }
+};
 
 export const paymentType = [
     { value: 'CASH', label: 'Tiền mặt khi nhận hàng' },

@@ -22,7 +22,7 @@ instance.interceptors.response.use(function (response) {
   return response.data;
 }, function (error) {
   console.log(error)
-  return error.response.data;
+  return error.response;
 });
 
 export default instance

@@ -59,7 +59,7 @@ const ManageOrder = () => {
   return (
     <div className='dark:bg-strokedark dark:text-white min-h-screen'>
       <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
-        Quản lý hoá đơn
+        Quản lý đơn hàng
       </h1>
       <div className='w-full p-4 dark:bg-strokedark dark:text-white'>
         <div className='flex justify-end py-4'>
@@ -83,7 +83,7 @@ const ManageOrder = () => {
             </button>
           </form>
         </div>
-        <Tabview dataTable={orders && orders} errorGetAPI={errorGetAPI} navigate={navigate} />
+        <Tabview dataTable={orders && orders} errorGetAPI={errorGetAPI} navigate={navigate} getOrders={getOrders} />
       </div>
     </div>
   )

@@ -42,6 +42,8 @@ import { LuBookDown } from "react-icons/lu";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
+import { IoMdTime } from "react-icons/io";
+import { GiReturnArrow } from "react-icons/gi";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -85,7 +87,9 @@ const icons = {
     LuBookDown,
     FaRegStar,
     FaRegEye,
-    MdOutlineVerified
+    MdOutlineVerified,
+    IoMdTime,
+    GiReturnArrow
 }
 
 export default icons;

@@ -5,19 +5,18 @@ import { orderStatus, paymentStatus } from '../../ultils/contants'
 
 const TableDataOrder = ({ actions, dataTable }) => {
     const [errorGetAPI, setErrorGetAPI] = useState(null);
-    console.log('datâTble', dataTable)
     return (
-        <div>
+        <div >
             <form className="rounded-sm border border-stroke bg-white w-full  pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                <div className="max-w-full overflow-x-auto">
-                    <table className="w-full table-auto">
+                <div className=" overflow-x-auto  ">
+                    <table className="w-full table-auto overflow-scroll ">
                         <thead>
                             <tr className="bg-gray-200 text-base font-main font-medium text-left dark:bg-meta-4">
                                 <th className="min-w-[50px] py-4 px-4 font-medium text-black dark:text-white">
                                     #
                                 </th>
                                 <th className="min-w-[190px] py-4 px-4 font-medium text-black dark:text-white ">
-                                    Tên khách hàng
+                                    Tên người đặt
                                 </th>
                                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white ">
                                     Ngày đặt
@@ -34,7 +33,7 @@ const TableDataOrder = ({ actions, dataTable }) => {
                                 <th className="min-w-[180px] py-4 px-4 font-medium text-black dark:text-white">
                                     Thanh toán
                                 </th>
-                                <th className="min-w-[180px] py-4 px-4 font-medium text-black dark:text-white">
+                                <th className="min-w-[190px] py-4 px-4 font-medium text-black dark:text-white">
                                     Hành động
                                 </th>
                             </tr>
@@ -100,9 +99,9 @@ const TableDataOrder = ({ actions, dataTable }) => {
                                             </td>
 
                                             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                                <div className="flex flex-col justify-start items-start space-x-3.5 dark:text-red-200">
+                                                <div className="flex flex-col justify-start items-start  dark:text-red-200">
                                                     {actions?.map((actionitem, index) => (
-                                                        <span key={index} className="hover:text-primary flex gap-2 items-start justify-start" onClick={(e) => actionitem.handleClick(e, item.id)} >
+                                                        <span key={index} className="hover:text-primary flex gap-2 items-start justify-start" onClick={(e) => actionitem.handleClick(e, item.id, item.status)} >
                                                             <p>{actionitem.icons}</p>
                                                             <p>{actionitem.action}</p>
                                                         </span>

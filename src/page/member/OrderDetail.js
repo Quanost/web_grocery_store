@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import path from '../../ultils/path'
 import { getUserCurrent } from '../../store/user/asynActionUser';
+import useSocket from '../../hooks/useSocket';
 
 const OrderDetail = () => {
     const { orderId } = useParams();
@@ -29,6 +30,7 @@ const OrderDetail = () => {
         if (orderId)
             fetchOrder()
     }, [orderId])
+    const { sendMessage } = useSocket(fetchOrder); // Gọi hàm fetchOrder khi có tin nhắn từ server
 
     const handleCancelledOrderSatus = async (e) => {
 
@@ -47,7 +49,8 @@ const OrderDetail = () => {
                 try {
                     const response = await apiUpdateOrderStatus({ orderId, status: 'CANCELLED' })
                     if (response?.status === 200) {
-                        fetchOrder()
+                        // fetchOrder()
+                        sendMessage('Trạng thái đơn hàng đã cập nhật', '');
                         toast.success('Huỷ đơn hàng thành công')
                     } else
                         Swal.fire({
@@ -131,7 +134,6 @@ const OrderDetail = () => {
         }
 
     }
-
     return (
         <div className='bg-slate-50'>
             <h2 className="title font-main font-medium text-xl leading-3 mb-3 shadow-3 text-center border bg-white h-14 pt-5">

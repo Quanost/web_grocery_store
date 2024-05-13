@@ -9,6 +9,9 @@ import { useForm } from 'react-hook-form';
 import { apiPayment } from '../../apis';
 import { toast } from 'react-toastify';
 import { paymentType } from '../../ultils/contants'
+import io from "socket.io-client";
+
+const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Checkout = () => {
   const { IoLocationSharp } = icon
@@ -43,6 +46,7 @@ const Checkout = () => {
     
     const response = await apiPayment(dataPayment)
     if(response?.status === 200 && response?.data?.id ) {
+      socket.emit("clientMsg", { msg: 'Đơn hàng vừa đuọc tạo', room: '' });
       toast.success('Đặt hàng thành công')
       navigate(`/${path.MEMBER}/${path.ORDER_DETAIL}/${response?.data?.id}`)
     }else{

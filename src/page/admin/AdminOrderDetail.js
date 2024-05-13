@@ -9,6 +9,8 @@ import { orderStatus, paymentStatus, paymentType, filterOptionsByOrderStatus } f
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2'
 
+import useSocket from '../../hooks/useSocket';
+
 
 const AdminOrderDetail = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -29,6 +31,8 @@ const AdminOrderDetail = () => {
       fetchOrder()
   }, [orderId])
 
+  const { sendMessage } = useSocket(fetchOrder); // Gọi hàm fetchOrder khi có tin nhắn từ server
+
   useEffect(() => {
     if (order) {
       setValue('status', order.status);
@@ -43,7 +47,8 @@ const AdminOrderDetail = () => {
       } else {
         const response = await apiUpdateOrderStatus({ orderId, status: data.status })
         if (response?.status === 200) {
-          fetchOrder()
+          // fetchOrder()
+          sendMessage('Trạng thái đơn hàng đã cập nhật', '');
           toast.success('Cập nhật trạng thái đơn hàng thành công')
         } else
           Swal.fire({
@@ -60,10 +65,11 @@ const AdminOrderDetail = () => {
       })
     }
   }
+ 
 
   return (
     <div className='dark:bg-strokedark dark:text-white min-h-screen bg-gray-50'>
-      <DialogDelivery  visible={showDialogDelivery} setVisible={setShowDialogDelivery} order={order}  getOrders={fetchOrder}/>
+      <DialogDelivery visible={showDialogDelivery} setVisible={setShowDialogDelivery} order={order} getOrders={fetchOrder} />
       <div>
         <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
           Chi tiết đơn hàng # {orderId}

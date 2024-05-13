@@ -1,30 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { TableDataOrder, DialogDelivery } from '../../components'
 import icon from '../../ultils/icons'
 import path from '../../ultils/path';
 import { apiUpdateOrderStatus, apiGetOrderById } from '../../apis';
 import { toast } from 'react-toastify';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import useSocket from '../../hooks/useSocket';
+import io from "socket.io-client";
+
+const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     const { FaRegEye, MdOutlineVerified, MdCancelPresentation, CiDeliveryTruck, FaRegStar, IoMdTime, GiReturnArrow } = icon
     const [showDialogDelivery, setShowDialogDelivery] = useState(false);
     const [currentOrder, setCurrentOrder] = useState(null);
+    
 
-    const updateOrderStatus = async (id, status) => {
-        const response = await apiUpdateOrderStatus({ orderId: id, status });
-        if (response?.status === 200) {
-            getOrders();
-            toast.success('Cập nhật trạng thái thành công');
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
-                text: 'Cập nhật trạng thái thất bại',
-            });
-        }
-    }
     const fetchOrder = async (orderId) => {
         try {
             const response = await apiGetOrderById(orderId)
@@ -41,8 +33,34 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
         }
 
     }
+    useEffect(() => {
+        const handleServerMsg = (data) => {
+            // setMessages(data.msg);
+            getOrders();
+        };
+    
+        socket.on("serverMsg", handleServerMsg);
+    
+        return () => {
+            socket.off("serverMsg", handleServerMsg);
+        };
+    }, [socket]);
+    const { sendMessage } = useSocket(getOrders); // Gọi hàm fetchOrder khi có tin nhắn từ server
+    const updateOrderStatus = async (id, status) => {
+        const response = await apiUpdateOrderStatus({ orderId: id, status });
+        if (response?.status === 200) {
+            // getOrders();
+            sendMessage('Trạng thái đơn hàng đã cập nhật', '');
+            toast.success('Cập nhật trạng thái thành công');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Cập nhật trạng thái thất bại',
+            });
+        }
+    }
     const handleClickUpdateOrderStatus = async (type, e, id, item) => {
-        console.log('iitem', item)
         switch (type) {
             case 'WATCH_DETAIL':
                 e.preventDefault()

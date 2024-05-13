@@ -9,13 +9,14 @@ import { useSelector } from 'react-redux';
 import { apiCreateDelivery, apiUpdateOrderStatus } from '../../apis'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-
+import useSocket from '../../hooks/useSocket';
 
 const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
     const { control, register, unregister, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm({
         defaultValues: dataCreateDelivery
     });
     const { current } = useSelector(state => state.user)
+    const { sendMessage } = useSocket(getOrders);
 
     const handleCloseDialog = () => {
         setVisible(false);
@@ -24,7 +25,8 @@ const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
     const updateOrderStatus = async () => {
         const response = await apiUpdateOrderStatus({ orderId: order?.id, status: 'WAITING_PICKUP' });
         if (response?.status === 200) {
-            getOrders();
+            // getOrders();
+            sendMessage('Trạng thái đơn hàng đã cập nhật', '');
             toast.success('Cập nhật trạng thái thành công');
         } else {
             Swal.fire({

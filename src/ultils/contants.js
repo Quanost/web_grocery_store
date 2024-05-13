@@ -103,8 +103,8 @@ export const orderStatus = [
     { value: 'PROCESSING', label: 'Chuẩn bị hàng' },
     { value: 'WAITING_PICKUP', label: 'Chờ lấy hàng' },
     { value: 'SHIPPING', label: 'Đang giao hàng' },
-    { value: 'CANCELLED', label: 'Huỷ giao hàng' },
     { value: 'SUCCESS', label: 'Hoàn thành đơn hàng' },
+    { value: 'CANCELLED', label: 'Huỷ giao hàng' },
     { value: 'RETURN_RECEIVED', label: 'Đã trả hàng' },
 ]
 

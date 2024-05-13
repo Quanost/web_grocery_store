@@ -41,32 +41,41 @@ const StatusSteps = ({ status }) => {
       template: (item) => itemRenderer(item, 1)
     },
     {
-      icon: <CiDeliveryTruck size={30} />,
-      label: 'Đang giao hàng',
+      icon: <MdEventAvailable size={30} />,
+      label: 'Chờ lấy hàng',
       template: (item) => itemRenderer(item, 2)
     },
     {
-      icon: <LuBookDown size={30} />,
-      label: 'Đã nhận hàng',
+      icon: <CiDeliveryTruck size={30} />,
+      label: 'Đang giao hàng',
       template: (item) => itemRenderer(item, 3)
-    },
-
+    }
   ]
-  if (status === 'CANCELLED') {
-    items.push({
-      icon: <TbTruckOff size={30} />,
-      label: 'Huỷ giao hàng',
-      template: (item) => itemRenderer(item, 4)
-    });
-  } else {
-    items.push({
-      icon: <FaRegStar size={30} />,
-      label: 'Hoàn thành đơn hàng',
-      template: (item) => itemRenderer(item, 4)
-    })
+  switch (status) {
+    case 'CANCELLED':
+      items.push({
+        icon: <TbTruckOff size={30} />,
+        label: 'Huỷ giao hàng',
+        template: (item) => itemRenderer(item, 5)
+      });
+      break;
+    case 'RETURN_RECEIVED':
+      items.push({
+        icon: <LuBookDown size={30} />,
+        label: 'Đã trả hàng',
+        template: (item) => itemRenderer(item, 6)
+      });
+      break;
+    default:
+      items.push({
+        icon: <FaRegStar size={30} />,
+        label: 'Hoàn thành đơn hàng',
+        template: (item) => itemRenderer(item, 4)
+      });
+      break;
   }
 
-  
+
   return (
     <div className="card">
       <Steps

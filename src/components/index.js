@@ -43,6 +43,7 @@ export {default as DialogPaymentMethod} from './Dialog/DialogPaymentMethod';
 export {default as StatusSteps} from './Steps/StatusSteps';
 export {default as Tabview} from './Tabview/Tabview';
 export {default as TableDataOrder} from './Table/TableDataOrder';
+export {default as DialogDelivery} from './Dialog/DialogDelivery';
 
 
 

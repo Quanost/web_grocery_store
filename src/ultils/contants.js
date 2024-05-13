@@ -145,3 +145,11 @@ export const paymentStatus = [
     { value: 'SUCCESS', label: 'Đã thanh toán' },
     { value: 'FAIL', label: 'Thanh toán thất bại' },
 ]
+
+export const noteDelivery = [
+    { code: 'KHONGCHOXEMHANG', name: 'Không cho xem hàng' },
+    { code: 'CHOTHUHANG', name: 'Cho xem và được thử hàng' },
+    { code: 'CHOXEMHANGKHONGTHU', name: 'Cho xem và không thử hàng' },
+]
+
+export const addressStore = "463, Đường Số 10, Phường 8, Quận Gò Vấp, Phường 9, Gò Vấp, Thành phố Hồ Chí Minh"

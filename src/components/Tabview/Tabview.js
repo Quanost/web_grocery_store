@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TabView, TabPanel } from 'primereact/tabview';
-import { TableDataOrder } from '../../components'
+import { TableDataOrder, DialogDelivery } from '../../components'
 import icon from '../../ultils/icons'
 import path from '../../ultils/path';
-import { apiUpdateOrderStatus } from '../../apis';
+import { apiUpdateOrderStatus, apiGetOrderById } from '../../apis';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2'
 
 const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     const { FaRegEye, MdOutlineVerified, MdCancelPresentation, CiDeliveryTruck, FaRegStar, IoMdTime, GiReturnArrow } = icon
+    const [showDialogDelivery, setShowDialogDelivery] = useState(false);
+    const [currentOrder, setCurrentOrder] = useState(null);
 
     const updateOrderStatus = async (id, status) => {
         const response = await apiUpdateOrderStatus({ orderId: id, status });
@@ -23,7 +25,24 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
             });
         }
     }
-    const handleClickUpdateOrderStatus = async (type, e, id, status) => {
+    const fetchOrder = async (orderId) => {
+        try {
+            const response = await apiGetOrderById(orderId)
+            if (response?.status === 200)
+                setCurrentOrder(response?.data);
+            else
+                toast.error('Get đơn hàng thất bại')
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Get đơn hàng thất bại', 
+            })
+        }
+
+    }
+    const handleClickUpdateOrderStatus = async (type, e, id, item) => {
+        console.log('iitem', item)
         switch (type) {
             case 'WATCH_DETAIL':
                 e.preventDefault()
@@ -33,7 +52,8 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                 await updateOrderStatus(id, 'PROCESSING');
                 break;
             case 'WAITING_PICKUP':
-                await updateOrderStatus(id, 'WAITING_PICKUP');
+                await fetchOrder(id)
+                setShowDialogDelivery(true)
                 break;
             case 'SHIPPING':
                 await updateOrderStatus(id, 'SHIPPING');
@@ -70,26 +90,6 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                 break;
         }
     }
-    const handleClickCancelOrder = async (e, orderId, statusOrder) => {
-        try {
-            const response = await apiUpdateOrderStatus({ orderId, status: 'CANCELLED' })
-            if (response?.status === 200) {
-                getOrders()
-                toast.success('Huỷ đơn hàng thành công')
-            } else
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Huỷ đơn hàng thất bại',
-                })
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
-                text: 'Huỷ đơn hàng thất bại',
-            })
-        }
-    }
     const datatableFilter = {
         All: dataTable,
         PENDING: dataTable.filter(item => item.status === 'PENDING'),
@@ -102,36 +102,36 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     }
     const actions = {
         All: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) }
         ],
         PENDING: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) },
-            { icons: <MdOutlineVerified size={22} />, action: 'Xác nhận', handleClick: (e, id, status) => handleClickUpdateOrderStatus('PROCESSING', e, id, status) },
-            { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, status) => handleClickUpdateOrderStatus('CANCELLED', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) },
+            { icons: <MdOutlineVerified size={22} />, action: 'Xác nhận', handleClick: (e, id, item) => handleClickUpdateOrderStatus('PROCESSING', e, id, item) },
+            { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('CANCELLED', e, id, item) }
         ],
         PROCESSING: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) },
-            { icons: <IoMdTime size={22} />, action: 'Chờ lấy hàng', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WAITING_PICKUP', e, id, status) },
-            { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, status) => handleClickUpdateOrderStatus('CANCELLED', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) },
+            { icons: <IoMdTime size={22} />, action: 'Chờ lấy hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WAITING_PICKUP', e, id, item) },
+            { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('CANCELLED', e, id, item) }
         ],
         WAITING_PICKUP: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) },
-            { icons: <CiDeliveryTruck size={22} />, action: 'Giao hàng', handleClick: (e, id, status) => handleClickUpdateOrderStatus('SHIPPING', e, id, status) },
-            { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, status) => handleClickUpdateOrderStatus('CANCELLED', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) },
+            { icons: <CiDeliveryTruck size={22} />, action: 'Giao hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('SHIPPING', e, id, item) },
+            { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('CANCELLED', e, id, item) }
         ],
         SHIPPING: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) },
-            { icons: <FaRegStar size={22} />, action: 'Hoàn thành đơn', handleClick: (e, id, status) => handleClickUpdateOrderStatus('SUCCESS', e, id, status) },
-            { icons: <GiReturnArrow size={22} />, action: 'Đã trả hàng', handleClick: (e, id, status) => handleClickUpdateOrderStatus('RETURN_RECEIVED', e, id, status) },
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) },
+            { icons: <FaRegStar size={22} />, action: 'Hoàn thành đơn', handleClick: (e, id, item) => handleClickUpdateOrderStatus('SUCCESS', e, id, item) },
+            { icons: <GiReturnArrow size={22} />, action: 'Đã trả hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('RETURN_RECEIVED', e, id, item) },
         ],
         CANCELLED: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) }
         ],
         SUCCESS: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) }
         ],
         RETURN_RECEIVED: [
-            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, status) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, status) }
+            { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) }
         ],
     }
 
@@ -147,6 +147,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     ]
     return (
         <div className="dark:border-strokedark dark:bg-boxdark">
+            <DialogDelivery visible={showDialogDelivery} setVisible={setShowDialogDelivery} order={currentOrder && currentOrder}   getOrders={getOrders}/>
             <TabView
                 pt={{
                     navContent: 'flex gap-1 relative dark:border-strokedark dark:bg-boxdark',

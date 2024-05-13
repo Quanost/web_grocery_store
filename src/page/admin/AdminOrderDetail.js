@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import { CartItems, Select } from '../../components'
-import { apiGetOrderById, apiUpdateOrderStatus } from '../../apis'
+import { CartItems, Select, DialogDelivery } from '../../components'
+import { apiGetOrderById, apiUpdateOrderStatus, apiCreateDelivery } from '../../apis'
 import { toast } from 'react-toastify';
 import path from '../../ultils/path';
 import { formatterMonney, formatDateAndTime } from '../../ultils/helper'
@@ -9,10 +9,12 @@ import { orderStatus, paymentStatus, paymentType, filterOptionsByOrderStatus } f
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2'
 
+
 const AdminOrderDetail = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
+  const [showDialogDelivery, setShowDialogDelivery] = useState(false);
 
   const fetchOrder = async () => {
     const response = await apiGetOrderById(orderId)
@@ -33,18 +35,23 @@ const AdminOrderDetail = () => {
     }
   }, [order, setValue]);
 
+
   const handleUpdateOrder = async (data) => {
     try {
-      const response = await apiUpdateOrderStatus({ orderId, status: data.status })
-      if (response?.status === 200) {
-        fetchOrder()
-        toast.success('Cập nhật trạng thái đơn hàng thành công')
-      } else
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: 'Cập nhật trạng thái đơn hàng thất bại',
-        })
+      if (data.status === 'WAITING_PICKUP') {
+        setShowDialogDelivery(true)
+      } else {
+        const response = await apiUpdateOrderStatus({ orderId, status: data.status })
+        if (response?.status === 200) {
+          fetchOrder()
+          toast.success('Cập nhật trạng thái đơn hàng thành công')
+        } else
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Cập nhật trạng thái đơn hàng thất bại',
+          })
+      }
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -56,6 +63,7 @@ const AdminOrderDetail = () => {
 
   return (
     <div className='dark:bg-strokedark dark:text-white min-h-screen bg-gray-50'>
+      <DialogDelivery  visible={showDialogDelivery} setVisible={setShowDialogDelivery} order={order}  getOrders={fetchOrder}/>
       <div>
         <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
           Chi tiết đơn hàng # {orderId}
@@ -141,7 +149,7 @@ const AdminOrderDetail = () => {
             </div>
             {filterOptionsByOrderStatus(order?.status).length !== 0 &&
               <div className="flex gap-5 justify-end my-10 mx-5">
-                <Select id={'status'} register={register} errors={errors} options={filterOptionsByOrderStatus(order?.status)} defaultValue={order?.status} 
+                <Select id={'status'} register={register} errors={errors} options={filterOptionsByOrderStatus(order?.status)} defaultValue={order?.status}
                   validate={{
                     required: 'Vui lòng chọn trạng thái đơn hàng',
                   }} />

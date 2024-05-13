@@ -51,3 +51,26 @@ export const formatDateAndTime = (dateString) => {
 
     return `${day}/${month} - ${hours}:${minutes}`;
 };
+
+export function validateVietnamesePhoneNumber(phoneNumber) {
+    const vietnamesePhoneRegex = /^(0|84)(9\d|1[2|6|8|9])(\d{7}|\d{8})$/;
+    const vietnamesePhonePrefixes = {
+        "Vinaphone": ["091", "094", "088", "083", "084", "085", "081", "082"],
+        "Viettel": ["086", "096", "097", "098", "032", "033", "034", "035", "036", "037", "038", "039"],
+        "Mobilephone": ["089", "090", "093", "070", "079", "077", "076", "078"],
+        "Mạng ảo": ["087", "055", "077", "089"]
+    };
+
+    if (!vietnamesePhoneRegex.test(phoneNumber)) {
+        return false; // Kiểm tra định dạng số điện thoại
+    }
+
+    const prefix = phoneNumber.substring(0, 3);
+    for (const network in vietnamesePhonePrefixes) {
+        if (vietnamesePhonePrefixes[network].includes(prefix)) {
+            return true; // Số điện thoại hợp lệ và thuộc mạng này
+        }
+    }
+
+    return false; // Số điện thoại hợp lệ nhưng không thuộc mạng nào được liệt kê
+}

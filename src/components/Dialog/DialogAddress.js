@@ -76,7 +76,7 @@ const DialogAddress = ({ visible, setVisible, userAddress, current, setValueAddr
         setValue('customerPhone', data?.customerPhone);
         setValue('city', { name: data?.city, code: address?.data?.provinceList?.find(item => item.name === data?.city)?.id });
         setValue('district', { name: data?.district, code: address?.data?.provinceList?.find(city => city.id === (watch('city')?.code))?.districtBOList.find(item => item.name === data?.district)?.id });
-        setValue('ward', { name: data?.ward, code: address?.data?.provinceList?.flatMap(city => city?.districtBOList).find(district => district?.id === watch('district')?.code).wards.find(item => item.name === data?.ward)?.id });
+        setValue('ward', { name: data?.ward, code: address?.data?.provinceList?.flatMap(city => city?.districtBOList).find(district => district?.id === watch('district')?.code).wards?.find(item => item.name === data?.ward)?.id });
         setValue('address', data.address);
         setValue('id', data?.id);
     }
@@ -125,35 +125,6 @@ const DialogAddress = ({ visible, setVisible, userAddress, current, setValueAddr
                                     </>
 
                                 )}
-                            {/* <label htmlFor="diachi1" className="w-125 flex items-center p-3 bg-white border border-gray-200 rounded-lg text-sm focus-within:border-red-500 focus-within:ring-red-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                                <input type="radio" id="diachi1" name="address" className="shrink-0 mt-0.5 border-gray-200 rounded-full text-red-600 checked:bg-red-500 checked:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-red-500 dark:checked:border-red-500 dark:focus:ring-offset-gray-800" />
-
-                                <div className="flex justify-between w-full">
-                                    <div className="flex flex-col gap-1 text-gray-400 ms-3 dark:text-neutral-400">
-                                        <span className="font-main text-base text-black flex gap-3">Ngueyễn Hoàng Quân <p className="text-gray-400">|| 03725454</p></span>
-                                        <span>Số 175, Đường Phạm Văn Đồng<br></br> Phường 4, Quận Gò Vấp, TP. Hồ Chí Minh</span>
-                                    </div>
-                                    <div className="flex gap-3 font-main text-base text-blue-600">
-                                        <label >Sửa</label>
-                                        <label>Xoá</label>
-                                    </div>
-                                </div>
-                            </label>
-                            <label htmlFor="diachi2" className="w-125 flex items-center p-3 bg-white border border-gray-200 rounded-lg text-sm focus-within:border-red-500 focus-within:ring-red-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                                <input type="radio" id="diachi2" name="address" className="shrink-0 mt-0.5 border-gray-200 rounded-full text-red-600 checked:bg-red-500 checked:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-red-500 dark:checked:border-red-500 dark:focus:ring-offset-gray-800" />
-
-                                <div className="flex justify-between w-full">
-                                    <div className="flex flex-col gap-1 text-gray-400 ms-3 dark:text-neutral-400">
-                                        <span className="font-main text-base text-black flex gap-3">Ngueyễn Hoàng Quân <p className="text-gray-400">|| 03725454</p></span>
-                                        <span>Số 175, Đường Phạm Văn Đồng<br></br> Phường 4, Quận Gò Vấp, TP. Hồ Chí Minh</span>
-                                    </div>
-                                    <div className="flex gap-3 font-main text-base text-blue-600">
-                                        <label >Sửa</label>
-                                        <label>Xoá</label>
-                                    </div>
-                                </div>
-                            </label> */}
-
                         </div>
                         <span onClick={() => setShowCreateAddress(!showCreateAddress)} className='flex gap-2 items-center justify-center py-5 text-red-500 font-main text-base cursor-pointer'> <FaPlus />  Thêm địa chỉ mới</span>
                     </section>
@@ -206,7 +177,7 @@ const DialogAddress = ({ visible, setVisible, userAddress, current, setValueAddr
                             <div className="w-full px-3">
                                 <div className="mb-5">
                                     <InputFloatLabel id={'ward'} register={register} errors={errors} control={control} label='Chọn phường xã' selectSeach messageError="Vui lòng chọn phường xã"
-                                        option={address.data?.provinceList.flatMap(city => city.districtBOList).find(district => district.id === watch('district')?.code)?.wards.map((item) => ({ name: item.name, code: item.id }))}
+                                        option={address.data?.provinceList.flatMap(city => city.districtBOList).find(district => district.id === watch('district')?.code)?.wards?.map((item) => ({ name: item.name, code: item.id }))}
                                         disabled={!watch('district')}
                                     />
                                 </div>

@@ -101,7 +101,7 @@ const TableDataOrder = ({ actions, dataTable }) => {
                                             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                                 <div className="flex flex-col justify-start items-start  dark:text-red-200">
                                                     {actions?.map((actionitem, index) => (
-                                                        <span key={index} className="hover:text-primary flex gap-2 items-start justify-start" onClick={(e) => actionitem.handleClick(e, item.id, item.status)} >
+                                                        <span key={index} className="hover:text-primary flex gap-2 items-start justify-start" onClick={(e) => actionitem.handleClick(e, item.id, item)} >
                                                             <p>{actionitem.icons}</p>
                                                             <p>{actionitem.action}</p>
                                                         </span>

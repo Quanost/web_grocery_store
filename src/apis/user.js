@@ -3,19 +3,22 @@ import axios from "../axios";
 export const apiLogin = (data) => axios({
     url:'/user/login',
     method:'post',
-    data
+    data,
+    noAuth:true
 })
 
 export const apiRegister = (data) => axios({
     url:'/user/register',
     method:'post',
-    data
+    data,
+    noAuth:true
 })
 
 export const apiVerifyCode = (data) => axios({
     url:'/user/verify-code',
     method:'post',
-    data
+    data,
+    noAuth:true
 })
 
 export const apiGetUsers = (params) => axios({
@@ -47,5 +50,6 @@ export const apiUploadSingleImage = (image) => axios({
 export const apiGetUserById = (userId) => axios({
     url:'/user?id=' + userId,
     method:'get',
+    noAuth:true
 })
 

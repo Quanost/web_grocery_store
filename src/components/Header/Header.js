@@ -17,8 +17,8 @@ const Header = () => {
 
 
     const handleLogout = async () => {
-        dispatch(logout());
         navigate(`/${path.LOGIN}`);
+        dispatch(logout());
     };
 
     const handlePage = (role) => {

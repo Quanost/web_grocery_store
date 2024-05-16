@@ -81,12 +81,6 @@ export const AdminSidebarMenus = [
         icon: <TbCategory2 />
     },
 ]
-export const AdminSidebarMenusDefault = [
-    { title: 'Tài khoản', spacing: true, icon: <FaRegUser /> },
-    { title: 'Cài đặt', icon: <IoSettingsOutline /> },
-    { title: 'Đăng xuất', icon: <CiLogout /> },
-]
-
 
 export const userRoles = [
     { value: 'CUSTOMER', label: 'Khách hàng' },

@@ -6,3 +6,4 @@ export { default as ManageUser } from './ManageUser'
 export { default as CreateProduct } from './CreateProducts';
 export { default as ManageCategories } from './ManageCategories';
 export { default as AdminOrderDetail } from './AdminOrderDetail';
+export { default as AdminPersonal } from './AdminPersonal';

@@ -22,3 +22,8 @@ export const apiGetOrders = (params) => axios({
     method:'get',
     params
 })
+
+export const apiGetOrderHistory = (userId) => axios({
+    url:'/order/getOrderHistory?userId='+ userId,
+    method:'get',
+})

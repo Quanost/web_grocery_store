@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const navigate = useNavigate()
-    const { FaCartPlus, FaRegUserCircle, FiLogOut, FaRegUser, MdOutlineCardTravel, MdOutlineAdminPanelSettings } = icons
+    const { FaCartPlus, FaRegUserCircle, FiLogOut, FaRegUser, MdOutlineCardTravel, MdOutlineAdminPanelSettings, IoLocationOutline } = icons
     const [visibleRight, setVisibleRight] = useState(false);
     const dispatch = useDispatch()
     const { isLoggedIn, current } = useSelector(state => state.user);
@@ -35,6 +35,9 @@ const Header = () => {
     }
     const handlePageCart = () => {
         navigate(`/${path.MEMBER}/${path.CART}`)
+    }
+    const handlePageAddress = () => {
+        navigate(`/${path.MEMBER}/${path.DELIVERY_ADDRESS}`)
     }
     return (
         <header className='bg-red-500 w-full'>
@@ -62,12 +65,6 @@ const Header = () => {
                                 </div>
                                 <div className='z-10 hidden absolute rounded-lg  bg-white shadow w-44 group-focus:block top-full right-0'>
                                     <ul className='py-2 text-sm font-main text-gray-800 flex flex-col items-start'>
-                                        <li className='mb-2 flex items-start w-full rounded hover:shadow hover:bg-blue-100 py-2'>
-                                            <span href='' className='px-3' onClick={() => handlePagePersonal()}>
-                                                <FaRegUser className='inline-block w-4 h-4 mr-3 -mt-2' />
-                                                Thông tin cá nhân
-                                            </span>
-                                        </li>
                                         {(current?.role === 'MANAGER' || current?.role === 'STAFF') && (
                                             <li className='mb-2 flex items-start w-full rounded hover:shadow hover:bg-blue-100 py-2'>
                                                 <span href='' className='px-3' onClick={() => handlePage(current?.role)}>
@@ -76,6 +73,18 @@ const Header = () => {
                                                 </span>
                                             </li>
                                         )}
+                                        <li className='mb-2 flex items-start w-full rounded hover:shadow hover:bg-blue-100 py-2'>
+                                            <span href='' className='px-3' onClick={() => handlePagePersonal()}>
+                                                <FaRegUser className='inline-block w-4 h-4 mr-3 -mt-2' />
+                                                Thông tin cá nhân
+                                            </span>
+                                        </li>
+                                        <li className='mb-2 flex items-start w-full rounded hover:shadow hover:bg-blue-100 py-2'>
+                                            <span href='' className='px-3' onClick={() => handlePageAddress()}>
+                                                <IoLocationOutline className='inline-block w-4 h-4 mr-3 -mt-2' />
+                                                Địa chỉ nhận hàng
+                                            </span>
+                                        </li>
                                         <li className='mb-2 flex items-start rounded hover:shadow hover:bg-blue-100 py-2'>
                                             <span href='' className='px-3' onClick={() => handlePageHistoryOrder()}>
                                                 <MdOutlineCardTravel className='inline-block w-4 h-4 mr-3 -mt-2' />

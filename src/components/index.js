@@ -44,6 +44,7 @@ export {default as StatusSteps} from './Steps/StatusSteps';
 export {default as Tabview} from './Tabview/Tabview';
 export {default as TableDataOrder} from './Table/TableDataOrder';
 export {default as DialogDelivery} from './Dialog/DialogDelivery';
+export {default as DialogCreateAddress} from './Dialog/DialogCreateAddress';
 
 
 

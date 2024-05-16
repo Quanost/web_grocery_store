@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { Public, Login, Register, Home, ProductType, ProductDetail } from './page/public';
 import { AdminLayout, ManageOrders, CreateProduct, Dashboard, ManageProducts, ManageUser, ManageCategories, AdminOrderDetail } from './page/admin';
-import { MemberLayout, Personal, PurchaseHistory, Checkout, CartUser, OrderDetail } from './page/member';
+import { MemberLayout, Personal, PurchaseHistory, Checkout, CartUser, OrderDetail, DeliveryAddress } from './page/member';
 import path from './ultils/path';
 
 
@@ -19,8 +19,8 @@ function App() {
         </Route>
         <Route path={path.ADMIN} element={<AdminLayout />}>
           <Route path={path.DASHBOARD} element={<Dashboard />} />
-          <Route path={path.MANAGE_ORDER} element={<ManageOrders/>} />
-          <Route path={path.MANAGE_PRODUCT} element={<ManageProducts/>} />
+          <Route path={path.MANAGE_ORDER} element={<ManageOrders />} />
+          <Route path={path.MANAGE_PRODUCT} element={<ManageProducts />} />
           <Route path={path.MANAGE_USER} element={<ManageUser />} />
           <Route path={path.CREATE_PRODUCT} element={<CreateProduct />} />
           <Route path={path.MANAGE_CATEGORY} element={<ManageCategories />} />
@@ -32,6 +32,7 @@ function App() {
           <Route path={path.CART} element={<CartUser />} />
           <Route path={path.CHECKOUT} element={<Checkout />} />
           <Route path={path.ORDER_DETAIL__ID} element={<OrderDetail />} />
+          <Route path={path.DELIVERY_ADDRESS} element={<DeliveryAddress />} />
         </Route>
 
         <Route path={path.LOGIN} element={<Login />} />

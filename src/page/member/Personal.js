@@ -8,7 +8,6 @@ import { apiUploadSingleImage, apiUpdateUser } from '../../apis';
 import { toast } from 'react-toastify';
 
 const Personal = () => {
-  const { IoLocationOutline, CiPhone, CiUser, FaPlus } = icon;
   const { handleSubmit, register, setValue, formState: { errors, isDirty }, reset } = useForm();
   const [image, setImage] = useState(null);
 
@@ -69,9 +68,8 @@ const Personal = () => {
     } else if (response?.status === "error") {
       toast.error(response?.message)
     }
-    console.log('data submit', data)
   }
-  console.log('token', token)
+
   return (
     <div className='font-main bg-slate-50'>
       <header className='flex items-center justify-center text-2xl py-2 font-semibold text-[#07074D] sm:text-xl bg-white border-2 w-[70%] mx-auto'>
@@ -156,37 +154,6 @@ const Personal = () => {
                 </div>
               </div>
             </div>
-
-            {/* <div className="mb-5 pt-3">
-              <label className="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
-                Địa chỉ nhận hàng
-              </label>
-              <div className="flex flex-col bg-gray-100 rounded-2xl p-3 space-y-2 gap-2">
-                <div className='flex items-center gap-2 font-main' >
-                  <IoLocationOutline size={25} />
-                  <span>
-                    112 Nguyễn Trãi, Phường Châu Phú B, Thành Phố Châu Đốc, An Giang
-                  </span>
-                </div>
-                <div className='flex items-center gap-2 font-main' >
-                  <CiUser size={25} />
-                  <span>
-                    Nguyễn Hoàng Long
-                  </span>
-                </div>
-                <div className='flex items-center gap-2 font-main' >
-                  <CiPhone size={25} />
-                  <span>
-                    0905067222
-                  </span>
-                </div>
-                <div className="flex justify-end space-x-2">
-                  <button className="bg-blue-500 text-white px-2 py-1 rounded">Chỉnh sửa</button>
-                  <button className="bg-red-500 text-white px-2 py-1 rounded">Xóa</button>
-                </div>
-              </div>
-              <span className='flex gap-2 items-center justify-center py-5 text-red-500 font-main text-base cursor-pointer'> <FaPlus />  Thêm địa chỉ mới</span>
-            </div> */}
 
             {isDirty &&
               <div>

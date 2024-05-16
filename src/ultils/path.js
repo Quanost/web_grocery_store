@@ -25,5 +25,6 @@ const path = {
     CHECKOUT: 'checkout',
     ORDER_DETAIL: 'order-detail',
     ORDER_DETAIL__ID: 'order-detail/:orderId',
+    DELIVERY_ADDRESS: 'address',
 }
 export default path

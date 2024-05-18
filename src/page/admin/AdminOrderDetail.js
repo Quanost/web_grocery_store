@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { CartItems, Select, DialogDelivery } from '../../components'
-import { apiGetOrderById, apiUpdateOrderStatus, apiCreateDelivery } from '../../apis'
+import { apiGetOrderById, apiUpdateOrderStatus, apiGetDeliveryOrder } from '../../apis'
 import { toast } from 'react-toastify';
 import path from '../../ultils/path';
 import { formatterMonney, formatDateAndTime } from '../../ultils/helper'
@@ -16,6 +16,7 @@ const AdminOrderDetail = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
+  const [delivery, setDelivery] = useState(null);
   const [showDialogDelivery, setShowDialogDelivery] = useState(false);
 
   const fetchOrder = async () => {
@@ -24,6 +25,13 @@ const AdminOrderDetail = () => {
       setOrder(response?.data);
     else
       toast.error('Get đơn hàng thất bại')
+  }
+  const fetchDeliveryOrder = async () => {
+    const response = await apiGetDeliveryOrder({order_code: order?.deliveryId})
+    if (response?.status === 200)
+      setDelivery(response?.data?.data);
+    else
+      toast.error('Get đơn giao  hàng thất bại')
   }
 
   useEffect(() => {
@@ -36,6 +44,10 @@ const AdminOrderDetail = () => {
   useEffect(() => {
     if (order) {
       setValue('status', order.status);
+      if (order.status === 'WAITING_PICKUP' || order.status === 'SHIPPING') {
+        fetchDeliveryOrder()
+      }
+       
     }
   }, [order, setValue]);
 
@@ -65,7 +77,7 @@ const AdminOrderDetail = () => {
       })
     }
   }
- 
+
 
   return (
     <div className='dark:bg-strokedark dark:text-white min-h-screen bg-gray-50'>
@@ -80,7 +92,18 @@ const AdminOrderDetail = () => {
       <div className=' my-5 py-10 bg-white shadow-3 w-[70%] mx-auto'>
         <div className='flex justify-between px-5 py-2'>
           <p className='font-main text-lg'>Ngày đặt: <span className='font-main text-md font-bold ml-2'>{formatDateAndTime(order?.createdAt)}</span></p>
-          <p className='font-main text-lg '>Trạng thái: <span className='font-main text-md ml-2'>{orderStatus.find(el => el.value === order?.status)?.label}</span></p>
+
+          <p>
+            <p className='font-main text-lg'>Trạng thái:
+              <span className='font-main text-md ml-2'>{orderStatus.find(el => el.value === order?.status)?.label}</span>
+            </p>
+            {(order?.status === 'WAITING_PICKUP' || order?.status === 'SHIPPING') &&
+              <p className='font-main text-lg'>{order?.status === 'WAITING_PICKUP'? 'Ngày lấy dự kiến:': 'Ngày giao dự kiến:'}
+                <span className='font-main text-md ml-2'>{order?.status === 'WAITING_PICKUP'? formatDateAndTime(delivery?.pickup_time): formatDateAndTime(delivery?.leadtime)}</span>
+              </p>
+            }
+          </p>
+
         </div>
 
         <div className='w-[90%] flex  gap-5 mx-auto  py-5 px-5 bg-gray-200'>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StatusSteps } from '../../components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { apiGetOrderById, apiUpdateOrderStatus, apiUpdateCart, apiClearCart } from '../../apis'
+import { apiGetOrderById, apiUpdateOrderStatus, apiUpdateCart, apiClearCart, apiGetDeliveryOrder } from '../../apis'
 import { toast } from 'react-toastify';
 import { formatDateAndTime, formatterMonney } from '../../ultils/helper';
 import { orderStatus, paymentType } from '../../ultils/contants';
@@ -16,6 +16,7 @@ const OrderDetail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [order, setOrder] = useState(null);
+    const [delivery, setDelivery] = useState(null);
     const { current, currentCart } = useSelector(state => state.user);
 
     const fetchOrder = async () => {
@@ -25,12 +26,28 @@ const OrderDetail = () => {
         else
             toast.error('Get đơn hàng thất bại')
     }
+    const fetchDeliveryOrder = async () => {
+        const response = await apiGetDeliveryOrder({order_code: order?.deliveryId})
+        if (response?.status === 200)
+          setDelivery(response?.data?.data);
+        else
+          toast.error('Get đơn giao  hàng thất bại')
+      }
 
     useEffect(() => {
         if (orderId)
             fetchOrder()
     }, [orderId])
     const { sendMessage } = useSocket(fetchOrder); // Gọi hàm fetchOrder khi có tin nhắn từ server
+
+    useEffect(() => {
+        if (order) {
+          if (order.status === 'WAITING_PICKUP' || order.status === 'SHIPPING') {
+            fetchDeliveryOrder()
+          }
+           
+        }
+      }, [order]);
 
     const handleCancelledOrderSatus = async (e) => {
 
@@ -69,7 +86,7 @@ const OrderDetail = () => {
         })
 
     }
-    
+
     const handleReOrder = async (e) => {
         e.preventDefault();
         const dataUpdateCart = {
@@ -142,7 +159,16 @@ const OrderDetail = () => {
             <div className='mx-40 bg-white px-10 rounded-lg shadow-2 mb-5'>
                 <div className='flex justify-between py-5'>
                     <p className='font-main text-lg'>Ngày đặt: <span className='font-main text-md font-bold ml-2'>{formatDateAndTime(order?.createdAt)}</span></p>
-                    <p className='font-main text-lg '>Trạng thái: <span className='font-main text-md ml-2'>{orderStatus.find(el => el.value === order?.status)?.label}</span></p>
+                    <p className='flex flex-col justify-end'>
+                        <p className='font-main text-lg'>Trạng thái:
+                            <span className='font-main text-md ml-2'>{orderStatus.find(el => el.value === order?.status)?.label}</span>
+                        </p>
+                        {(order?.status === 'WAITING_PICKUP' || order?.status === 'SHIPPING') &&
+                            <p className='font-main text-lg'>{order?.status === 'WAITING_PICKUP' ? 'Ngày lấy dự kiến:' : 'Ngày giao dự kiến:'}
+                                <span className='font-main text-md ml-2'>{order?.status === 'WAITING_PICKUP' ? formatDateAndTime(delivery?.pickup_time) : formatDateAndTime(delivery?.leadtime)}</span>
+                            </p>
+                        }
+                    </p>
                 </div>
                 <div className='flex flex-col gap-5 px-10 py-3 bg-slate-50 rounded-lg my-1'>
                     <div className='flex'>

@@ -45,6 +45,10 @@ export {default as Tabview} from './Tabview/Tabview';
 export {default as TableDataOrder} from './Table/TableDataOrder';
 export {default as DialogDelivery} from './Dialog/DialogDelivery';
 export {default as DialogCreateAddress} from './Dialog/DialogCreateAddress';
-
+export {default as CardDataStats} from './Dashboard/CardDataStats';
+export {default as LineGraph} from './Dashboard/LineGraph';
+export {default as ColumnGraph} from './Dashboard/ColumnGraph';
+export {default as CircularGraph} from './Dashboard/CircularGraph';
+export {default as MapOrder} from './Dashboard/MapOrder';
 
 

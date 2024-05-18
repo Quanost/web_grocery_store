@@ -26,7 +26,7 @@ const ManageOrder = () => {
     if (response?.status === 200) {
       setOrders(response?.data);
     } else if (response?.status === 404) {
-      setErrorGetAPI('Không tìm thấy người dùng');
+      setErrorGetAPI('Không tìm thấy đơn hàng nào');
     }
   }
 

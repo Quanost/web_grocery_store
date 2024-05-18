@@ -37,7 +37,7 @@ instance.interceptors.response.use(function (response) {
       const refreshToken = JSON.parse(localStorageData?.refreshToken);
 
       if (!refreshToken) {
-        throw new Error('No refresh token available');
+         return error.response
       }
 
       // Thực hiện request refresh token
@@ -66,10 +66,10 @@ instance.interceptors.response.use(function (response) {
   } else if (error.response.status === 500 && error.response.data) {
     toast.error(error.response.data.error);
     return Promise.reject(error.response.data);
+  } else {
+    return error.response;
   }
-
-
-  return Promise.reject(error);
+  return error.response;
 });
 
 export default instance

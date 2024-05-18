@@ -45,6 +45,7 @@ import { MdOutlineVerified } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { GiReturnArrow } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
+
 const icons = {
     CgProfile,
     FaCartPlus,

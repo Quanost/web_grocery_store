@@ -2,12 +2,12 @@ import axios from 'axios';
 
 export const apiCreateDelivery = (data) => {
     return axios({
-        url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create',
+        url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create',
         method: 'post',
         data,
         headers: {
-            ShopId: '192264',
-            token: '075840d3-0f32-11ef-8bfa-8a2dda8ec551'
+            ShopId: '5064031',
+            token: 'e17d4669-1108-11ef-9784-7aa329317c2b'
         }
     });
 };

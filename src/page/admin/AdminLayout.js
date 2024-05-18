@@ -12,7 +12,7 @@ const AdminLayout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!isLoggedIn || !current || current?.role !== "MANAGER") {
+    if (!isLoggedIn || !current || (current?.role !== "MANAGER" && current?.role !== "STAFF")) {
       navigate({
         pathname: `/${path.LOGIN}`,
         search: createSearchParams({ redirect: location.pathname }).toString(),

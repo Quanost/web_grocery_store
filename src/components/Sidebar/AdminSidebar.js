@@ -3,7 +3,7 @@ import icons from '../../ultils/icons';
 import { AdminSidebarMenus } from '../../ultils/contants';
 import { NavLink, useNavigate } from 'react-router-dom';
 import path from '../../ultils/path';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/user/userSlice'
 
 const AdminSidebar = () => {
@@ -12,6 +12,7 @@ const AdminSidebar = () => {
     const [submenuOpen, setSubmenuOpen] = useState(true)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { current } = useSelector(state => state.user)
 
     const handleLogout = async () => {
         navigate(`/${path.LOGIN}`);
@@ -27,13 +28,13 @@ const AdminSidebar = () => {
             <div className='inline-flex'>
                 <FaUserCircle className={` bg-amber-300 text-4xl rounded 
                 cursor-pointer block float-left mr-2 duration-500 ${isOpen && 'rotate-[360deg]'}`} />
-                <h1 className={`text-white origin-left font-medium text-2xl ${!isOpen && 'scale-0'}`}>Admin</h1>
+                <h1 className={`text-white origin-left font-medium text-2xl ${!isOpen && 'scale-0'}`}>{current?.role}</h1>
             </div>
             <ul className='pt- flex flex-col justify-between h-[95%] text-gray'>
                 <div>
                     {AdminSidebarMenus.map((menu, index) => (
                         <>
-                            <NavLink to={menu.path}>
+                            <NavLink to={menu.path} >
                                 <li key={index} className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md
                     ${menu.spacing ? 'mt-9' : 'mt-2'}`}>
                                     <span className='text-2xl block float-left'>

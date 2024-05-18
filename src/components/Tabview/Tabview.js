@@ -179,7 +179,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                         content: 'p-5 relative dark:border-strokedark dark:bg-boxdark',
                         headerAction: 'bg-green-200 px-5 py-4 relative',
                     }}>
-                        {errorGetAPI ? <p className='text-red-500'>{errorGetAPI}</p> : item.content}
+                        {errorGetAPI ? <p className='text-red-500 flex justify-center items-center'>{errorGetAPI}</p> : item.content}
 
                     </TabPanel>
                 ))}

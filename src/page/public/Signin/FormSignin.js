@@ -59,9 +59,8 @@ const FormSignin = () => {
             return;
         }
         const rs = await apiLogin(values);
-        if (rs?.data) {
+        if (rs?.status === 200) {
             const actionResult = dispatch(login({ isLoggedIn: true, token: rs.data.accessToken, refreshToken: rs.data.refreshToken, current: rs.data.user, currentCart: rs.data.user.cart, userAddress: rs.data.user.address}));
-            console.log('t', actionResult)
             if (actionResult.type === login.type) {
                 await persistor.flush();
                 seachParams.get('redirect') ? navigate(seachParams.get('redirect')): navigate(`/${path.HOME}`);
@@ -70,7 +69,7 @@ const FormSignin = () => {
             }
         }
         else {
-            Swal.fire('Đăng nhập thất bại', rs?.error, 'error')
+            Swal.fire('Đăng nhập thất bại', rs?.data?.error, 'error')
         }
     })
     return (

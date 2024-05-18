@@ -54,7 +54,7 @@ export const sorts = [
 
 const { FaRegUser, IoSettingsOutline, CiLogout, LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog, TbCategory2 } = icons
 export const AdminSidebarMenus = [
-    { title: 'Thống kê', icon: <LuLayoutDashboard />, path: `/${path.ADMIN}/${path.DASHBOARD}` },
+    { title: 'Tổng quan', icon: <LuLayoutDashboard />, path: `/${path.ADMIN}/${path.DASHBOARD}` },
 
     {
         title: 'Quản lý sản phẩm',

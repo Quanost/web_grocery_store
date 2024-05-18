@@ -3,7 +3,7 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import { TableDataOrder, DialogDelivery } from '../../components'
 import icon from '../../ultils/icons'
 import path from '../../ultils/path';
-import { apiUpdateOrderStatus, apiGetOrderById } from '../../apis';
+import { apiUpdateOrderStatus, apiGetOrderById, apiGetTokenPrintDelivery, apiPrintDeliveryOrder } from '../../apis';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import useSocket from '../../hooks/useSocket';
@@ -12,10 +12,10 @@ import io from "socket.io-client";
 const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
-    const { FaRegEye, MdOutlineVerified, MdCancelPresentation, CiDeliveryTruck, FaRegStar, IoMdTime, GiReturnArrow } = icon
+    const { FaRegEye, MdOutlineVerified, MdCancelPresentation, CiDeliveryTruck, FaRegStar, IoMdTime, GiReturnArrow, FaPrint } = icon
     const [showDialogDelivery, setShowDialogDelivery] = useState(false);
     const [currentOrder, setCurrentOrder] = useState(null);
-    
+
 
     const fetchOrder = async (orderId) => {
         try {
@@ -28,7 +28,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi',
-                text: 'Get đơn hàng thất bại', 
+                text: 'Get đơn hàng thất bại',
             })
         }
 
@@ -38,9 +38,9 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
             // setMessages(data.msg);
             getOrders();
         };
-    
+
         socket.on("serverMsg", handleServerMsg);
-    
+
         return () => {
             socket.off("serverMsg", handleServerMsg);
         };
@@ -102,7 +102,22 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                     })
                 }
                 break;
-
+            case 'PRINT_DELIVERY':
+                try {
+                    const response = await apiGetTokenPrintDelivery({ order_codes: [item?.deliveryId] })
+                    if (response?.status === 200) {
+                        const token = response?.data?.data?.token;
+                        const url = `https://online-gateway.ghn.vn/a5/public-api/printA5?token=${token}`;
+                        window.open(url, '_blank');
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'In vận đơn hàng thất bại',
+                    })
+                }
+                break;
             default:
                 alert('Hành động không hợp lệ')
                 break;
@@ -135,6 +150,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
         WAITING_PICKUP: [
             { icons: <FaRegEye size={22} />, action: 'Xem chi tiết', handleClick: (e, id, item) => handleClickUpdateOrderStatus('WATCH_DETAIL', e, id, item) },
             { icons: <CiDeliveryTruck size={22} />, action: 'Giao hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('SHIPPING', e, id, item) },
+            { icons: <FaPrint size={22} />, action: 'In vận đơn', handleClick: (e, id, item) => handleClickUpdateOrderStatus('PRINT_DELIVERY', e, id, item) },
             { icons: <MdCancelPresentation size={22} />, action: 'Huỷ đơn hàng', handleClick: (e, id, item) => handleClickUpdateOrderStatus('CANCELLED', e, id, item) }
         ],
         SHIPPING: [
@@ -165,7 +181,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     ]
     return (
         <div className="dark:border-strokedark dark:bg-boxdark">
-            <DialogDelivery visible={showDialogDelivery} setVisible={setShowDialogDelivery} order={currentOrder && currentOrder}   getOrders={getOrders}/>
+            <DialogDelivery visible={showDialogDelivery} setVisible={setShowDialogDelivery} order={currentOrder && currentOrder} getOrders={getOrders} />
             <TabView
                 pt={{
                     navContent: 'flex gap-1 relative dark:border-strokedark dark:bg-boxdark',

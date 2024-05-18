@@ -22,8 +22,8 @@ const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
         setVisible(false);
         reset();
     }
-    const updateOrderStatus = async () => {
-        const response = await apiUpdateOrderStatus({ orderId: order?.id, status: 'WAITING_PICKUP' });
+    const updateOrderStatus = async (order_code) => {
+        const response = await apiUpdateOrderStatus({ orderId: order?.id, status: 'WAITING_PICKUP', deliveryId: order_code});
         if (response?.status === 200) {
             // getOrders();
             sendMessage('Trạng thái đơn hàng đã cập nhật', '');
@@ -54,7 +54,7 @@ const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
         }));
         const response = await apiCreateDelivery(modifiedData)
         if (response?.data?.code === 200) {
-            await updateOrderStatus();
+            await updateOrderStatus(response?.data?.data?.order_code);
             setVisible(false);
             reset();
             toast.success('Tạo đơn giao hàng thành công')

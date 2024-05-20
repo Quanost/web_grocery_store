@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Chip } from 'primereact/chip';
 import { InputTable, InputTextAreaForm, Select } from '../index';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import icon from '../../ultils/icons';
 import { apiAddCategory } from '../../apis';
 import { toast } from 'react-toastify';
@@ -29,6 +29,7 @@ export default function DialogForm({ optionsCategories, getAllCategories }) {
             setVisible(false);
             getAllCategories();
             reset();
+            setAttributes(['Loại', 'Thương hiệu']);
             toast.success('Thêm loại sản phẩm thành công')
         }else{
             toast.error('Thêm loại sản phẩm thất bại')
@@ -49,7 +50,7 @@ export default function DialogForm({ optionsCategories, getAllCategories }) {
             <Dialog
                 visible={visible}
                 modal
-                onHide={() => setVisible(false)}
+                onHide={() => {setVisible(false);  setAttributes(['Loại', 'Thương hiệu'])}}
                 content={({ hide }) => (
                     <div className="flex flex-col px-8 py-5 gap-4 w-[500px]" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
                         <h1 className="text-2xl text-white">Thêm loại sản phẩm</h1>

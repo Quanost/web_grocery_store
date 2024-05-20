@@ -50,5 +50,6 @@ export {default as LineGraph} from './Dashboard/LineGraph';
 export {default as ColumnGraph} from './Dashboard/ColumnGraph';
 export {default as CircularGraph} from './Dashboard/CircularGraph';
 export {default as MapOrder} from './Dashboard/MapOrder';
+export {default as DialogCart} from './Dialog/DialogCart';
 
 

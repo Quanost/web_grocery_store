@@ -30,13 +30,13 @@ const ManageCategories = () => {
     const response = await apiGetAllCategory(queries);
     if (response?.status === 200) {
       setCategories(response?.data);
-      if (!categoriesOptions) {
-        const options = response?.data.map(category => ({
-          value: category.id,
-          label: category.name
-        }))
-        setCategoriesOptions(options)
-      }
+
+      const options = response?.data.map(category => ({
+        value: category.id,
+        label: category.name
+      }))
+      setCategoriesOptions(options)
+
     }
   }
   const handleSeach = (e) => {

@@ -5,6 +5,10 @@ export const apiUpdateCart = (data) => axios({
     method: 'put',
     data
 })
+export const apiGetCart = (cartId) => axios({
+    url: '/cart/' + cartId,
+    method: 'get',
+})
 
 export const apiRemoveCartItems = (id) => axios({
     url: '/cart/' + id,

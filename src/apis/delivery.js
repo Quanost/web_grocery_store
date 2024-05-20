@@ -2,37 +2,37 @@ import axios from 'axios';
 
 export const apiCreateDelivery = (data) => {
     return axios({
-        url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create',
+        url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create',
         method: 'post',
         data,
         headers: {
-            ShopId: '5064031',
-            token: 'e17d4669-1108-11ef-9784-7aa329317c2b'
+            ShopId: '192264',
+            token: '075840d3-0f32-11ef-8bfa-8a2dda8ec551'
         }
     });
 };
 
 export const apiGetTokenPrintDelivery = (data) => {
     return axios({
-        url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',
+        url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',
         method: 'post',
         data,
         headers: {
-            Token: 'e17d4669-1108-11ef-9784-7aa329317c2b'
+            Token: '075840d3-0f32-11ef-8bfa-8a2dda8ec551'
         }
     });
 };
 
 export const apiGetDeliveryOrder= (data) => {
     return axios({
-        url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail',
+        url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail',
         method: 'post',
         data,
         headers: {
-            Token: 'e17d4669-1108-11ef-9784-7aa329317c2b'
+            Token: '075840d3-0f32-11ef-8bfa-8a2dda8ec551'
         }
     });
 };
 
 
-export const apiPrintDeliveryOrder = "https://online-gateway.ghn.vn/a5/public-api/printA5?token="
+export const apiPrintDeliveryOrder = "https://dev-online-gateway.ghn.vn/a5/public-api/printA5?token="

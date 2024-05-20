@@ -40,7 +40,7 @@ const VerifyRegister = ({onVerifyOTP}) => {
             <input
               ref={(el) => (inputRefs.current[index] = el)}
               type="number"
-              className="w-12 h-12 border-2 rounded bg-transparent outline-none text-center font-semibold text-xl spin-button-none border-gray-400 focus:border-red-700 focus:text-red-700 text-gray-400 transition"
+              className="w-15 h-12 border-2 rounded bg-transparent outline-none text-center font-semibold text-xl spin-button-none border-gray-400 focus:border-red-700 focus:text-red-700 text-gray-400 transition"
               onChange={(e) => handleOnChange(index, e.target.value)}
               onKeyDown={(e) => handleOnKeyDown(e, index)}
               value={otp[index]}

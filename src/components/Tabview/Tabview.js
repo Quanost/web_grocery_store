@@ -107,7 +107,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                     const response = await apiGetTokenPrintDelivery({ order_codes: [item?.deliveryId] })
                     if (response?.status === 200) {
                         const token = response?.data?.data?.token;
-                        const url = `https://online-gateway.ghn.vn/a5/public-api/printA5?token=${token}`;
+                        const url = `https://dev-online-gateway.ghn.vn/a5/public-api/printA5?token=${token}`;
                         window.open(url, '_blank');
                     }
                 } catch (error) {

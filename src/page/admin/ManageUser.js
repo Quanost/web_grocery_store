@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { apiGetUsers, apiUpdateUser, apiDeleteUser, apiUploadSingleImage } from '../../apis'
-import { Pagination, InputTable, Button, Select, EditAvatar } from '../../components';
+import { Pagination, InputTable, Button, Select, EditAvatar, DialogCart } from '../../components';
 import { useSearchParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import icons from '../../ultils/icons';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
@@ -27,8 +27,8 @@ const ManageUser = () => {
   const [params] = useSearchParams();
   const [editUser, setEditUser] = useState(null);
   const [image, setImage] = useState(null);
- 
-
+  const [showDialogCart, setShowDialogCart] = useState(false);
+  const [userIdCart, setUserIdCart] = useState(null);
 
   const getUsers = async (queries) => {
     const response = await apiGetUsers(queries = { ...queries, limit: 5, page: queries.page ? queries.page : 1 });
@@ -142,8 +142,15 @@ const ManageUser = () => {
   const handleUpLoadImage = (image) => {
     setImage(image)
   }
+
+  const handleCartUser = (event, cartId) => {
+    event.preventDefault();
+    setUserIdCart(cartId);
+    setShowDialogCart(true);
+  }
   return (
     <div className='dark:bg-strokedark dark:text-white min-h-screen'>
+      <DialogCart visible={showDialogCart} setVisible={setShowDialogCart} cartId={userIdCart && userIdCart} />
       <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
         Quản lý người dùng
       </h1>
@@ -216,7 +223,7 @@ const ManageUser = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
                           {editUser?.id === user.id ? (
                             <div className='flex gap-2'>
-                              <EditAvatar avartardefault={editUser?.avatar} handleUpLoadImage={handleUpLoadImage}/>
+                              <EditAvatar avartardefault={editUser?.avatar} handleUpLoadImage={handleUpLoadImage} />
                             </div>
                           ) : (
                             <img src={user.avatar} alt='Avatar' className='flex w-14 h-14 object-cover' />
@@ -328,7 +335,7 @@ const ManageUser = () => {
                             <button className="hover:text-primary" onClick={(e) => handleDeleteUser(e, user?.id)}>
                               <MdOutlineDelete size={22} />
                             </button>
-                            <button className="hover:text-primary">
+                            <button className="hover:text-primary" onClick={(e) => handleCartUser(e, user?.cartId)}>
                               <div className="relative inline-block mt-1">
                                 <IoCartOutline size={22} className="mr-4" />
                                 <span className="absolute -top-4 right-0 bg-red-500 text-white rounded-full  px-2 py-1 text-xs">1</span>
@@ -342,11 +349,11 @@ const ManageUser = () => {
                 }
               </tbody>
             </table>
-            
+
           </div>
           <div className='flex w-full justify-end mt-5 bg-red-300 gap-5 dark:bg-strokedark dark:text-white'>
-              <Pagination page={pageInfo?.page} currentPage={pageInfo?.currentPage} />
-            </div>
+            <Pagination page={pageInfo?.page} currentPage={pageInfo?.currentPage} />
+          </div>
         </form>
       </div>
     </div>

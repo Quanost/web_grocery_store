@@ -40,12 +40,12 @@ const FormSignup = () => {
         }
         console.log('t', values)
         const rs = await apiRegister(values);
-        if (rs.data) {
+        if (rs.status === 200) {
             setShowSuccess(true);
             console.log('t', rs)
         }
         else {
-            Swal.fire('Đăng ký thất bại', rs.error, 'error')
+            Swal.fire('Đăng ký thất bại', rs?.data?.error, 'error')
         }
     }
     const handleVerify = async (e) => {

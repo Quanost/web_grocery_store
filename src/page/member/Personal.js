@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { formatDate } from '../../ultils/helper';
 import { apiUploadSingleImage, apiUpdateUser } from '../../apis';
 import { toast } from 'react-toastify';
+import { getUserCurrent } from '../../store/user/asynActionUser'
 
 const Personal = () => {
   const { handleSubmit, register, setValue, formState: { errors, isDirty }, reset } = useForm();
@@ -63,7 +64,7 @@ const Personal = () => {
     }
     const response = await apiUpdateUser(data);
     if (response?.status === 200) {
-      dispatch({ type: 'user/login', payload: { isLoggedIn: true, token, current: response?.data } })
+      dispatch(getUserCurrent(response?.data?.id))
       toast.success('Cập nhật thông tin thành công')
     } else if (response?.status === "error") {
       toast.error(response?.message)

@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { formatDate } from '../../ultils/helper';
 
 export default function DialogTableCategory({ nameParent, optionsCategories, subCategories, getAllCategories }) {
-    const { RiParentLine, LiaUserEditSolid, MdCancelPresentation, MdOutlineDelete } = icon
+    const { RiParentLine, LiaUserEditSolid, MdCancelPresentation, MdOutlineLock, MdOutlineLockOpen } = icon
     const { handleSubmit, register, formState: { errors }, reset } = useForm({
         name: '',
         description: '',
@@ -40,14 +40,14 @@ export default function DialogTableCategory({ nameParent, optionsCategories, sub
 
     const handleDeleteCategory = async (event, id) => {
         event.preventDefault();
-        const confirmation = window.confirm('Bạn có chắc chắn muốn xóa? Bạn sẽ không thể hoàn tác hành động này!');
+        const confirmation = window.confirm('Bạn có chắc chắn muốn cập nhật trạng thái loại sản phẩm?');
         if (confirmation) {
             const response = await apiDeleteCategory(id);
             if (response?.status === 200) {
                 getAllCategories();
-                toast.success('Xoá loại sản phẩm thành công')
+                toast.success('Cập nhật trạng thái loại sản phẩm thành công')
             } else if (response?.status === "error") {
-                toast.error('Xoá Loại sản phẩm thất bại')
+                toast.error('Cập nhật trạng thái loại sản phẩm thất bại')
             }
         }
     }
@@ -85,6 +85,9 @@ export default function DialogTableCategory({ nameParent, optionsCategories, sub
                                     </th>
                                     <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                         Loại
+                                    </th>
+                                    <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                                        Trạng thái
                                     </th>
                                     <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                         Ngày tạo
@@ -165,11 +168,21 @@ export default function DialogTableCategory({ nameParent, optionsCategories, sub
                                                 <td className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark`}>
                                                     <p className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium 
                                ${category.parentId ?
-                                                            'bg-success text-success'
+                                                            'bg-warning text-warning'
                                                             :
                                                             'bg-warning text-warning'
                                                         }`}>
                                                         {category.parentId === null ? 'Parent' : 'Subparent'}
+                                                    </p>
+                                                </td>
+                                                <td className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark`}>
+                                                    <p className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium 
+                               ${category.active ?
+                                                            'bg-success text-success'
+                                                            :
+                                                            'bg-warning text-warning'
+                                                        }`}>
+                                                        {category.active ? 'Đang bán' : 'Đã khoá'}
                                                     </p>
                                                 </td>
                                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -198,7 +211,7 @@ export default function DialogTableCategory({ nameParent, optionsCategories, sub
                                                         }
 
                                                         <button className="hover:text-primary" onClick={(e) => handleDeleteCategory(e, category?.id)}>
-                                                            <MdOutlineDelete size={22} />
+                                                            {category.active ? <MdOutlineLock size={22} /> : <MdOutlineLockOpen size={22} />}
                                                         </button>
 
                                                     </div>

@@ -16,7 +16,7 @@ const ManageCategories = () => {
     slug: '',
     parentId: '',
   });
-  const { LiaUserEditSolid, MdCancelPresentation, MdOutlineDelete } = icons
+  const { LiaUserEditSolid, MdCancelPresentation, MdOutlineLock, MdOutlineLockOpen } = icons
 
   const [queries, setQueries] = useState('');
   const [errorGetAPI, setErrorGetAPI] = useState(null);
@@ -93,8 +93,7 @@ const ManageCategories = () => {
   const handleDeleteCategory = (event, id) => {
     event.preventDefault();
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xóa?',
-      text: "Bạn sẽ không thể hoàn tác hành động này!",
+      title: 'Bạn có chắc chắn muốn cập nhật trạng thái danh mục?',
       showCancelButton: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -104,7 +103,7 @@ const ManageCategories = () => {
           getAllCategories(queries);
           toast.success(response?.message)
         } else if (response?.status === 500) {
-          toast.error('Xoá Loại sản phẩm thất bại')
+          toast.error('Cập nhật trạng thái loại sản phẩm thất bại')
         }
       }
     })
@@ -164,6 +163,9 @@ const ManageCategories = () => {
                   </th>
                   <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                     Loại
+                  </th>
+                  <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                    Trạng thái
                   </th>
                   <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                     Ngày tạo
@@ -235,6 +237,16 @@ const ManageCategories = () => {
                             {category.parentId === null ? 'Parent' : 'Subparent'}
                           </p>
                         </td>
+                        <td className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark`}>
+                          <p className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium 
+                               ${category.active ?
+                              'bg-success text-success'
+                              :
+                              'bg-warning text-warning'
+                            }`}>
+                            {category.active ? 'Đang bán' : 'Đã khoá'}
+                          </p>
+                        </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
 
                           <p className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium 
@@ -261,7 +273,8 @@ const ManageCategories = () => {
                             }
 
                             <button className="hover:text-primary" onClick={(e) => handleDeleteCategory(e, category?.id)}>
-                              <MdOutlineDelete size={22} />
+                              {category?.active ? <MdOutlineLock size={22}/> : <MdOutlineLockOpen size={22}/> }
+                             
                             </button>
                             {categoriesOptions && <DialogTableCategory nameParent={category.name} idParent={category.id} optionsCategories={categoriesOptions} subCategories={category?.subCategories} getAllCategories={getAllCategories} />}
                             {/* <DialogTableCategory nameParent = {category.name} idParent = {category.id} subCategories={category?.subCategories} getAllCategories={getAllCategories} /> */}

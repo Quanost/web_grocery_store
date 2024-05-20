@@ -46,7 +46,8 @@ import { IoMdTime } from "react-icons/io";
 import { GiReturnArrow } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaPrint } from "react-icons/fa";
-
+import { MdOutlineLock } from "react-icons/md";
+import { MdOutlineLockOpen } from "react-icons/md";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -94,7 +95,9 @@ const icons = {
     IoMdTime,
     GiReturnArrow,
     IoHomeOutline,
-    FaPrint
+    FaPrint,
+    MdOutlineLock,
+    MdOutlineLockOpen
 }
 
 export default icons;

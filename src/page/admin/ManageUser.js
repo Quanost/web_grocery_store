@@ -115,25 +115,7 @@ const ManageUser = () => {
       toast.error(response?.message)
     }
   }
-  const handleDeleteUser = (event, id) => {
-    event.preventDefault();
-    Swal.fire({
-      title: 'Bạn có chắc chắn muốn xóa?',
-      text: "Bạn sẽ không thể hoàn tác hành động này!",
-      showCancelButton: true,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const response = await apiDeleteUser(id);
-        if (response?.status === 200) {
-          const queries = Object.fromEntries([...params]);
-          getUsers(queries);
-          toast.success(response?.message)
-        } else if (response?.status === "error") {
-          toast.error('Xoá người dùng thất bại')
-        }
-      }
-    })
-  }
+
   const handleUserEdit = (event, user) => {
     event.preventDefault();
     setEditUser(user);
@@ -331,14 +313,10 @@ const ManageUser = () => {
                                 <LiaUserEditSolid size={22} />
                               </span>
                             }
-
-                            <button className="hover:text-primary" onClick={(e) => handleDeleteUser(e, user?.id)}>
-                              <MdOutlineDelete size={22} />
-                            </button>
                             <button className="hover:text-primary" onClick={(e) => handleCartUser(e, user?.cartId)}>
                               <div className="relative inline-block mt-1">
                                 <IoCartOutline size={22} className="mr-4" />
-                                <span className="absolute -top-4 right-0 bg-red-500 text-white rounded-full  px-2 py-1 text-xs">1</span>
+                            
                               </div>
                             </button>
                           </div>

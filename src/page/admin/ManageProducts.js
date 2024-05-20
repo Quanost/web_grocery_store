@@ -10,7 +10,7 @@ import UpdateProduct from './UpdateProduct';
 
 
 const ManageProducts = () => {
-  const { LiaUserEditSolid, MdOutlineDelete } = icons
+  const { LiaUserEditSolid, MdOutlineLock, MdOutlineLockOpen } = icons
   const [errorGetAPI, setErrorGetAPI] = useState(null);
   const [products, setProducts] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
@@ -98,8 +98,7 @@ const ManageProducts = () => {
   const handleDeleteProduct = (event, id) => {
     event.preventDefault();
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xóa?',
-      text: "Bạn sẽ không thể hoàn tác hành động này!",
+      title: 'Bạn có chắc chắn muốn thay đổi trạng thái sản phẩm?',
       showCancelButton: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -107,9 +106,9 @@ const ManageProducts = () => {
         if (response?.status === 200) {
           const queries = Object.fromEntries([...params]);
           getProducts(queries);
-          toast.success('Xoá người dùng thành công')
+          toast.success('Cập nhật trạng thái sản phẩm thành công')
         } else if (response?.status === "error") {
-          toast.error('Xoá người dùng thất bại')
+          toast.error('Cập nhật trạng thái sản phẩm thất bại')
         }
       }
     })
@@ -265,7 +264,7 @@ const ManageProducts = () => {
                             </span>
 
                             <span className="hover:text-primary" onClick={(e) => handleDeleteProduct(e, product?.id)} >
-                              <MdOutlineDelete size={22} />
+                              {product.hidden === false ?  <MdOutlineLock size={22} /> : <MdOutlineLockOpen size={22} />}
                             </span>
                           </div>
                         </td>

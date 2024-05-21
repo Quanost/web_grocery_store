@@ -18,7 +18,7 @@ const DropdownMenu = () => {
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
-
+    console.log('categoryr', categoriesStore)
     const toggleSubMenu = (categoryId) => {
         setSubMenuOpen({
             ...subMenuOpen,
@@ -41,7 +41,7 @@ const DropdownMenu = () => {
         document.addEventListener("mousedown", closeMenu);
 
         return () => {
-         document.removeEventListener("mousedown", closeMenu);
+            document.removeEventListener("mousedown", closeMenu);
         };
     }, []);
     return (
@@ -60,8 +60,8 @@ const DropdownMenu = () => {
                         </div>
                         {categories.map((categoriesParent) => (
                             <div key={categoriesParent.id} className="bg-gray-50 p-3">
-                                <div className='flex justify-between items-center font-main text-base '  onClick={() => toggleSubMenu(categoriesParent.id)}>
-                                        {categoriesParent.name}
+                                <div className='flex justify-between items-center font-main text-base ' onClick={() => toggleSubMenu(categoriesParent.id)}>
+                                    {categoriesParent.name}
                                     <div>
                                         {!subMenuOpen[categoriesParent.id] ? <SlArrowDown /> : <SlArrowRight />}
                                     </div>

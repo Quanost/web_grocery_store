@@ -8,6 +8,7 @@ export const getCategories = createAsyncThunk(
         try {
             const response = await apis.apiGetCategories()
             const categoriesTransForm = transformCategories(response.data);
+            console.log('categoriesTransForm', categoriesTransForm)
             return categoriesTransForm
         } catch (error) {
             return rejectWithValue(error.response.data);

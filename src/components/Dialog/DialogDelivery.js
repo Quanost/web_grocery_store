@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Dialog } from 'primereact/dialog';
 import { CartItems, InputNumber, LabelInput, InputTextAreaForm, SelectSeachOptions, InputForm } from '../../components';
 import { set, useForm } from 'react-hook-form';
@@ -22,6 +22,11 @@ const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
         setVisible(false);
         reset();
     }
+    useEffect(() => {
+        setValue('payment_type_id', order?.paymentDetail?.status === 'SUCCESS' ? 1 : 2);
+        setValue('cod_amount', order?.paymentDetail?.status === 'SUCCESS' ? 0 : order?.total);
+    }, [order?.paymentDetail?.status, setValue]);
+
     const updateOrderStatus = async (order_code) => {
         const response = await apiUpdateOrderStatus({ orderId: order?.id, status: 'WAITING_PICKUP', deliveryId: order_code});
         if (response?.status === 200) {
@@ -63,7 +68,8 @@ const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
         }
 
     }
-    console.log('order', order)
+    console.log('order', order?.paymentDetail?.status)
+    console.log('người trả tiền', watch('payment_type_id'))
     return (
         <div>
             <Dialog header="Tạo đơn giao hàng" visible={visible} style={{ width: '50vw' }} onHide={handleCloseDialog}
@@ -123,8 +129,12 @@ const DialogDelivery = ({  visible, setVisible, order , getOrders }) => {
                             </tbody>
                         </table>
                         <div className='flex justify-end gap-5 w-full font-main text-lg text-black'>
-                            <p className='font-main'>Tiền thu hộ</p>
-                            <span>{formatterMonney.format(order?.total)}</span>
+                            <p className='font-main'>Tiền thu hộ:</p>
+                            <span className='w-30'>{formatterMonney.format(watch('cod_amount'))}</span>
+                        </div>
+                        <div className='flex justify-end gap-5 w-full font-main text-lg text-black'>
+                            <p className='font-main'>Phí vận chuyển:</p>
+                            <span className='font-main'>{watch('payment_type_id') === 2 ? 'Người nhận trả': 'Người bán trả'}</span>
                         </div>
                     </div>
                     <div className='flex flex-col px-15 gap-2 py-3'>

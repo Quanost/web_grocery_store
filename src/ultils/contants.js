@@ -81,6 +81,33 @@ export const AdminSidebarMenus = [
         icon: <TbCategory2 />
     },
 ]
+export const StaffSidebarMenus = [
+    {
+        title: 'Quản lý sản phẩm',
+        submenu: true,
+        submenuItems: [
+            { title: 'Danh sách sản phẩm', path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}` },
+            { title: 'Thêm sản phẩm', path: `/${path.ADMIN}/${path.CREATE_PRODUCT}` },
+        ],
+        icon: <TbBrandProducthunt />
+    },
+    {
+        title: 'Quản lý đơn hàng',
+        path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
+        icon: <FaBorderNone />
+    },
+    {
+        title: 'Quản lý người dùng',
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+        icon: <FaUsersCog />
+    },
+    {
+        title: 'Quản lý loại sản phẩm',
+        path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
+        icon: <TbCategory2 />
+    },
+]
+
 
 export const userRoles = [
     { value: 'CUSTOMER', label: 'Khách hàng' },

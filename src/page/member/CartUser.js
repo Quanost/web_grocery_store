@@ -103,12 +103,12 @@ const CartUser = () => {
                                 <h6 className="font-medium text-2xl leading-9 text-red-500">{formatterMonney.format(totalPrice - discountPrice)}</h6>
                             </div>
                             <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-1">
-                                <button className="rounded-full py-3 w-full max-w-[280px] flex items-center bg-red-50 justify-center transition-all duration-500 hover:bg-red-100">
+                                {/* <button className="rounded-full py-3 w-full max-w-[280px] flex items-center bg-red-50 justify-center transition-all duration-500 hover:bg-red-100">
                                     <span className="px-2 font-semibold text-lg leading-8 text-red-600">Thêm Voucher</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                         <path d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998" stroke="red" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                </button>
+                                </button> */}
 
                                 <button onClick={handlePageCheckout} className="rounded-full w-full max-w-[280px] py-3 text-center justify-center items-center bg-red-500 font-semibold text-lg text-white flex transition-all duration-500 hover:bg-red-400">
                                     Mua hàng

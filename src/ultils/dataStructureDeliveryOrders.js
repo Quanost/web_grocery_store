@@ -1,5 +1,5 @@
 export const dataCreateDelivery = {
-    "payment_type_id": 2, // 1: Người gửi trả tiền, 2: Người nhận trả tiền
+    "payment_type_id": null, // 1: Người gửi trả tiền, 2: Người nhận trả tiền
     "note": "", // optonal
     "required_note": { code: 'KHONGCHOXEMHANG', name: 'Không cho xem hàng' }, // KHONGCHOXEMHANG: Không được xem hàng, CHOTHUHANG: Người mua có thể yêu cầu xem và dùng thử hàng hóa, CHOXEMHANGKHONGTHU: Người mua có thể xem hàng nhưng không được dùng thử
     "from_name": "", // Tên người gửi

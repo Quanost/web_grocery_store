@@ -43,4 +43,8 @@ export const apiDeleteProduct = (id) => axios({
     method:'delete',
 })
 
+export const apiSeachProduct = (nameProduct) => axios({
+    url:'/product/search?q='+ nameProduct,
+    method:'get',
+})
 

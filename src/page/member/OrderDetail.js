@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { apiGetOrderById, apiUpdateOrderStatus, apiUpdateCart, apiClearCart, apiGetDeliveryOrder } from '../../apis'
 import { toast } from 'react-toastify';
 import { formatDateAndTime, formatterMonney } from '../../ultils/helper';
-import { orderStatus, paymentType } from '../../ultils/contants';
+import { orderStatus, paymentType, paymentStatus } from '../../ultils/contants';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import path from '../../ultils/path'
@@ -178,11 +178,11 @@ const OrderDetail = () => {
                     </div>
                     <div className='flex'>
                         <label className='w-30 text-md font-main text-gray-400 flex justify-end pr-2'>Thanh toán:</label>
-                        <p className='font-main text-base'>{paymentType.find(el => el.value === order?.paymentDetail?.paymentType)?.label}</p>
+                        <p className='font-main text-base'>{paymentType.find(el => el.value === order?.paymentDetail?.paymentType)?.label} | {paymentStatus.find(el => el.value === order?.paymentDetail?.status)?.label}</p>
                     </div>
                     <div className='flex'>
                         <label className='w-30 text-md font-main text-gray-400 flex justify-end pr-2'>Tổng đơn hàng:</label>
-                        <p className='font-main text-base'>{formatterMonney.format(Number(order?.total) + 20000)}</p>
+                        <p className='font-main text-base'>{formatterMonney.format(Number(order?.total) + 25000)}</p>
                     </div>
                 </div>
                 <p className='font-main text-md  py-5'>Lịch sử giao hàng</p>
@@ -216,11 +216,11 @@ const OrderDetail = () => {
                     </div>
                     <div className='flex justify-between'>
                         <label className='font-main text-lg text-black-2'>Phí giao hàng</label>
-                        <p className='font-main text-md'>{formatterMonney.format(20000)}</p>
+                        <p className='font-main text-md'>{formatterMonney.format(25000)}</p>
                     </div>
                     <div className='flex justify-between'>
                         <label className='font-main text-lg text-black-2'>Tổng thanh toán</label>
-                        <p className='font-main text-md'>{formatterMonney.format(Number(order?.total) + 20000)}</p>
+                        <p className='font-main text-md'>{formatterMonney.format(Number(order?.total) + 25000)}</p>
                     </div>
                 </div>
                 {order?.status === 'PENDING' || order?.status === 'PROCESSING' ? (

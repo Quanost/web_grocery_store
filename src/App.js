@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
-import { Public, Login, Register, Home, ProductType, ProductDetail } from './page/public';
+import { Public, Login, Register, Home, ProductType, ProductDetail, SeachProducts } from './page/public';
 import { AdminLayout, ManageOrders, CreateProduct, Dashboard, ManageProducts, ManageUser, ManageCategories, AdminOrderDetail, AdminPersonal } from './page/admin';
 import { MemberLayout, Personal, PurchaseHistory, Checkout, CartUser, OrderDetail, DeliveryAddress } from './page/member';
 import path from './ultils/path';
@@ -15,6 +15,7 @@ function App() {
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.PRODUCT_TYPE} element={<ProductType />} />
           <Route path={path.PRODUCT_DETAIL__CNAME__PID__TITLE} element={<ProductDetail />} />
+          <Route path={path.SEARCHPRODUCT} element={<SeachProducts />} />
           <Route path={path.ALL} element={<Home />} />
         </Route>
         <Route path={path.ADMIN} element={<AdminLayout />}>

@@ -24,7 +24,7 @@ const AdminLayout = () => {
   return (
     <div className='fixed flex w-full h-full'>
       <div className=''>
-        <AdminSidebar />
+        <AdminSidebar role ={current?.role}/>
       </div>
       <div className='flex-1 overflow-y-auto'>
         <HeaderManager />

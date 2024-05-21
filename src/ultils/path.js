@@ -6,6 +6,7 @@ const path = {
     REGISTER: 'dang-ky',
     PRODUCT_TYPE: ':namecategory/:categoryId',
     PRODUCT_DETAIL__CNAME__PID__TITLE: ':category/:categoryId/:title/:pid',
+    SEARCHPRODUCT: 'search',
 
 
     //Admin

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { apiGetAllProduct, apiDeleteProduct, apiGetOrders } from '../../apis'
-import { Pagination, DropdownCategories, Tabview } from '../../components';
-import { useSearchParams, useNavigate, useParams, createSearchParams, useLocation } from 'react-router-dom';
-import icons from '../../ultils/icons';
-import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
-import { formatDate, formatterMonney } from '../../ultils/helper';
-import UpdateProduct from './UpdateProduct';
+import {  apiGetOrders } from '../../apis'
+import {  Tabview } from '../../components';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
+
 
 
 const ManageOrder = () => {

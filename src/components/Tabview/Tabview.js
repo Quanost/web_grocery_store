@@ -3,7 +3,7 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import { TableDataOrder, DialogDelivery } from '../../components'
 import icon from '../../ultils/icons'
 import path from '../../ultils/path';
-import { apiUpdateOrderStatus, apiGetOrderById, apiGetTokenPrintDelivery, apiPrintDeliveryOrder } from '../../apis';
+import { apiUpdateOrderStatus, apiGetOrderById, apiGetTokenPrintDelivery, apiPrintDeliveryOrder, apiconfirmPaymentCash } from '../../apis';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import useSocket from '../../hooks/useSocket';
@@ -47,7 +47,7 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     }, [socket]);
     const { sendMessage } = useSocket(getOrders); // Gọi hàm fetchOrder khi có tin nhắn từ server
     const updateOrderStatus = async (id, status) => {
-        const response = await apiUpdateOrderStatus({ orderId: id, status });
+        const response = await apiUpdateOrderStatus({ orderId: id, status, deliveryId:'LF3VUR'});
         if (response?.status === 200) {
             // getOrders();
             sendMessage('Trạng thái đơn hàng đã cập nhật', '');
@@ -57,6 +57,19 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                 icon: 'error',
                 title: 'Lỗi',
                 text: 'Cập nhật trạng thái thất bại',
+            });
+        }
+    }
+    const updatePaymentOrderCash = async (id) => {
+        const response = await apiconfirmPaymentCash({ orderId: id});
+        if (response?.status === 200) {
+            // getOrders();
+            console.log('Cập nhật trạng thái thanh toán thành công');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Cập nhật trạng thái thanh toán cash thất bại',
             });
         }
     }
@@ -70,14 +83,16 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                 await updateOrderStatus(id, 'PROCESSING');
                 break;
             case 'WAITING_PICKUP':
-                await fetchOrder(id)
-                setShowDialogDelivery(true)
+                // await fetchOrder(id)
+                // setShowDialogDelivery(true)
+                await updateOrderStatus(id, 'WAITING_PICKUP');
                 break;
             case 'SHIPPING':
                 await updateOrderStatus(id, 'SHIPPING');
                 break;
             case 'SUCCESS':
                 await updateOrderStatus(id, 'SUCCESS');
+                await updatePaymentOrderCash(id);
                 break;
             case 'RETURN_RECEIVED':
                 await updateOrderStatus(id, 'RETURN_RECEIVED');

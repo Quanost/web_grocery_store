@@ -48,6 +48,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { FaPrint } from "react-icons/fa";
 import { MdOutlineLock } from "react-icons/md";
 import { MdOutlineLockOpen } from "react-icons/md";
+import { IoStatsChartOutline } from "react-icons/io5";
 const icons = {
     CgProfile,
     FaCartPlus,
@@ -97,7 +98,8 @@ const icons = {
     IoHomeOutline,
     FaPrint,
     MdOutlineLock,
-    MdOutlineLockOpen
+    MdOutlineLockOpen,
+    IoStatsChartOutline
 }
 
 export default icons;

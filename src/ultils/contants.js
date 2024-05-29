@@ -52,7 +52,7 @@ export const sorts = [
     },
 ]
 
-const { FaRegUser, IoSettingsOutline, CiLogout, LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog, TbCategory2 } = icons
+const { LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog, TbCategory2, IoStatsChartOutline } = icons
 export const AdminSidebarMenus = [
     { title: 'Tổng quan', icon: <LuLayoutDashboard />, path: `/${path.ADMIN}/${path.DASHBOARD}` },
 
@@ -79,6 +79,15 @@ export const AdminSidebarMenus = [
         title: 'Quản lý loại sản phẩm',
         path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
         icon: <TbCategory2 />
+    },
+    {
+        title: 'Thống kê',
+        submenu: true,
+        submenuItems: [
+            { title: 'Thống kê doanh thu', path: `/${path.ADMIN}/${path.REPORT_REVENUE}` },
+            { title: 'Thống kê tồn kho', path: `/${path.ADMIN}/${path.REPORT_INVENTORY}` },
+        ],
+        icon: <IoStatsChartOutline />
     },
 ]
 export const StaffSidebarMenus = [

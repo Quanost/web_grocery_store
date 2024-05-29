@@ -1,18 +1,34 @@
-import React from 'react';
+import React, {useState, useEffect } from 'react';
 import { CardDataStats, LineGraph, ColumnGraph, CircularGraph, MapOrder } from '../../components';
 import { formatterMonney } from '../../ultils/helper'
 import icon from '../../ultils/icons'
+import { apiReport } from '../../apis'
 
 const Dashboard = () => {
   const { FaRegStar } = icon
+  const [dataDashboard, setDataDashboard] = useState(null)
+  const totalOrder = dataDashboard?.order?.reduce((sum, order) => sum + order.total, 0);
+  const totalProducts = dataDashboard?.product?.reduce((sum, product) => sum + product.total, 0);
+  const totalUsers = dataDashboard?.user?.reduce((sum, user) => sum + user.total, 0);
+  const totalcategoryParent = dataDashboard?.inventoryByCategory?.root?.length;
+
+  const getDashboardData = async () => {
+    const response = await apiReport(2024)
+    if(response?.status === 200) {
+      setDataDashboard(response?.data)
+    }
+  }
+  useEffect(() => {
+    getDashboardData()
+  }, [])
 
   return (
     <div className='px-25 py-10 dark:bg-strokedark dark:text-white min-h-screen'>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Đánh giá" total={117}>
-          <FaRegStar className='text-blue-600' size={20}/>
+        <CardDataStats title="Danh mục sản phẩm" total={totalcategoryParent}>
+          <FaRegStar className='text-blue-600' size={20} />
         </CardDataStats>
-        <CardDataStats title="Tổng đơn hàng" total={150} >
+        <CardDataStats title="Đơn hàng" total={totalOrder} >
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -35,7 +51,7 @@ const Dashboard = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Tổng sản phẩm" total={296} >
+        <CardDataStats title="Tổng sản phẩm" total={totalProducts} >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -54,7 +70,7 @@ const Dashboard = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Số người dùng" total={76} >
+        <CardDataStats title="Số người dùng" total={totalUsers} >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -80,10 +96,10 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <LineGraph />
-        <ColumnGraph />
-        <CircularGraph />
-        <MapOrder />
+        <LineGraph dataMonth={dataDashboard?.revenue} dataYear={dataDashboard?.yearlyRevenue}/>
+        <ColumnGraph  dataLastWeek={dataDashboard?.weeklyOrders?.lastWeek} dataThisWeek={dataDashboard?.weeklyOrders?.thisWeek}/>
+        <CircularGraph inventoryByCategory={dataDashboard?.inventoryByCategory?.root}/>
+        <MapOrder dataOrder={dataDashboard?.ordercity} />
         {/* <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>

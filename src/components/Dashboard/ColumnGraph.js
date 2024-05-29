@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const options = {
@@ -41,7 +41,7 @@ const options = {
     enabled: false,
   },
   xaxis: {
-    categories: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
+    categories: ['CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
   },
   legend: {
     position: 'top',
@@ -58,33 +58,64 @@ const options = {
   },
 };
 
-const ColumnGraph = () => {
-  const [state, setState] = useState({
-    series: [
-      {
-        name: 'Số đơn hàng',
-        data: [44, 55, 41, 67, 22, 43, 65],
-      },
-    ],
-  });
+const ColumnGraph = ({ dataLastWeek, dataThisWeek }) => {
+  const getSeriesData = (data) => {
+    if (!data) return [0, 0, 0, 0, 0, 0, 0];
+    return [
+      data['Sunday'] || 0,
+      data['Monday'] || 0,
+      data['Tuesday'] || 0,
+      data['Wednesday'] || 0,
+      data['Thursday'] || 0,
+      data['Friday'] || 0,
+      data['Saturday'] || 0,
+    ];
+  };
 
+  const initialSeries = [
+    {
+      name: 'Số đơn hàng',
+      data: getSeriesData(dataLastWeek),
+    },
+  ];
+
+  const [series, setSeries] = useState(initialSeries);
+
+  const handleChange = (event) => {
+    const selectedWeek = event.target.value;
+    if (selectedWeek === 'thisWeek') {
+      setSeries([
+        {
+          name: 'Số đơn hàng',
+          data: getSeriesData(dataThisWeek),
+        },
+      ]);
+    } else {
+      setSeries(initialSeries);
+    }
+  };
+  useEffect(() => {
+    if (dataLastWeek)
+      setSeries(initialSeries)
+  }, [dataLastWeek])
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
-           Đơn đặt hàng
+            Đơn đặt hàng
           </h4>
         </div>
         <div>
           <div className="relative z-20 inline-block">
             <select
-              name="#"
-              id="#"
+              name="weekSelect"
+              id="weekSelect"
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
+              onChange={handleChange}
             >
-              <option value="" className='dark:bg-boxdark'>This Week</option>
-              <option value="" className='dark:bg-boxdark'>Last Week</option>
+              <option value="lastWeek" className='dark:bg-boxdark'>Tuần trước</option>
+              <option value="thisWeek" className='dark:bg-boxdark'>Tuần này</option>
             </select>
             <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2">
               <svg
@@ -114,7 +145,7 @@ const ColumnGraph = () => {
         <div id="chartTwo" className="-ml-5 -mb-9">
           <ReactApexChart
             options={options}
-            series={state.series}
+            series={series}
             type="bar"
             height={350}
           />
@@ -124,4 +155,4 @@ const ColumnGraph = () => {
   );
 };
 
-export default ColumnGraph
+export default ColumnGraph;

@@ -17,6 +17,8 @@ const path = {
     MANAGE_ORDER: 'manage-order',
     CREATE_PRODUCT: 'create-product',
     MANAGE_CATEGORY: 'manage-category',
+    REPORT_REVENUE: 'revenue-statistics',
+    REPORT_INVENTORY: 'inventory-statistics',
 
     //Member
     MEMBER: 'member',

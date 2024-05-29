@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const options = {
@@ -78,6 +78,8 @@ const options = {
   xaxis: {
     type: 'category',
     categories: [
+      'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+      'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
     ],
     axisBorder: {
       show: false,
@@ -95,61 +97,47 @@ const options = {
   },
 };
 
-const dataByMonth = {
-  series: [
-    {
-      name: 'Tổng doanh thu',
-      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-    },
-  ],
-  categories: [
-    'Tháng 1',
-    'Tháng 2',
-    'Tháng 3',
-    'Tháng 4',
-    'Tháng 5',
-    'Tháng 6',
-    'Tháng 7',
-    'Tháng 8',
-    'Tháng 9',
-    'Tháng 10',
-    'Tháng 11',
-    'Tháng 12',
-  ],
-  yaxis: {
-    min: 0,
-    max: 100,
-  },
-};
+const LineGraph = ({ dataMonth = [], dataYear= [] }) => {
+  const monthlyData = new Array(12).fill(0);
 
-const dataByYear = {
-  series: [
-    {
-      name: 'Tổng doanh thu',
-      data: [300, 250, 360, 300, 450, 350, 640, 520, 590, 360, 390, 510],
-    },
-  ],
-  categories: [
-    '2019',
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-    '2024',
-    '2025',
-    '2026',
-    '2027',
-    '2028',
-    '2029',
-    '2030',
-  ],
-  yaxis: {
-    min: 0,
-    max: 700, // Updated max value for year data
-  },
-};
+  dataMonth?.forEach(item => {
+    monthlyData[item.month - 1] = item.total;
+  });
 
-const LineGraph = () => {
+  const dataByMonth = {
+    series: [
+      {
+        name: 'Tổng doanh thu',
+        data: monthlyData,
+      },
+    ],
+    categories: [
+      'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+      'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+    ],
+    yaxis: {
+      min: 0,
+      max: Math.max(...monthlyData) + 10000, // Adjust the max value dynamically
+    },
+  };
+
+  const yearlyData = dataYear?.map(item => item.total);
+  const yearlyCategories = dataYear?.map(item => item.year.toString());
+
+  const dataByYear = {
+    series: [
+      {
+        name: 'Tổng doanh thu',
+        data: yearlyData,
+      },
+    ],
+    categories: yearlyCategories,
+    yaxis: {
+      min: 0,
+      max: Math.max(...yearlyData) + 10000, // Adjust the max value dynamically
+    },
+  };
+
   const [state, setState] = useState(dataByMonth);
 
   const updateData = (timeframe) => {
@@ -166,6 +154,11 @@ const LineGraph = () => {
     }
   };
 
+  useEffect(() => {
+    setState(dataByMonth);
+  }, [dataMonth]);
+
+ 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
@@ -176,7 +169,7 @@ const LineGraph = () => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-primary">Tổng doanh thu</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="text-sm font-medium">01.01.2024 - 31.12.2024</p>
             </div>
           </div>
         </div>
@@ -212,4 +205,4 @@ const LineGraph = () => {
   );
 };
 
-export default LineGraph
+export default LineGraph;

@@ -25,7 +25,7 @@ const Header = () => {
         if (role === 'MANAGER')
             navigate(`/${path.ADMIN}/${path.DASHBOARD}`);
         else if (role === 'STAFF')
-            navigate(`/${path.ADMIN}/${path.DASHBOARD}`);
+            navigate(`/${path.ADMIN}/${path.MANAGE_PRODUCT}`);
     }
     const handlePageHistoryOrder = () => {
         navigate(`/${path.MEMBER}/${path.PURCHASE_HISTORY}`);

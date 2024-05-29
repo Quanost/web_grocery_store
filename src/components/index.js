@@ -51,5 +51,6 @@ export {default as ColumnGraph} from './Dashboard/ColumnGraph';
 export {default as CircularGraph} from './Dashboard/CircularGraph';
 export {default as MapOrder} from './Dashboard/MapOrder';
 export {default as DialogCart} from './Dialog/DialogCart';
+export {default as TreeTableData} from './Table/TreeTableData';
 
 

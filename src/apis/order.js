@@ -27,3 +27,8 @@ export const apiGetOrderHistory = (userId) => axios({
     url:'/order/getOrderHistory?userId='+ userId,
     method:'get',
 })
+export const apiconfirmPaymentCash = (data) => axios({
+    url:'/payment/confirm',
+    method:'post',
+    data
+})

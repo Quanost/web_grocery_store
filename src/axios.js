@@ -61,11 +61,11 @@ instance.interceptors.response.use(function (response) {
         store.dispatch(logout());
         return toast.error('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại');
       }
-      return Promise.reject(err);
+      return error.response;
     }
   } else if (error.response.status === 500 && error.response.data) {
     toast.error(error.response.data.error);
-    return Promise.reject(error.response.data);
+    return error.response;
   } else {
     return error.response;
   }

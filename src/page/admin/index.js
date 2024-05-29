@@ -7,3 +7,5 @@ export { default as CreateProduct } from './CreateProducts';
 export { default as ManageCategories } from './ManageCategories';
 export { default as AdminOrderDetail } from './AdminOrderDetail';
 export { default as AdminPersonal } from './AdminPersonal';
+export { default as ReportRevenue } from './ReportRevenue';
+export { default as ReportInventory } from './ReportInventory';

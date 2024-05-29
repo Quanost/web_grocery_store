@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { Public, Login, Register, Home, ProductType, ProductDetail, SeachProducts } from './page/public';
-import { AdminLayout, ManageOrders, CreateProduct, Dashboard, ManageProducts, ManageUser, ManageCategories, AdminOrderDetail, AdminPersonal } from './page/admin';
+import { AdminLayout, ManageOrders, CreateProduct, Dashboard, ManageProducts, ManageUser, ManageCategories, AdminOrderDetail, AdminPersonal, ReportRevenue, ReportInventory } from './page/admin';
 import { MemberLayout, Personal, PurchaseHistory, Checkout, CartUser, OrderDetail, DeliveryAddress } from './page/member';
 import path from './ultils/path';
 
@@ -27,6 +27,8 @@ function App() {
           <Route path={path.MANAGE_CATEGORY} element={<ManageCategories />} />
           <Route path={path.ORDER_DETAIL__ID} element={<AdminOrderDetail />} />
           <Route path={path.PERSONAL} element={<AdminPersonal />} />
+          <Route path={path.REPORT_REVENUE} element={<ReportRevenue />} />
+          <Route path={path.REPORT_INVENTORY} element={<ReportInventory />} />
         </Route>
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />

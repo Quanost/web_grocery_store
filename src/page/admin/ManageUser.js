@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { apiGetUsers, apiUpdateUser, apiDeleteUser, apiUploadSingleImage } from '../../apis'
-import { Pagination, InputTable, Button, Select, EditAvatar, DialogCart } from '../../components';
+import { Pagination, InputTable, Button, Select, EditAvatar, DialogCart, DialogAddUser } from '../../components';
 import { useSearchParams } from 'react-router-dom';
 import { set, useForm } from 'react-hook-form';
 import icons from '../../ultils/icons';
@@ -29,6 +29,7 @@ const ManageUser = () => {
   const [image, setImage] = useState(null);
   const [showDialogCart, setShowDialogCart] = useState(false);
   const [userIdCart, setUserIdCart] = useState(null);
+  const [openDialogAddUser, setOpenDialogAddUser] = useState(false);
 
   const getUsers = async (queries) => {
     const response = await apiGetUsers(queries = { ...queries, limit: 5, page: queries.page ? queries.page : 1 });
@@ -130,14 +131,24 @@ const ManageUser = () => {
     setUserIdCart(cartId);
     setShowDialogCart(true);
   }
+  const handleDialogAddUser = (event) => {
+    event.preventDefault();
+    setOpenDialogAddUser(true);
+  }
+  console.log('users', showDialogCart)
   return (
     <div className='dark:bg-strokedark dark:text-white min-h-screen'>
       <DialogCart visible={showDialogCart} setVisible={setShowDialogCart} cartId={userIdCart && userIdCart} />
+      <DialogAddUser visible={openDialogAddUser} setVisible={setOpenDialogAddUser} />
       <h1 className='h-[75px] flex justify-between items-center text-2xl font-medium font-main px-4 border-b'>
         Quản lý người dùng
       </h1>
       <div className='w-full p-4'>
-        <div className='flex justify-end py-4'>
+
+        <div className='flex justify-between py-4'>
+          <div onClick={(e) => handleDialogAddUser(e)}>
+            <Button  childen='Thêm người dùng' >Thêm người dùng</Button>
+          </div>
           <form class="flex justify-end items-center w-96  ">
             <label htmlFor="simple-search" class="sr-only">Tìm kiếm</label>
             <div class="relative w-full">
@@ -316,7 +327,7 @@ const ManageUser = () => {
                             <button className="hover:text-primary" onClick={(e) => handleCartUser(e, user?.cartId)}>
                               <div className="relative inline-block mt-1">
                                 <IoCartOutline size={22} className="mr-4" />
-                            
+
                               </div>
                             </button>
                           </div>

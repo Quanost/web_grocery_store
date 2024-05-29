@@ -21,7 +21,7 @@ export default function DialogCart({ visible, setVisible, cartId }) {
             fetchCart()
         }
     }, [visible, cartId])
-    console.log('currentCart', currentCart)
+  
 
     return (
         <div className="card flex justify-center">

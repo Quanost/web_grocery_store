@@ -53,3 +53,8 @@ export const apiGetUserById = (userId) => axios({
     noAuth:true
 })
 
+export const apiAddUser = (data) => axios({
+    url:'/user/addusers',
+    method:'post',
+    data,
+})

@@ -10,6 +10,7 @@ import { apiPayment } from '../../apis';
 import { toast } from 'react-toastify';
 import { paymentType } from '../../ultils/contants'
 import io from "socket.io-client";
+import useShippingCost from './../../hooks/useShippingCost ';
 
 const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
@@ -25,6 +26,7 @@ const Checkout = () => {
   });
   const [showDialogAddress, setShowDialogAddress] = useState(false);
   const [showDialogPaymentMethod, setShowDialogPaymentMethod] = useState(false);
+  const shippingCost = useShippingCost(watch('address')?.city);
   const navigate = useNavigate();
   const discountPrice = 0;
   const totalPrice = currentCart?.cartItem?.reduce((sum, el) => +el.quantity * (el.variantId ? +el.variant?.discountPrice : +el.product?.discountPrice) + sum, 0) || 0;
@@ -58,7 +60,7 @@ const Checkout = () => {
     }
 
   }
-console.log('dia chỉ', watch('address'))
+
   return (
     <div className='bg-slate-50'>
       <h2 className="title font-main font-medium text-2xl leading-3 mb-8 text-center border bg-white h-14 pt-5">
@@ -78,8 +80,8 @@ console.log('dia chỉ', watch('address'))
         ) :
           (
             <div className="space-y-1 flex items-center my-3 ">
-              <p className="font-medium text-md font-main">{userAddress?.[0].customerName}, <span>{userAddress?.[0].customerPhone}</span></p>
-              <p className='pl-10 font-main text-md text-gray-500 text-center'>{userAddress?.[0].address}, {userAddress?.[0].ward}, {userAddress?.[0].district}, {userAddress?.[0].city}</p>
+              <p className="font-medium text-md font-main"> {watch('address')?.customerName} <span>{watch('address')?.customerPhone} </span></p>
+              <p className='pl-10 font-main text-md text-gray-500 text-center'>{watch('address')?.address}, {watch('address')?.ward}, {watch('address')?.district}, {watch('address')?.city}</p>
               <span onClick={() => setShowDialogAddress(!showDialogAddress)} className='pl-10 text-blue-600 text-md font-main cursor-pointer'>Thay đổi</span>
               <DialogAddress visible={showDialogAddress} setVisible={setShowDialogAddress} userAddress={userAddress} setValueAddress={setValueAddress} current={current} />
             </div>
@@ -140,11 +142,11 @@ console.log('dia chỉ', watch('address'))
           </div>
           <div className='flex justify-between w-65 ' >
             <p>Phí giao hàng</p>
-            <span>{formatterMonney.format(25000)}</span>
+            <span>{formatterMonney.format(shippingCost)}</span>
           </div>
           <div className='flex justify-between w-65'>
             <p>Tổng thanh toán</p>
-            <span>{formatterMonney.format(totalPrice + Number(25000))}</span>
+            <span>{formatterMonney.format(totalPrice + Number(shippingCost))}</span>
           </div>
         </div>
         <div className="flex justify-end my-10 mx-5">

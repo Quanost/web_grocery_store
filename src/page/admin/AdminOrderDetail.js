@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2'
 
 import useSocket from '../../hooks/useSocket';
+import useShippingCost from '../../hooks/useShippingCost ';
 
 
 const AdminOrderDetail = () => {
@@ -18,6 +19,7 @@ const AdminOrderDetail = () => {
   const [order, setOrder] = useState(null);
   const [delivery, setDelivery] = useState(null);
   const [showDialogDelivery, setShowDialogDelivery] = useState(false);
+  const shippingCost = useShippingCost(order?.address?.city);
 
   const fetchOrder = async () => {
     const response = await apiGetOrderById(orderId)
@@ -119,7 +121,7 @@ const AdminOrderDetail = () => {
             <label className='font-main text-xl font-medium'>Hình thức giao hàng</label>
             <div className='bg-white px-5 py-5 font-main text-md h-full flex flex-col gap-1'>
               <p>Được giao bởi: Giao Hàng Nhanh</p>
-              <p>Phí vận chuyển: {formatterMonney.format(25000)}</p>
+              <p>Phí vận chuyển: {formatterMonney.format(shippingCost)}</p>
             </div>
           </div>
           <div className='w-[30%] flex flex-col gap-1'>
@@ -169,11 +171,11 @@ const AdminOrderDetail = () => {
               </div>
               <div className='flex justify-between w-65 ' >
                 <p>Phí giao hàng</p>
-                <span>{formatterMonney.format(25000)}</span>
+                <span>{formatterMonney.format(shippingCost)}</span>
               </div>
               <div className='flex justify-between w-65'>
                 <p>Tổng thanh toán</p>
-                <span>{formatterMonney.format(Number(order?.total) + 25000)}</span>
+                <span>{formatterMonney.format(Number(order?.total) + shippingCost)}</span>
               </div>
             </div>
             {filterOptionsByOrderStatus(order?.status).length !== 0 &&

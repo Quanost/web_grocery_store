@@ -18,7 +18,7 @@ const Question = () => {
     useEffect(() => {
         // Lắng nghe sự kiện "serverMsg" để nhận tin nhắn từ người dùng
         socket.on('receiveMessage', (data) => {
-            setUser((prevMessages) => [...prevMessages, { id: data.room, name: data.from + ': ' + data.message}]);
+            setUser((prevMessages) => [...prevMessages, { id: data.room, name: data.from + ': ' + data.room }]);
         });
 
         return () => {
@@ -35,7 +35,7 @@ const Question = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (message.trim() === '') return;
-        socket.emit('sendMessage', { message, room: selectedUser.name, user: 'Admin', userId });
+        socket.emit('sendMessage', { message, room: '', from: 'Manager' });
         setMessages([...messages, { id: userId, message }]);
         setMessage('');
     };

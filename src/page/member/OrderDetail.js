@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import path from '../../ultils/path'
 import { getUserCurrent } from '../../store/user/asynActionUser';
 import useSocket from '../../hooks/useSocket';
+import useShippingCost from './../../hooks/useShippingCost ';
 
 const OrderDetail = () => {
     const { orderId } = useParams();
@@ -18,6 +19,7 @@ const OrderDetail = () => {
     const [order, setOrder] = useState(null);
     const [delivery, setDelivery] = useState(null);
     const { current, currentCart } = useSelector(state => state.user);
+    const shippingCost = useShippingCost(order?.address?.city);
 
     const fetchOrder = async () => {
         const response = await apiGetOrderById(orderId)
@@ -182,7 +184,7 @@ const OrderDetail = () => {
                     </div>
                     <div className='flex'>
                         <label className='w-30 text-md font-main text-gray-400 flex justify-end pr-2'>Tổng đơn hàng:</label>
-                        <p className='font-main text-base'>{formatterMonney.format(Number(order?.total) + 25000)}</p>
+                        <p className='font-main text-base'>{formatterMonney.format(Number(order?.total) + shippingCost)}</p>
                     </div>
                 </div>
                 <p className='font-main text-md  py-5'>Lịch sử giao hàng</p>
@@ -216,11 +218,11 @@ const OrderDetail = () => {
                     </div>
                     <div className='flex justify-between'>
                         <label className='font-main text-lg text-black-2'>Phí giao hàng</label>
-                        <p className='font-main text-md'>{formatterMonney.format(25000)}</p>
+                        <p className='font-main text-md'>{formatterMonney.format(shippingCost)}</p>
                     </div>
                     <div className='flex justify-between'>
                         <label className='font-main text-lg text-black-2'>Tổng thanh toán</label>
-                        <p className='font-main text-md'>{formatterMonney.format(Number(order?.total) + 25000)}</p>
+                        <p className='font-main text-md'>{formatterMonney.format(Number(order?.total) + shippingCost)}</p>
                     </div>
                 </div>
                 {order?.status === 'PENDING' || order?.status === 'PROCESSING' ? (

@@ -7,6 +7,8 @@ import { get4ProductParentCategories } from '../../store/product/asynActionProdu
 import { getAttributeProductType } from '../../store/attribute/asynActionAttribute';
 import { useSelector } from 'react-redux';
 
+import  MessageForm  from '../../components/Common/MessageForm';
+
 const Public = () => {
   const dispatch = useDispatch();
   const [categoriesLoaded, setCategoriesLoaded] = useState(false);
@@ -39,6 +41,7 @@ const Public = () => {
       <div className='w-main bg-white'>
         {productLoaded && <Outlet /> }
       </div>
+      <MessageForm />
       <Footer />  
     </div>
   )

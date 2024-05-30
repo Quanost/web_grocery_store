@@ -83,9 +83,9 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
                 await updateOrderStatus(id, 'PROCESSING');
                 break;
             case 'WAITING_PICKUP':
-                // await fetchOrder(id)
-                // setShowDialogDelivery(true)
-                await updateOrderStatus(id, 'WAITING_PICKUP');
+                await fetchOrder(id)
+                setShowDialogDelivery(true)
+                // await updateOrderStatus(id, 'WAITING_PICKUP');
                 break;
             case 'SHIPPING':
                 await updateOrderStatus(id, 'SHIPPING');

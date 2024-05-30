@@ -52,7 +52,7 @@ export const sorts = [
     },
 ]
 
-const { LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog, TbCategory2, IoStatsChartOutline } = icons
+const { LuLayoutDashboard, TbBrandProducthunt, FaBorderNone, FaUsersCog, TbCategory2, IoStatsChartOutline, MdOutlineQuestionAnswer } = icons
 export const AdminSidebarMenus = [
     { title: 'Tổng quan', icon: <LuLayoutDashboard />, path: `/${path.ADMIN}/${path.DASHBOARD}` },
 
@@ -79,6 +79,11 @@ export const AdminSidebarMenus = [
         title: 'Quản lý loại sản phẩm',
         path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
         icon: <TbCategory2 />
+    },
+    {
+        title: 'Tư vấn',
+        path: `/${path.ADMIN}/${path.QUESTTION}`,
+        icon: <MdOutlineQuestionAnswer />
     },
     {
         title: 'Thống kê',

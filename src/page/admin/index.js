@@ -9,3 +9,4 @@ export { default as AdminOrderDetail } from './AdminOrderDetail';
 export { default as AdminPersonal } from './AdminPersonal';
 export { default as ReportRevenue } from './ReportRevenue';
 export { default as ReportInventory } from './ReportInventory';
+export { default as Question } from './Question';

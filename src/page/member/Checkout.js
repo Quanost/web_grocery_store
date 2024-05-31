@@ -9,10 +9,10 @@ import { useForm } from 'react-hook-form';
 import { apiPayment } from '../../apis';
 import { toast } from 'react-toastify';
 import { paymentType } from '../../ultils/contants'
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import useShippingCost from './../../hooks/useShippingCost ';
 
-// const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
+const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Checkout = () => {
   const { IoLocationSharp } = icon
@@ -51,7 +51,7 @@ const Checkout = () => {
       if (response?.data?.url) {
         window.location.replace(response?.data?.url);
       } else {
-        // socket.emit("clientMsg", { msg: 'Đơn hàng vừa đuọc tạo', room: '' });
+        socket.emit("clientMsg", { msg: 'Đơn hàng vừa đuọc tạo', room: '' });
         toast.success('Đặt hàng thành công')
         navigate(`/${path.MEMBER}/${path.ORDER_DETAIL}/${response?.data?.id}`)
       }

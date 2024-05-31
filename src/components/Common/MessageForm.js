@@ -12,7 +12,7 @@ const MessageForm = () => {
 
     useEffect(() => {
         socket.on('receiveMessage', (data) => {
-            console.log('nhận đƯợc',data);
+            console.log('nhận đƯợc', data);
             setMessages((prevMessages) => [...prevMessages, `${data.from}: ${data.message}`]);
         });
 
@@ -25,7 +25,7 @@ const MessageForm = () => {
         e.preventDefault();
         if (message.trim() === '') return;
 
-        socket.emit('sendMessage', { message,room:'', from: 'user' });
+        socket.emit('sendMessage', { message, room: 'room', from: 'user' });
         setMessage('');
     };
 

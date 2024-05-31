@@ -90,8 +90,8 @@ const MapOrder = ({ dataOrder }) => {
                 onRegionTooltipShow(event, tooltip, code) {
                     const orderCount = orderData[code] || 0;
                     tooltip.text(
-                        `<h5>${tooltip.text()} - ${code}</h5>` +
-                        `<p class="text-xs">Số đơn đã mua là ${orderCount}</p>`,
+                        `<h5>${tooltip.text()} - ${code}</h5>` 
+                       ,
                         true
                     )
                 },

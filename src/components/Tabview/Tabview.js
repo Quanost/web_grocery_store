@@ -6,10 +6,10 @@ import path from '../../ultils/path';
 import { apiUpdateOrderStatus, apiGetOrderById, apiGetTokenPrintDelivery, apiPrintDeliveryOrder, apiconfirmPaymentCash } from '../../apis';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import useSocket from '../../hooks/useSocket';
-import io from "socket.io-client";
+// import useSocket from '../../hooks/useSocket';
+// import io from "socket.io-client";
 
-const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
+// const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
     const { FaRegEye, MdOutlineVerified, MdCancelPresentation, CiDeliveryTruck, FaRegStar, IoMdTime, GiReturnArrow, FaPrint } = icon
@@ -33,24 +33,24 @@ const Tabview = ({ dataTable, errorGetAPI, navigate, getOrders }) => {
         }
 
     }
-    useEffect(() => {
-        const handleServerMsg = (data) => {
-            // setMessages(data.msg);
-            getOrders();
-        };
+    // useEffect(() => {
+    //     const handleServerMsg = (data) => {
+    //         // setMessages(data.msg);
+    //         getOrders();
+    //     };
 
-        socket.on("serverMsg", handleServerMsg);
+    //     socket.on("serverMsg", handleServerMsg);
 
-        return () => {
-            socket.off("serverMsg", handleServerMsg);
-        };
-    }, [socket]);
-    const { sendMessage } = useSocket(getOrders); // Gọi hàm fetchOrder khi có tin nhắn từ server
+    //     return () => {
+    //         socket.off("serverMsg", handleServerMsg);
+    //     };
+    // }, [socket]);
+    // const { sendMessage } = useSocket(getOrders); // Gọi hàm fetchOrder khi có tin nhắn từ server
     const updateOrderStatus = async (id, status) => {
         const response = await apiUpdateOrderStatus({ orderId: id, status, deliveryId:'LF3VUR'});
         if (response?.status === 200) {
-            // getOrders();
-            sendMessage('Trạng thái đơn hàng đã cập nhật', '');
+            getOrders();
+            // sendMessage('Trạng thái đơn hàng đã cập nhật', '');
             toast.success('Cập nhật trạng thái thành công');
         } else {
             Swal.fire({

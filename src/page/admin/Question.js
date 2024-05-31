@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io(process.env.REACT_APP_SOCKET_URL);
+// const socket = io(process.env.REACT_APP_SOCKET_URL);
 
 const Question = () => {
     const [users, setUser] = useState([
@@ -14,17 +14,26 @@ const Question = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [room, setRoom] = useState([]);
 
-    useEffect(() => {
-        // Lắng nghe sự kiện "serverMsg" để nhận tin nhắn từ người dùng
-        socket.on('receiveMessage', (data) => {
-            setUser((prevMessages) => [...prevMessages, { id: data.room, name: data.from + ': ' + data.room }]);
-        });
+   
+    // useEffect(() => {
+    //     socket.emit('joinRoom', 'room');
+    //     console.log('joinRoom')
+    // }, [socket]);
 
-        return () => {
-            socket.off('receiveMessage');
-        };
-    }, [socket]);
+    // useEffect(() => {
+    //     // Lắng nghe sự kiện "serverMsg" để nhận tin nhắn từ người dùng
+    //     socket.on('receiveMessage', (data) => {
+    //         console.log('nhận đƯợc', data);
+    //         setMessages((prevMessages) => [...prevMessages, { id: data.from, message: data.message }]);
+    //         // setUser((prevMessages) => [...prevMessages, { id: data.room, name: data.from + ': ' + data.room }]);
+    //     });
+
+    //     return () => {
+    //         socket.off('receiveMessage');
+    //     };
+    // }, [socket]);
 
     const handleUserSelect = (user) => {
         setSelectedUser(user);
@@ -35,8 +44,7 @@ const Question = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (message.trim() === '') return;
-        socket.emit('sendMessage', { message, room: '', from: 'Manager' });
-        setMessages([...messages, { id: userId, message }]);
+        // socket.emit('sendMessage', { message, room: 'room', from: 'Manager' });
         setMessage('');
     };
 
